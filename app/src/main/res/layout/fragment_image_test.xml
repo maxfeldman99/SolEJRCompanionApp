@@ -1,0 +1,114 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.maxfeldman.sole_mobileunit.Main.fragments.ImageTestFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/image_test_text_view"
+            android:text="Image Test Fragment"
+            android:textAlignment="center"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_test_text_view"
+            android:id="@+id/linear1"
+            android:layout_marginLeft="200dp"
+            >
+
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@color/colorTest"
+                android:layout_below="@id/image_test_text_view"
+                android:id="@+id/im_btn_1"
+                />
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@color/colorPrimaryDark"
+                android:layout_below="@id/image_test_text_view"
+                android:id="@+id/im_btn_2"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear1"
+            android:layout_marginLeft="200dp"
+            >
+
+            <ImageButton
+                android:id="@+id/im_btn_3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_below="@id/image_test_text_view"
+                android:src="@color/colorAccent" />
+
+            <ImageButton
+                android:id="@+id/im_btn_4"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_below="@id/image_test_text_view"
+                android:src="@color/colorPrimary" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linear3"
+            android:layout_below="@id/linear2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Choose the sun color"
+                android:textAlignment="center"
+                android:id="@+id/task_text"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linear4"
+            android:layout_below="@id/linear3">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="mistakes allowed:"
+                android:textSize="30dp"
+                android:textAlignment="center"
+                android:id="@+id/text_mistakes_allowed"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linear5"
+            android:layout_below="@id/linear4">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3"
+                android:textSize="30dp"
+                android:textAlignment="center"
+                android:id="@+id/text_mistakes_counter"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

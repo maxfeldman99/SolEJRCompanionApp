@@ -3,7 +3,8 @@
     package="com.example.maxfeldman.sole_jr_companionapp">
 
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <application
         android:allowBackup="true"
@@ -14,7 +15,8 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"
+                    android:screenOrientation="landscape"/>
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

@@ -45,7 +45,7 @@ public class MainFragment extends Fragment
             {
                 NetworkController controller = NetworkController.getInstance();
 
-                controller.openSocket("192.168.137.146",dataEt.getText().toString());
+                controller.openSocket("192.168.137.136",dataEt.getText().toString());
             }
         });
 
