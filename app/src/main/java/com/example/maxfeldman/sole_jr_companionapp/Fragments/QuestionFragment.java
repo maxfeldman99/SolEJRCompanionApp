@@ -1,5 +1,6 @@
 package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 
+import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -22,6 +23,7 @@ import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.Tes
 import com.example.maxfeldman.sole_jr_companionapp.Helpers.TTS;
 import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
 import com.example.maxfeldman.sole_jr_companionapp.R;
+import com.mapzen.speakerbox.Speakerbox;
 
 import java.util.Locale;
 
@@ -37,9 +39,9 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private TextToSpeech mTTS = null;
 
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        speak("can you say the name of this animal?",0.2f,0.9f);
 
     }
 
@@ -69,6 +71,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
         activateTimer(QUESTION_TIME);
 
+        Speakerbox speakerbox = new Speakerbox(getActivity().getApplication());
+        speakerbox.play("can you say the name of this animal?");
 
         return view;
     }
