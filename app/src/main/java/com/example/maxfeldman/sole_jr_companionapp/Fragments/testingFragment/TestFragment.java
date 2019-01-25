@@ -100,21 +100,23 @@ public class TestFragment extends Fragment implements VideoFragment.OnFragmentIn
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-               test_execute(tosend,"happy","SOL-E-JR HAPPY MODE");
+            public void onClick(View view)
+            {
+                NetworkController.getInstance().openSocket("192.168.137.136","happy");
             }
         });
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                test_execute(tosend,"sad","SOL-E-JR SAD MODE");
+                NetworkController.getInstance().openSocket("192.168.137.136","sad");
+
             }
         });
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                //networkController.sayTTS("bla bla bla bla bla bla bla bla",getActivity().getApplication());
-                //test_execute(tosend,"waiting","SOL-E-JR WAITING MODE");
+            public void onClick(View view)
+            {
+                NetworkController.getInstance().openSocket("192.168.137.136","..");
             }
         });
 

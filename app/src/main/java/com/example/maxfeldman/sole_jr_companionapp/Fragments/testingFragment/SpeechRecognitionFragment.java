@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.github.zagum.speechrecognitionview.RecognitionProgressView;
 import com.github.zagum.speechrecognitionview.adapters.RecognitionListenerAdapter;
@@ -174,6 +175,15 @@ public class SpeechRecognitionFragment extends Fragment {
 
         String recognized = matches.get(0);
         int acc = percentageOfTextMatch(testAcc,recognized);
+
+        if(acc >= 85)
+        {
+            NetworkController.getInstance().openSocket("192.168.137.136","happy");
+        }else
+        {
+            NetworkController.getInstance().openSocket("192.168.137.136","sad");
+
+        }
 
 
         accTextView.setText("Answer Accuracy: " + String.valueOf(acc) + " %");

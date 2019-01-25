@@ -81,7 +81,7 @@ public class InputTestFragment extends Fragment {
                 timerText.setText("" + millisUntilFinished / 1000);
                 myTime--;
                 if (myTime == 5) {
-                    timerText.setTextColor(getResources().getColor(R.color.colorRed));
+                    //timerText.setTextColor(getResources().getColor(R.color.colorRed));
                     speak("Hurry!,time is running up!",0.4f,0.9f);
                 }
             }
@@ -100,9 +100,10 @@ public class InputTestFragment extends Fragment {
 
     private void test_execute(String tosend, String face, String speechText) {
         VideoFragment videoFragment = VideoFragment.newInstance(face);
+        TestFragment testFragment = new TestFragment();
         //speak(speechText,0.2f,0.9f);
         NetworkController controller = NetworkController.getInstance();
-        //controller.sendDataToIp("192.168.43.4",tosend,null);
+        NetworkController.getInstance().openSocket("192.168.137.136",face);
 
         try {
             Thread.sleep(1000);
@@ -110,7 +111,7 @@ public class InputTestFragment extends Fragment {
             e.printStackTrace();
         }
 
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainFragmentPlaceHolder, videoFragment).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainFragmentPlaceHolder, testFragment).commit();
     }
 
     private void speak(String speechText,float pitch,float speed)
