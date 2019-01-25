@@ -1,7 +1,9 @@
 package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,8 +23,9 @@ import com.example.maxfeldman.sole_jr_companionapp.Helpers.TTS;
 import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 
-public class QuestionFragment extends Fragment implements DialogFragmentListener
-{
+import java.util.Locale;
+
+public class QuestionFragment extends Fragment implements DialogFragmentListener {
     private int QUESTION_TIME = 20;
     private int myTime = 20;
     private TextView timerText;
@@ -31,19 +34,26 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private String questionAnswer = "dog";
     final public static String IP = "192.168.43.12";
 
+    private TextToSpeech mTTS = null;
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        speak("can you say the name of this animal?",0.2f,0.9f);
+
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.question_fragment,container,false);
+        View view = inflater.inflate(R.layout.question_fragment, container, false);
         timerText = view.findViewById(R.id.question_timer_tv);
         questionImage = view.findViewById(R.id.question_image);
         answerButton = view.findViewById(R.id.question_answer_button);
 
-        TTS tts = new TTS(getContext(),"can you say the name of this animal?");
-        Thread thread = new Thread(tts);
-        thread.start();
+        initializeTTS();
+
 
         answerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,13 +63,11 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 SpeechRecognitionFragment srf = new SpeechRecognitionFragment();
                 QuestionFragment testFragment = (QuestionFragment) getActivity().getSupportFragmentManager().findFragmentByTag("QuestionFragment");
                 srf.setListener(testFragment);
-                srf.show(fragmentManager,"speech");
+                srf.show(fragmentManager, "speech");
             }
         });
 
         activateTimer(QUESTION_TIME);
-
-
 
 
         return view;
@@ -72,10 +80,12 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 timerText.setText("" + millisUntilFinished / 1000);
                 myTime--;
                 if (myTime == 5) {
-                   // timerText.setTextColor(getResources().getColor(R.color.colorRed));
-                   //speak("Hurry!,time is running up!",0.4f,0.9f);
+                    // timerText.setTextColor(getResources().getColor(R.color.colorRed));
+                    //speak("Hurry!,time is running up!",0.4f,0.9f);
                 }
             }
+
+
 
             public void onFinish() {
                 timerText.setText("0");
@@ -95,12 +105,11 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             case "speech": {
                 String result = (String) o;
 
-                if (result.equals(questionAnswer))
-                {
-                    NetworkController.getInstance().openSocket(IP,"happy");
+                if (result.equals(questionAnswer)) {
+                    NetworkController.getInstance().openSocket(IP, "happy");
                     goToNextFragment();
-                }else{
-                    NetworkController.getInstance().openSocket(IP,"sad");
+                } else {
+                    NetworkController.getInstance().openSocket(IP, "sad");
                     goToNextFragment();
                 }
                 Log.d("TestFrag", result);
@@ -120,19 +129,54 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         }
     }
 
-    public void goToNextFragment()
-    {
+    public void goToNextFragment() {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         TimerFragment timerFragment = new TimerFragment();
         QuestionFragment testFragment = (QuestionFragment) getActivity().getSupportFragmentManager().findFragmentByTag("QuestionFragment");
         //timerFragment.setListener(testFragment);
         timerFragment.setCancelable(false);
-        timerFragment.show(fragmentManager,"speech");
+        timerFragment.show(fragmentManager, "speech");
 
     }
 
     @Override
     public void onError(String errorMsg) {
 
+    }
+
+
+    private void initializeTTS() {
+        mTTS = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    int result = mTTS.setLanguage(Locale.US);
+                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Log.e("TTS", "not supported language");
+
+                    } else {
+                        Log.e("TTS", "failed to initalize");
+                    }
+                }
+            }
+        });
+
+
+    }
+
+    private void speak(String speechText,float pitch,float speed){
+        mTTS.setSpeechRate(speed);
+        mTTS.setPitch(pitch);
+        mTTS.speak(speechText,TextToSpeech.QUEUE_FLUSH,null);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mTTS==null){
+            initializeTTS();
+        }
+        speak("can you say the name of this animal?",0.4f,0.9f);
     }
 }
