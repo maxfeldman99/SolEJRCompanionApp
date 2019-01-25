@@ -3,4 +3,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="lorem_impsum_question">Lorem ipsum dolor sit amet, oratio detracto usu eu, enim.</string>
 </resources>

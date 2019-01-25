@@ -4,6 +4,7 @@ package com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
+import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 
 import java.util.Locale;
@@ -22,7 +24,7 @@ import java.util.Locale;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InputTestFragment extends Fragment {
+public class InputTestFragment extends DialogFragment {
 
     private String answer = "android";
     private final int QUESTION_TIME = 15;
@@ -32,40 +34,40 @@ public class InputTestFragment extends Fragment {
     private TextToSpeech mTTS;
     private String taskText = "spell correct the content of the image";
 
+    private DialogFragmentListener listener;
+
+
     NetworkController networkController = NetworkController.getInstance();
 
     public InputTestFragment() {
         // Required empty public constructor
     }
 
+    public void setListener(DialogFragmentListener listener) {
+        this.listener = listener;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_input_test, container, false);
         final EditText answerEditText = view.findViewById(R.id.question_answer_text);
-        timerText = view.findViewById(R.id.timer_text);
         Button submitBtn = view.findViewById(R.id.submit_btn);
-        TextView question = view.findViewById(R.id.question_text);
-        activateTimer(QUESTION_TIME);
 
 
-        initializeTTS();
+        //initializeTTS();
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (answerEditText.getText().toString().equals(answer)) {
-                    correct=true;
-                    test_execute(null, "happy", null);
+            public void onClick(View view)
+            {
+                String answer = answerEditText.getText().toString();
 
-                    //networkController.sayTTS("All Right!!",getActivity().getApplication());
-
-
-                } else {
-
-                }
+                listener.onComplete(answer,"input");
+                dismiss();
             }
         });
 
@@ -74,29 +76,6 @@ public class InputTestFragment extends Fragment {
         return view;
     }
 
-    private void activateTimer(int time) {
-        myTime = time;
-        new CountDownTimer(time * 1000, 1000) {
-            public void onTick(long millisUntilFinished) {
-                timerText.setText("" + millisUntilFinished / 1000);
-                myTime--;
-                if (myTime == 5) {
-                    //timerText.setTextColor(getResources().getColor(R.color.colorRed));
-                    speak("Hurry!,time is running up!",0.4f,0.9f);
-                }
-            }
-
-            public void onFinish() {
-                timerText.setText("0");
-                if(correct!=true)
-                {
-
-                    test_execute(null, "sad", null);
-                }
-            }
-
-        }.start();
-    }
 
     private void test_execute(String tosend, String face, String speechText) {
         VideoFragment videoFragment = VideoFragment.newInstance(face);

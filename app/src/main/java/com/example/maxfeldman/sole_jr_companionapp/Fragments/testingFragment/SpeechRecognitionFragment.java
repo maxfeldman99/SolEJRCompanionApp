@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
+import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.github.zagum.speechrecognitionview.RecognitionProgressView;
 import com.github.zagum.speechrecognitionview.adapters.RecognitionListenerAdapter;
@@ -32,7 +33,8 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SpeechRecognitionFragment extends DialogFragment {
+public class SpeechRecognitionFragment extends DialogFragment
+{
 
     private SpeechRecognizer speechRecognizer;
     private TextView textViewOutput;
@@ -41,11 +43,16 @@ public class SpeechRecognitionFragment extends DialogFragment {
     int[] colors = new int[5];
     private String testAcc = "horse";
     private TextView accTextView;
+    DialogFragmentListener listener;
 
 
-
-    public SpeechRecognitionFragment() {
+    public SpeechRecognitionFragment()
+    {
         // Required empty public constructor
+    }
+
+    public void setListener(DialogFragmentListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -207,6 +214,7 @@ public class SpeechRecognitionFragment extends DialogFragment {
         Toast.makeText(getContext(), matches.get(0), Toast.LENGTH_LONG).show();
 
 
+
         String recognized = matches.get(0);
         int acc = percentageOfTextMatch(testAcc,recognized);
 
@@ -223,6 +231,9 @@ public class SpeechRecognitionFragment extends DialogFragment {
         accTextView.setText("Answer Accuracy: " + String.valueOf(acc) + " %");
 
         textViewOutput.setText(matches.get(0));
+
+        listener.onComplete(matches.get(0),"speech");
+
         recognitionProgressView.stop();
         recognitionProgressView.play();
     }

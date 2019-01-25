@@ -49,23 +49,8 @@ public class ImageTestFragment extends Fragment {
         TextView taskText = view.findViewById(R.id.task_text);
 
 
-        /// motor section
 
-//        final ArrayList<MotorRequest> motorRequests = new ArrayList<>();
-//        MotorRequest motorRequest1 = new MotorRequest("1","A","200","100","0");
-//        MotorRequest motorRequest2 = new MotorRequest("2","B","200","100","1000");
-//        MotorRequest motorRequest3 = new MotorRequest("3","A","200","-100","0");
-//        MotorRequest motorRequest4 = new MotorRequest("4","B","200","-100","1000");
-//        MotorRequest motorRequest5 = new MotorRequest("5","A","200","100","0");
-//        MotorRequest motorRequest6 = new MotorRequest("6","B","200","100","0");
-//        motorRequests.add(motorRequest1);
-//        motorRequests.add(motorRequest2);
-//        motorRequests.add(motorRequest3);
-//        motorRequests.add(motorRequest4);
-//        motorRequests.add(motorRequest5);
-//        motorRequests.add(motorRequest6);
 
-        //final Request request = new Request("1",motorRequests,motorRequests.size());
 
         Gson gson = new Gson();
         final String tosend = gson.toJson("");

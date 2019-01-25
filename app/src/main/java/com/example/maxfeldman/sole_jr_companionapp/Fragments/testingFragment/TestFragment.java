@@ -1,11 +1,9 @@
 package com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment;
 
 
-import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -16,19 +14,17 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
+import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class TestFragment extends Fragment implements VideoFragment.OnFragmentInteractionListener{
-
+public class TestFragment extends Fragment implements VideoFragment.OnFragmentInteractionListener,
+        DialogFragmentListener
+{
 
     TextToSpeech mTTS;
     private VideoFragment.OnFragmentInteractionListener mListener;
@@ -37,7 +33,9 @@ public class TestFragment extends Fragment implements VideoFragment.OnFragmentIn
     //final Fragment speechTestRecognition = new SpeechRecognitionFragment();
     NetworkController networkController = NetworkController.getInstance();
 
-    final public static String IP = "192.168.1.116";
+    final public static int SPEECH_REOGNITION_REQUEST = 1;
+
+    final public static String IP = "192.168.43.12";
 
 
     public TestFragment() {
@@ -52,28 +50,7 @@ public class TestFragment extends Fragment implements VideoFragment.OnFragmentIn
         View view = inflater.inflate(R.layout.fragment_test, container, false);
 
 
-
-
-
-//        final ArrayList<MotorRequest> motorRequests = new ArrayList<>();
-//        MotorRequest motorRequest1 = new MotorRequest("1","A","200","100","0");
-//        MotorRequest motorRequest2 = new MotorRequest("2","B","200","100","1000");
-//        MotorRequest motorRequest3 = new MotorRequest("3","A","200","-100","0");
-//        MotorRequest motorRequest4 = new MotorRequest("4","B","200","-100","1000");
-//        MotorRequest motorRequest5 = new MotorRequest("5","A","200","100","0");
-//        MotorRequest motorRequest6 = new MotorRequest("6","B","200","100","0");
-//        motorRequests.add(motorRequest1);
-//        motorRequests.add(motorRequest2);
-//        motorRequests.add(motorRequest3);
-//        motorRequests.add(motorRequest4);
-//        motorRequests.add(motorRequest5);
-//        motorRequests.add(motorRequest6);
-//
-//        final Request request = new Request("1",motorRequests,motorRequests.size());
-
         Gson gson = new Gson();
-        final String tosend = gson.toJson("");
-
 
 
 
@@ -103,6 +80,9 @@ public class TestFragment extends Fragment implements VideoFragment.OnFragmentIn
 
 
 
+        /*
+            Send Emotion To Robot
+         */
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
@@ -149,8 +129,20 @@ public class TestFragment extends Fragment implements VideoFragment.OnFragmentIn
 
         buttonInput.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainFragmentPlaceHolder,inputTestFragment).commit();
+            public void onClick(View view)
+            {
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+                InputTestFragment inputTestFragment = new InputTestFragment();
+
+                TestFragment testFragment = (TestFragment) getActivity().getSupportFragmentManager().findFragmentByTag("TestFragment");
+
+                inputTestFragment.setListener(testFragment);
+
+                inputTestFragment.show(fragmentManager,"input");
+
+
             }
         });
 
@@ -162,8 +154,11 @@ public class TestFragment extends Fragment implements VideoFragment.OnFragmentIn
 
                 SpeechRecognitionFragment srf = new SpeechRecognitionFragment();
 
-                srf.show(fragmentManager,"speech");
+                TestFragment testFragment = (TestFragment) getActivity().getSupportFragmentManager().findFragmentByTag("TestFragment");
 
+                srf.setListener(testFragment);
+
+                srf.show(fragmentManager,"speech");
 
             }
         });
@@ -171,20 +166,6 @@ public class TestFragment extends Fragment implements VideoFragment.OnFragmentIn
 
 
         return view;
-    }
-
-    private void test_execute(String tosend,String face,String speechText){
-        VideoFragment videoFragment = VideoFragment.newInstance(face);
-        speak(speechText,0.2f,0.9f);
-        NetworkController controller = NetworkController.getInstance();
-        controller.sendData(tosend);
-//        try {
-//            Thread.sleep(5000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainFragmentPlaceHolder,videoFragment).commit();
-
     }
 
 
@@ -198,7 +179,8 @@ public class TestFragment extends Fragment implements VideoFragment.OnFragmentIn
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         if(mTTS!=null){
             mTTS.stop();
             mTTS.shutdown();
@@ -208,6 +190,40 @@ public class TestFragment extends Fragment implements VideoFragment.OnFragmentIn
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onComplete(Object o, String sender)
+    {
+        switch (sender)
+        {
+            case "speech":
+            {
+                String result = (String) o;
+
+                Log.d("TestFrag",result);
+
+                break;
+            }
+
+            case "input":
+            {
+                String result = (String) o;
+
+                Log.d("TestFrag",result);
+
+                break;
+
+            }
+
+
+        }
+    }
+
+    @Override
+    public void onError(String errorMsg)
+    {
 
     }
 }
