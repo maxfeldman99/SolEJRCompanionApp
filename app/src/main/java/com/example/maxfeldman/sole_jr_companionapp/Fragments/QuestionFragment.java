@@ -45,7 +45,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 SpeechRecognitionFragment srf = new SpeechRecognitionFragment();
-                TestFragment testFragment = (TestFragment) getActivity().getSupportFragmentManager().findFragmentByTag("TestFragment");
+                QuestionFragment testFragment = (QuestionFragment) getActivity().getSupportFragmentManager().findFragmentByTag("QuestionFragment");
                 srf.setListener(testFragment);
                 srf.show(fragmentManager,"speech");
             }
@@ -66,7 +66,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 timerText.setText("" + millisUntilFinished / 1000);
                 myTime--;
                 if (myTime == 5) {
-                    timerText.setTextColor(getResources().getColor(R.color.colorRed));
+                   // timerText.setTextColor(getResources().getColor(R.color.colorRed));
                    //speak("Hurry!,time is running up!",0.4f,0.9f);
                 }
             }
@@ -89,10 +89,13 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             case "speech": {
                 String result = (String) o;
 
-                if (result.equals(questionAnswer)) {
+                if (result.equals(questionAnswer))
+                {
                     NetworkController.getInstance().openSocket(IP,"happy");
+                    goToNextFragment();
                 }else{
                     NetworkController.getInstance().openSocket(IP,"sad");
+                    goToNextFragment();
                 }
                 Log.d("TestFrag", result);
             }
@@ -109,6 +112,17 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
             }
         }
+    }
+
+    public void goToNextFragment()
+    {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        TimerFragment timerFragment = new TimerFragment();
+        QuestionFragment testFragment = (QuestionFragment) getActivity().getSupportFragmentManager().findFragmentByTag("QuestionFragment");
+        //timerFragment.setListener(testFragment);
+        timerFragment.setCancelable(false);
+        timerFragment.show(fragmentManager,"speech");
+
     }
 
     @Override

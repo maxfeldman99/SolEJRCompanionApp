@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.MainFragment;
+import com.example.maxfeldman.sole_jr_companionapp.Fragments.QuestionFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.TestFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.mainFragmentPlaceHolder
-                ,new TestFragment(),"TestFragment")
+                ,new QuestionFragment(),"QuestionFragment")
                 .commitNow();
     }
 }

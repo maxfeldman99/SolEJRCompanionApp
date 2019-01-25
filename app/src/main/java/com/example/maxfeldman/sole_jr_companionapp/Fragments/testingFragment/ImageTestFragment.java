@@ -54,7 +54,6 @@ public class ImageTestFragment extends DialogFragment
         Gson gson = new Gson();
         final String tosend = gson.toJson("");
 
-
         initializeTTS();
 
 

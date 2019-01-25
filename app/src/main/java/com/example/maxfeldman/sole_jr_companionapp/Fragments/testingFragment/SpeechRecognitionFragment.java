@@ -236,6 +236,8 @@ public class SpeechRecognitionFragment extends DialogFragment
 
         recognitionProgressView.stop();
         recognitionProgressView.play();
+
+        dismiss();
     }
 
     private void requestPermission() {
