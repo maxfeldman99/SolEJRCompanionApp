@@ -49,6 +49,7 @@ public class TestFragment extends Fragment implements VideoFragment.OnFragmentIn
 
         View view = inflater.inflate(R.layout.fragment_test, container, false);
 
+        
 
         Gson gson = new Gson();
 
@@ -121,8 +122,17 @@ public class TestFragment extends Fragment implements VideoFragment.OnFragmentIn
 
         buttonImage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainFragmentPlaceHolder,imageTestFragment).commit();
+            public void onClick(View view)
+            {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+                ImageTestFragment imageTestFragment = new ImageTestFragment();
+
+                TestFragment testFragment = (TestFragment) getActivity().getSupportFragmentManager().findFragmentByTag("TestFragment");
+
+                imageTestFragment.setListener(testFragment);
+
+                imageTestFragment.show(fragmentManager,"input");
 
             }
         });
@@ -216,6 +226,7 @@ public class TestFragment extends Fragment implements VideoFragment.OnFragmentIn
                 break;
 
             }
+
 
 
         }
