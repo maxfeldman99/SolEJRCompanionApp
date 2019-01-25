@@ -10,6 +10,7 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SpeechRecognitionFragment extends Fragment {
+public class SpeechRecognitionFragment extends DialogFragment {
 
     private SpeechRecognizer speechRecognizer;
     private TextView textViewOutput;
@@ -73,8 +74,7 @@ public class SpeechRecognitionFragment extends Fragment {
 
 
 
-
-        recognitionProgressView = (RecognitionProgressView) view.findViewById(R.id.recognition_view);
+        recognitionProgressView = view.findViewById(R.id.recognition_view);
         recognitionProgressView.setSpeechRecognizer(speechRecognizer);
         recognitionProgressView.setRecognitionListener(new RecognitionListenerAdapter() {
             @Override
@@ -107,9 +107,43 @@ public class SpeechRecognitionFragment extends Fragment {
 
         recognitionProgressView.play();
 
+        recognitionProgressView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+
+                        Manifest.permission.RECORD_AUDIO)
+
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    requestPermission();
+
+                } else {
+
+                    startRecognition();
+
+                    recognitionProgressView.postDelayed(new Runnable() {
+
+                        @Override
+
+                        public void run() {
+
+                            startRecognition();
+
+                        }
+
+                    }, 50);
+
+                }
+
+            }
+        });
+
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
 
                         Manifest.permission.RECORD_AUDIO)
@@ -274,4 +308,37 @@ public class SpeechRecognitionFragment extends Fragment {
         return percentage;
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+
+                Manifest.permission.RECORD_AUDIO)
+
+                != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermission();
+
+        } else {
+
+            startRecognition();
+
+            recognitionProgressView.postDelayed(new Runnable() {
+
+                @Override
+
+                public void run() {
+
+                    startRecognition();
+
+                }
+
+            }, 50);
+
+        }
+
+
     }
+}
