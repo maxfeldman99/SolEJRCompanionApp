@@ -45,6 +45,7 @@ public class NetworkController
 
                     Log.d("msgFromServer",str);
 
+                    socketIsOpen = true;
 
 
                 } catch (IOException e) {
@@ -83,6 +84,7 @@ public class NetworkController
     public void closeSocket()
     {
         try {
+            socketIsOpen = false;
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();

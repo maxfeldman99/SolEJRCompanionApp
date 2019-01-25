@@ -1,32 +1,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.maxfeldman.sole_mobileunit.Main.fragments.SpeechRecognitionFragment">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <!-- TODO: Update blank fragment layout -->
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/rel1"
     >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lin1"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/speech_title"
-            android:text="Speech recognition test"
-            android:textAlignment="center"
-            android:textSize="25dp"
-            />
-
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,7 +34,7 @@
         >
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="output"
             android:textSize="25dp"
             android:textAlignment="center"

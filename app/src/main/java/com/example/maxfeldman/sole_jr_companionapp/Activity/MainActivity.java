@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        NetworkController.getInstance().openSocket("192.168.137.136","max");
 
 
         getSupportFragmentManager().beginTransaction()

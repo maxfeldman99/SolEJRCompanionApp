@@ -1,10 +1,13 @@
 package com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment;
 
 
+import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Locale;
 
+
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -29,10 +34,10 @@ public class TestFragment extends Fragment implements VideoFragment.OnFragmentIn
     private VideoFragment.OnFragmentInteractionListener mListener;
     final Fragment imageTestFragment = new ImageTestFragment();
     final Fragment inputTestFragment = new InputTestFragment();
-    final Fragment speechTestRecognition = new SpeechRecognitionFragment();
+    //final Fragment speechTestRecognition = new SpeechRecognitionFragment();
     NetworkController networkController = NetworkController.getInstance();
 
-
+    final public static String IP = "192.168.1.116";
 
 
     public TestFragment() {
@@ -100,21 +105,23 @@ public class TestFragment extends Fragment implements VideoFragment.OnFragmentIn
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-               test_execute(tosend,"happy","SOL-E-JR HAPPY MODE");
+            public void onClick(View view)
+            {
+                NetworkController.getInstance().openSocket(IP,"happy");
             }
         });
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                test_execute(tosend,"sad","SOL-E-JR SAD MODE");
+                NetworkController.getInstance().openSocket(IP,"sad");
+
             }
         });
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                //networkController.sayTTS("bla bla bla bla bla bla bla bla",getActivity().getApplication());
-                //test_execute(tosend,"waiting","SOL-E-JR WAITING MODE");
+            public void onClick(View view)
+            {
+                NetworkController.getInstance().openSocket(IP,"..");
             }
         });
 
@@ -149,8 +156,15 @@ public class TestFragment extends Fragment implements VideoFragment.OnFragmentIn
 
         buttonSpeech.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainFragmentPlaceHolder,speechTestRecognition).commit();
+            public void onClick(View view)
+            {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+                SpeechRecognitionFragment srf = new SpeechRecognitionFragment();
+
+                srf.show(fragmentManager,"speech");
+
+
             }
         });
 
