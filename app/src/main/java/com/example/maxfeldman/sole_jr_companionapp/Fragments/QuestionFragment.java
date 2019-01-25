@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.SpeechRecognitionFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.TestFragment;
+import com.example.maxfeldman.sole_jr_companionapp.Helpers.TTS;
 import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 
@@ -30,6 +31,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private String questionAnswer = "dog";
     final public static String IP = "192.168.43.12";
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,6 +40,10 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         timerText = view.findViewById(R.id.question_timer_tv);
         questionImage = view.findViewById(R.id.question_image);
         answerButton = view.findViewById(R.id.question_answer_button);
+
+        TTS tts = new TTS(getContext(),"can you say the name of this animal?");
+        Thread thread = new Thread(tts);
+        thread.start();
 
         answerButton.setOnClickListener(new View.OnClickListener() {
             @Override
