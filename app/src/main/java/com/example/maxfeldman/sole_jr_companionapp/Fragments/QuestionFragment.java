@@ -47,7 +47,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState)
     {
-
+      
     }
 
     @Override

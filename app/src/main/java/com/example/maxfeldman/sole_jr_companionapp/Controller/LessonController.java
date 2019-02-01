@@ -30,7 +30,6 @@ public class LessonController {
     {
         Lesson animalLesson = new Lesson();
 
-
         animalLesson.setId(1);
         animalLesson.setBadge("jpn file");
         animalLesson.setCategory("English Animals Lesson");
