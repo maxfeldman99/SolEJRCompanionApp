@@ -8,7 +8,8 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.OnSuccess;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.Models.WaitFor;
 
-public class MainController {
+public class MainController
+{
     private static final MainController ourInstance = new MainController();
 
     NetworkController networkController;
@@ -25,6 +26,8 @@ public class MainController {
     {
         networkController.openSocket(ip,data);
     }
+
+
 
     public Lesson getLesson()
     {
@@ -50,7 +53,7 @@ public class MainController {
 
 
         Action action1 = new Action();
-        action1.setEffect("Dog.png");
+        action1.setEffect("dog.jpg");
         action1.setTextOrWav("Can you say the name of this animals?");
         action1.setWhatToPlay("");
 
@@ -99,7 +102,7 @@ public class MainController {
 
 
         Action action2 = new Action();
-        action2.setEffect("Flamingo.png");
+        action2.setEffect("flamingo.jpg");
         action2.setTextOrWav("What color is the animal in the picture?");
         action2.setWhatToPlay("");
 
