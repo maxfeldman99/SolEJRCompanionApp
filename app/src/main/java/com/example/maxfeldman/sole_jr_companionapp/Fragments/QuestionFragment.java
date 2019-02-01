@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.SpeechRecognitionFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Action;
@@ -220,7 +222,6 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private void activateScenario(Scenario[] scenario){
 
 
-
         for (int i = 0; i <scenario.length ; i++) {
 
             Action[] action = scenario[i].getActions();
@@ -229,11 +230,18 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             String text = action[i].getWhatToPlay();
             currentQuestion.setText(text);
 
-            Resources res = getResources();
-            String mDrawableName = effect;
-            int resID = res.getIdentifier(mDrawableName , "drawable", getActivity().getPackageName());
-            Drawable drawable = res.getDrawable(resID );
-            questionImage.setImageDrawable(drawable);
+            if(i==0) {
+                Glide.with(getContext())
+                        .load("https://i.kym-cdn.com/entries/icons/mobile/000/013/564/doge.jpg")
+                        .into(questionImage);
+            }else {
+
+                Glide.with(getContext())
+                        .load("http://stoopidthings.com/wp-content/uploads/2012/04/flamingos_02.jpg")
+                        .into(questionImage);
+            }
+
+
 
             try {
                 Thread.sleep(5000);
