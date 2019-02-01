@@ -9,6 +9,8 @@ public class WaitFor {
     private int typeOfWaiting;
     private ExpectedAnswer expectedAnswer;
 
+    public WaitFor(){}
+
     public WaitFor(int typeOfWaiting, ExpectedAnswer expectedAnswer) {
         this.typeOfWaiting = typeOfWaiting;
         this.expectedAnswer = expectedAnswer;

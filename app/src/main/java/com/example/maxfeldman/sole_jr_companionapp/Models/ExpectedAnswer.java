@@ -9,6 +9,8 @@ public class ExpectedAnswer {
     private String input;
     private int successRating;
 
+    public ExpectedAnswer(){}
+
     public ExpectedAnswer(String input, int successRating) {
         this.input = input;
         this.successRating = successRating;
