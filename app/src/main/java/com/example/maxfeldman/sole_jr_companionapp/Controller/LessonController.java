@@ -48,10 +48,15 @@ public class LessonController {
         scenario1.setLevel("Level 3");
 
 
+        Action[] actions1 = new Action[1];
         Action action1 = new Action();
         action1.setEffect("dog.jpg");
         action1.setTextOrWav("Can you say the name of this animals?");
         action1.setWhatToPlay("");
+
+        actions1[0] = action1;
+
+        scenario1.setActions(actions1);
 
         OnFailure failure1 = new OnFailure();
 
@@ -97,11 +102,15 @@ public class LessonController {
         scenario2.setLevel("2");
 
 
+        Action[] actions2 = new Action[1];
         Action action2 = new Action();
         action2.setEffect("flamingo.jpg");
         action2.setTextOrWav("What color is the animal in the picture?");
         action2.setWhatToPlay("");
+        actions2[0] = action2;
 
+
+        scenario2.setActions(actions2);
 
         OnFailure failure2 = new OnFailure();
 

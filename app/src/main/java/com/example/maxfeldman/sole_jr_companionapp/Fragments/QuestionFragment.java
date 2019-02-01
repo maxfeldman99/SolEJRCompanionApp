@@ -211,7 +211,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
     private Scenario[] getScenariosFromLesson(){
         MainController.getInstance();
-        Lesson lesson = mainController.getLesson();
+        Lesson lesson = mainController.getLesson(1);
         Scenario[] scenario = lesson.getScenarios();
         return scenario;
     }
