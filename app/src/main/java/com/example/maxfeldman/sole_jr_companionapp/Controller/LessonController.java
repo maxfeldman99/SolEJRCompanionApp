@@ -91,6 +91,8 @@ public class LessonController {
 
         waitFor1.setTypeOfWaiting(1);
         waitFor1.setExpectedAnswer(expectedAnswer1);
+        waitFor1.setTypeOfInput("speech");
+
 
         scenario1.setWaitFor(waitFor1);
 
@@ -142,6 +144,7 @@ public class LessonController {
 
         waitFor2.setTypeOfWaiting(1);
         waitFor2.setExpectedAnswer(expectedAnswer2);
+        waitFor2.setTypeOfInput("inputText");
 
         scenario2.setWaitFor(waitFor2);
         scenario2.setOnfailure(failure2);
