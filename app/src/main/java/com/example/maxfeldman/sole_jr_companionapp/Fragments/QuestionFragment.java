@@ -42,20 +42,28 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    public void onViewCreated(View view,Bundle savedInstanceState)
     {
-        setOrientationLandscape();
+
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setOrientationLandscape();
+        Speakerbox speakerbox = new Speakerbox(getActivity().getApplication());
+        speakerbox.play("can you say the name of this animal?");
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
 
 
         View view = inflater.inflate(R.layout.question_fragment, container, false);
         timerText = view.findViewById(R.id.question_timer_tv);
         questionImage = view.findViewById(R.id.question_image);
         answerButton = view.findViewById(R.id.question_answer_button);
+
 
         //initializeTTS();
 
@@ -74,9 +82,6 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         });
 
         activateTimer(QUESTION_TIME);
-
-        Speakerbox speakerbox = new Speakerbox(getActivity().getApplication());
-        speakerbox.play("can you say the name of this animal?");
 
         return view;
     }
