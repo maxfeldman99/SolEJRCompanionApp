@@ -213,6 +213,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         MainController.getInstance();
         Lesson lesson = mainController.getLesson(1);
         Scenario[] scenario = lesson.getScenarios();
+
         return scenario;
     }
 
