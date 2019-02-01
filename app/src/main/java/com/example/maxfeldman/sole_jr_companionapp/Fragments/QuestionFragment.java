@@ -1,7 +1,5 @@
 package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 
-import android.app.Application;
-import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -18,17 +16,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.SpeechRecognitionFragment;
-import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.TestFragment;
-import com.example.maxfeldman.sole_jr_companionapp.Helpers.TTS;
 import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.mapzen.speakerbox.Speakerbox;
 
 import java.util.Locale;
 
-public class QuestionFragment extends Fragment implements DialogFragmentListener {
+public class QuestionFragment extends Fragment implements DialogFragmentListener
+{
     private int QUESTION_TIME = 20;
     private int myTime = 20;
     private TextView timerText;
@@ -37,12 +35,15 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private String questionAnswer = "dog";
     final public static String IP = "192.168.43.12";
 
+    MainController mainController;
+
     private TextToSpeech mTTS = null;
 
 
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
         setOrientationLandscape();
     }
 
@@ -58,6 +59,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
         //initializeTTS();
 
+        mainController = MainController.getInstance();
 
         answerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,10 +114,10 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 String result = (String) o;
 
                 if (result.equals(questionAnswer)) {
-                    NetworkController.getInstance().openSocket(IP, "happy");
+                    mainController.sendDataToIp(IP, "happy");
                     goToNextFragment();
                 } else {
-                    NetworkController.getInstance().openSocket(IP, "sad");
+                    mainController.sendDataToIp(IP, "sad");
                     goToNextFragment();
                 }
                 Log.d("TestFrag", result);
