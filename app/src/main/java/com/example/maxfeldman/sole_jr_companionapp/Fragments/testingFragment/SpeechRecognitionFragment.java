@@ -4,6 +4,7 @@ package com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -59,17 +60,16 @@ public class SpeechRecognitionFragment extends DialogFragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getActivity());
+        setOrientationLandscape();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        //setOrientationLandscape();
         View view = inflater.inflate(R.layout.fragment_speech_recognition, container, false);
-        Button buttonStart = view.findViewById(R.id.activate_btn);
-        Button buttonReset = view.findViewById(R.id.stop_btn);
-        textViewOutput = view.findViewById(R.id.speech_output);
-        accTextView = view.findViewById(R.id.acc_text);
+
 
          //speech recognition view
         colors[0] = ContextCompat.getColor(getContext(), R.color.color1);
@@ -147,53 +147,6 @@ public class SpeechRecognitionFragment extends DialogFragment
             }
         });
 
-        buttonStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-
-                        Manifest.permission.RECORD_AUDIO)
-
-                        != PackageManager.PERMISSION_GRANTED) {
-
-                        requestPermission();
-
-                } else {
-
-                    startRecognition();
-
-                    recognitionProgressView.postDelayed(new Runnable() {
-
-                        @Override
-
-                        public void run() {
-
-                            startRecognition();
-
-                        }
-
-                    }, 50);
-
-                }
-
-            }
-
-        });
-
-
-
-        buttonReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                recognitionProgressView.stop();
-                recognitionProgressView.play();
-                textViewOutput.setText("");
-            }
-        });
-
-
-
 
         return view;
     }
@@ -208,11 +161,8 @@ public class SpeechRecognitionFragment extends DialogFragment
     private void showResults(Bundle results){
         final String CONFIDENCE_SCORES;
 
-        ArrayList<String> strlist = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-        float [] confidence = results.getFloatArray(SpeechRecognizer.CONFIDENCE_SCORES);
-        for (int i = 0; i < strlist.size(); i++) {
-            Log.d("blabla", "result=" + strlist.get(i));
-        }
+
+
 
 
 
@@ -223,6 +173,13 @@ public class SpeechRecognitionFragment extends DialogFragment
 
         Log.e("speech",matches.toString());
         Toast.makeText(getContext(), matches.get(0), Toast.LENGTH_LONG).show();
+
+        float [] confidence = results.getFloatArray(SpeechRecognizer.CONFIDENCE_SCORES);
+        for (int i = 0; i < matches.size(); i++) {
+            Log.d("blabla", "result=" + matches.get(i));
+            Log.d("bla",String.valueOf(confidence[i]));
+        }
+
 
 
         String recognized = matches.get(0);
@@ -238,9 +195,9 @@ public class SpeechRecognitionFragment extends DialogFragment
         }
 
 
-        accTextView.setText("Answer Accuracy: " + String.valueOf(acc) + " %");
+        //accTextView.setText("Answer Accuracy: " + String.valueOf(acc) + " %");
 
-        textViewOutput.setText(matches.get(0));
+        //textViewOutput.setText(matches.get(0));
 
         listener.onComplete(matches.get(0),"speech");
 
@@ -363,5 +320,10 @@ public class SpeechRecognitionFragment extends DialogFragment
         }
 
 
+    }
+
+    private void setOrientationLandscape(){
+        getActivity().setRequestedOrientation(
+                ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 }

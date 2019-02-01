@@ -1,5 +1,7 @@
 package com.example.maxfeldman.sole_jr_companionapp.Activity;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 

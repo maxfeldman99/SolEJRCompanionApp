@@ -1,7 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="400dp"
+    android:layout_height="250dp"
+    android:orientation="horizontal"
+    >
 
 <RelativeLayout
     android:layout_width="match_parent"
@@ -20,58 +22,11 @@
 
         <com.github.zagum.speechrecognitionview.RecognitionProgressView
             android:id="@+id/recognition_view"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="180dp"
             android:layout_gravity="center"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:id="@+id/lin3"
-        android:orientation="vertical"
-        android:layout_below="@id/lin2"
-        >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="output"
-            android:textSize="25dp"
-            android:textAlignment="center"
-            android:id="@+id/speech_output"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lin4"
-        android:orientation="horizontal"
-        android:layout_below="@id/lin3"
-        >
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="start"
-            android:id="@+id/activate_btn"
-            />
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="reset"
-            android:id="@+id/stop_btn"
-            />
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/acc_text"
-            android:text="Answer Accuracy:"
-            android:textSize="25dp"
-            android:layout_marginLeft="50dp"
-
-            />
-    </LinearLayout>
 
 </RelativeLayout>
 

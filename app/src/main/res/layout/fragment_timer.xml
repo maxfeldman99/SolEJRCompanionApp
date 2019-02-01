@@ -1,7 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
     tools:context="com.example.maxfeldman.sole_jr_companionapp.Fragments.TimerFragment">
 
     <RelativeLayout
@@ -10,11 +11,10 @@
         android:id="@+id/rel1"
         >
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:layout_height="180dp"
             android:id="@+id/lin1"
             android:orientation="vertical"
-            android:layout_marginTop="30dp"
             >
             <TextView
                 android:layout_width="match_parent"
@@ -23,6 +23,7 @@
                 android:textSize="70dp"
                 android:textAlignment="center"
                 android:id="@+id/timer_text"
+                android:layout_marginTop="40dp"
                 />
         </LinearLayout>
 
