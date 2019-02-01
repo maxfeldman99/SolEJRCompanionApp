@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
+import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.InputTestFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.SpeechRecognitionFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Action;
 import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
@@ -36,9 +37,14 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private TextView currentQuestion;
     private ImageView questionImage;
     private Button answerButton;
-    private String questionAnswer = "dog";
     final public static String IP = "192.168.43.12";
     MainController mainController;
+    private int questionCounter = 0;
+    private String myAnswer;
+    private String correctAnswer;
+    private boolean isAnswerTrue;
+    private Scenario[] scenarios;
+    private String inputText;
 
     private TextToSpeech mTTS = null;
 
@@ -80,19 +86,51 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             @Override
             public void onClick(View view) {
 
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                SpeechRecognitionFragment srf = new SpeechRecognitionFragment();
-                QuestionFragment testFragment = (QuestionFragment) getActivity().getSupportFragmentManager().findFragmentByTag("QuestionFragment");
-                srf.setListener(testFragment);
-                srf.show(fragmentManager, "speech");
+                switch (inputText)
+                {
+                    case "speech":
+                    {
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        SpeechRecognitionFragment srf = new SpeechRecognitionFragment();
+                        QuestionFragment testFragment = (QuestionFragment) getActivity().getSupportFragmentManager().findFragmentByTag("QuestionFragment");
+                        srf.setListener(testFragment);
+                        srf.show(fragmentManager, "speech");
+                        break;
+                    }
+
+                    case "inputText":
+                    {
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        InputTestFragment itf = new InputTestFragment();
+                        QuestionFragment testFragment = (QuestionFragment) getActivity().getSupportFragmentManager().findFragmentByTag("QuestionFragment");
+                        itf.setListener(testFragment);
+                        itf.show(fragmentManager,"inputText");
+
+                    }
+                }
+
+
             }
         });
 
         activateTimer(QUESTION_TIME);
 
 
-        Scenario[] scenarios = getScenariosFromLesson();
-        activateScenario(scenarios);
+        scenarios = getScenariosFromLesson();
+
+        activateScenario(scenarios,0);
+
+//        for (int i = 0; i < scenarios.length; i++)
+//        {
+//            if(questionCounter<4) {
+//                correctAnswer = activateScenario(scenarios, questionCounter);
+//
+//            }
+//        }
+
+
+
+
 
 
 
@@ -131,12 +169,16 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             case "speech": {
                 String result = (String) o;
 
-                if (result.equals(questionAnswer)) {
+                if (result.equals(correctAnswer)) {
                     mainController.sendDataToIp(IP, "happy");
-                    goToNextFragment();
+                    questionCounter++;
+                    activateScenario(scenarios,questionCounter );
+                    //goToNextFragment();
                 } else {
                     mainController.sendDataToIp(IP, "sad");
-                    goToNextFragment();
+                    questionCounter++;
+                     activateScenario(scenarios, questionCounter);
+                    //goToNextFragment();
                 }
                 Log.d("TestFrag", result);
             }
@@ -146,6 +188,18 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
             case "input": {
                 String result = (String) o;
+
+                if (result.equals(correctAnswer)) {
+                    mainController.sendDataToIp(IP, "happy");
+                    questionCounter++;
+                    activateScenario(scenarios, questionCounter);
+                    //goToNextFragment();
+                } else {
+                    mainController.sendDataToIp(IP, "sad");
+                    questionCounter++;
+                    activateScenario(scenarios, questionCounter);
+                    //goToNextFragment();
+                }
 
                 Log.d("TestFrag", result);
 
@@ -219,36 +273,26 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         return scenario;
     }
 
-    private void activateScenario(Scenario[] scenario){
-
-
-        for (int i = 0; i <scenario.length ; i++) {
+    private String activateScenario(Scenario[] scenario,int i){
 
             Action[] action = scenario[i].getActions();
 
-            String effect = action[i].getEffect();
-            String text = action[i].getWhatToPlay();
+            String effect = action[0].getEffect();
+            String text = action[0].getTextOrWav();
+            String expectedAnswer = scenario[i].getWaitFor().getExpectedAnswer().getInput();
+            inputText = scenario[i].getWaitFor().getTypeOfInput();
+            correctAnswer = expectedAnswer;
             currentQuestion.setText(text);
+            questionImage.setImageDrawable(null); // to refresh the picture
 
-            if(i==0) {
-                Glide.with(getContext())
-                        .load("https://i.kym-cdn.com/entries/icons/mobile/000/013/564/doge.jpg")
-                        .into(questionImage);
-            }else {
-
-                Glide.with(getContext())
-                        .load("http://stoopidthings.com/wp-content/uploads/2012/04/flamingos_02.jpg")
-                        .into(questionImage);
-            }
+            Glide.with(getContext()) // this section is for updating the image
+                .load(effect)
+                .into(questionImage);
 
 
 
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            return expectedAnswer;
 
         }
     }
-}
+
