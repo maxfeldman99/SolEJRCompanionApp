@@ -10,6 +10,8 @@ public class OnFailure {
     private String nextScenarioID;
     private int numOfRetries;
 
+    public OnFailure(){}
+
     public OnFailure(Action action, String nextScenarioID, int numOfRetries) {
         this.action = action;
         this.nextScenarioID = nextScenarioID;

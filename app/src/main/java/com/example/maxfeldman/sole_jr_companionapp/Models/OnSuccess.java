@@ -9,6 +9,8 @@ public class OnSuccess {
     private Action Action;
     private String nextScenarioID;
 
+    public OnSuccess(){}
+
     public OnSuccess(Action action, String nextScenarioID) {
         Action = action;
         this.nextScenarioID = nextScenarioID;
