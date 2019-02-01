@@ -2,6 +2,7 @@ package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
@@ -42,19 +43,20 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
+        setOrientationLandscape();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+
         View view = inflater.inflate(R.layout.question_fragment, container, false);
         timerText = view.findViewById(R.id.question_timer_tv);
         questionImage = view.findViewById(R.id.question_image);
         answerButton = view.findViewById(R.id.question_answer_button);
 
-        initializeTTS();
+        //initializeTTS();
 
 
         answerButton.setOnClickListener(new View.OnClickListener() {
@@ -182,5 +184,10 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             initializeTTS();
         }
         speak("can you say the name of this animal?",0.4f,0.9f);
+    }
+
+    private void setOrientationLandscape(){
+        getActivity().setRequestedOrientation(
+                ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 }
