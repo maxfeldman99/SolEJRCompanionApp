@@ -206,13 +206,23 @@ public class SpeechRecognitionFragment extends DialogFragment
     }
 
     private void showResults(Bundle results){
+        final String CONFIDENCE_SCORES;
+
+        ArrayList<String> strlist = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+        float [] confidence = results.getFloatArray(SpeechRecognizer.CONFIDENCE_SCORES);
+        for (int i = 0; i < strlist.size(); i++) {
+            Log.d("blabla", "result=" + strlist.get(i));
+        }
+
+
+
         ArrayList<String> matches = results
+
 
                 .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
         Log.e("speech",matches.toString());
         Toast.makeText(getContext(), matches.get(0), Toast.LENGTH_LONG).show();
-
 
 
         String recognized = matches.get(0);
