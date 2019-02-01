@@ -4,8 +4,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -15,14 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
-import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.SpeechRecognitionFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.mapzen.speakerbox.Speakerbox;
-
 import java.util.Locale;
 
 public class QuestionFragment extends Fragment implements DialogFragmentListener
@@ -34,7 +29,6 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private Button answerButton;
     private String questionAnswer = "dog";
     final public static String IP = "192.168.43.12";
-
     MainController mainController;
 
     private TextToSpeech mTTS = null;
