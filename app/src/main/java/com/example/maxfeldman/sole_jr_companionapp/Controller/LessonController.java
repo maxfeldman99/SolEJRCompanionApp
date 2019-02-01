@@ -85,13 +85,12 @@ public class LessonController {
 
         WaitFor waitFor1 = new WaitFor();
         ExpectedAnswer expectedAnswer1 = new ExpectedAnswer();
-        expectedAnswer1.setInput("Dog");
+        expectedAnswer1.setInput("dog");
         expectedAnswer1.setSuccessRating(80);
 
         waitFor1.setTypeOfWaiting(1);
         waitFor1.setExpectedAnswer(expectedAnswer1);
         waitFor1.setTypeOfInput("speech");
-
 
         scenario1.setWaitFor(waitFor1);
 
@@ -137,7 +136,7 @@ public class LessonController {
 
         WaitFor waitFor2= new WaitFor();
         ExpectedAnswer expectedAnswer2 = new ExpectedAnswer();
-        expectedAnswer2.setInput("Pink");
+        expectedAnswer2.setInput("pink");
         expectedAnswer2.setSuccessRating(75);
 
 
@@ -151,6 +150,63 @@ public class LessonController {
 
 
 
+        //Start of scenario3
+        Scenario scenario3 = new Scenario();
+
+
+        scenario2.setId(3);
+        scenario2.setLevel("3");
+
+
+        Action[] actions3 = new Action[1];
+        Action action3 = new Action();
+        action3.setEffect("https://ichef.bbci.co.uk/news/660/cpsprodpb/025B/production/_85730600_monkey2.jpg");
+        action3.setTextOrWav("can you say the name of this animal?");
+        action3.setWhatToPlay("");
+        actions3[0] = action3;
+
+
+        scenario3.setActions(actions3);
+
+        OnFailure failure3 = new OnFailure();
+
+        Action onFailureAction3 = new Action();
+        onFailureAction3.setEffect("sadFace");
+        onFailureAction3.setTextOrWav("No worries, Try again!");
+        onFailureAction3.setWhatToPlay("");
+
+        failure3.setAction(onFailureAction2);
+        failure3.setNextScenarioID("3");
+        failure3.setNumOfRetries(2);
+
+        OnSuccess success3 = new OnSuccess();
+
+        Action onSuccessAction3 = new Action();
+        onSuccessAction3 = new Action();
+        onSuccessAction3.setEffect("Smile");
+        onSuccessAction3.setTextOrWav("Good job!!!");
+        onSuccessAction3.setWhatToPlay("");
+
+        success3.setAction(onSuccessAction2);
+        success3.setNextScenarioID("4");
+
+        WaitFor waitFor3= new WaitFor();
+        ExpectedAnswer expectedAnswer3 = new ExpectedAnswer();
+        expectedAnswer3.setInput("monkey");
+        expectedAnswer3.setSuccessRating(75);
+
+
+        waitFor3.setTypeOfWaiting(1);
+        waitFor3.setExpectedAnswer(expectedAnswer3);
+        waitFor3.setTypeOfInput("speech");
+
+        scenario3.setWaitFor(waitFor3);
+        scenario3.setOnfailure(failure3);
+        scenario3.setOnSuccess(success3);
+
+
+
+
 
         //getting things together
         Scenario[] scenarios = new Scenario[3];
@@ -158,6 +214,8 @@ public class LessonController {
         scenarios[0] = scenario1;
 
         scenarios[1] = scenario2;
+
+        scenarios[2] = scenario3;
 
         animalLesson.setScenarios(scenarios);
 
