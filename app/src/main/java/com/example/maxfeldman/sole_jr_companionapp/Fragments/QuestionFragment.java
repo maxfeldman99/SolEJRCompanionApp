@@ -1,6 +1,9 @@
 package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
@@ -15,7 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.SpeechRecognitionFragment;
+import com.example.maxfeldman.sole_jr_companionapp.Models.Action;
 import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
+import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
+import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.mapzen.speakerbox.Speakerbox;
 import java.util.Locale;
@@ -25,6 +31,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private int QUESTION_TIME = 20;
     private int myTime = 20;
     private TextView timerText;
+    private TextView currentQuestion;
     private ImageView questionImage;
     private Button answerButton;
     private String questionAnswer = "dog";
@@ -45,6 +52,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setOrientationLandscape();
+
         Speakerbox speakerbox = new Speakerbox(getActivity().getApplication());
         speakerbox.play("can you say the name of this animal?");
     }
@@ -55,13 +63,16 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
         View view = inflater.inflate(R.layout.question_fragment, container, false);
         timerText = view.findViewById(R.id.question_timer_tv);
+        currentQuestion = view.findViewById(R.id.question_tv);
         questionImage = view.findViewById(R.id.question_image);
         answerButton = view.findViewById(R.id.question_answer_button);
 
 
         //initializeTTS();
 
+
         mainController = MainController.getInstance();
+
 
         answerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +87,12 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         });
 
         activateTimer(QUESTION_TIME);
+
+
+        Scenario[] scenarios = getScenariosFromLesson();
+        activateScenario(scenarios);
+
+
 
         return view;
     }
@@ -190,5 +207,39 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private void setOrientationLandscape(){
         getActivity().setRequestedOrientation(
                 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    }
+
+    private Scenario[] getScenariosFromLesson(){
+        MainController.getInstance();
+        Lesson lesson = mainController.getLesson();
+        Scenario[] scenario = lesson.getScenarios();
+        return scenario;
+    }
+
+    private void activateScenario(Scenario[] scenario){
+
+
+
+        for (int i = 0; i <scenario.length ; i++) {
+
+            Action[] action = scenario[i].getActions();
+
+            String effect = action[i].getEffect();
+            String text = action[i].getWhatToPlay();
+            currentQuestion.setText(text);
+
+            Resources res = getResources();
+            String mDrawableName = effect;
+            int resID = res.getIdentifier(mDrawableName , "drawable", getActivity().getPackageName());
+            Drawable drawable = res.getDrawable(resID );
+            questionImage.setImageDrawable(drawable);
+
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }

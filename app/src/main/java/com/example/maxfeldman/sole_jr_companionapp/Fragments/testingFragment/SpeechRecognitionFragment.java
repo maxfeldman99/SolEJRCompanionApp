@@ -177,7 +177,7 @@ public class SpeechRecognitionFragment extends DialogFragment
         float [] confidence = results.getFloatArray(SpeechRecognizer.CONFIDENCE_SCORES);
         for (int i = 0; i < matches.size(); i++) {
             Log.d("blabla", "result=" + matches.get(i));
-            Log.d("bla",String.valueOf(confidence[i]));
+            Log.d("bla",String.valueOf(confidence));
         }
 
 
