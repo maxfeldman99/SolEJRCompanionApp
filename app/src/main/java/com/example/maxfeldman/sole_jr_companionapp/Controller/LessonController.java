@@ -50,7 +50,7 @@ public class LessonController {
 
         Action[] actions1 = new Action[1];
         Action action1 = new Action();
-        action1.setEffect("dog.jpg");
+        action1.setEffect("https://i.kym-cdn.com/entries/icons/mobile/000/013/564/doge.jpg");
         action1.setTextOrWav("Can you say the name of this animals?");
         action1.setWhatToPlay("");
 
@@ -104,7 +104,7 @@ public class LessonController {
 
         Action[] actions2 = new Action[1];
         Action action2 = new Action();
-        action2.setEffect("flamingo.jpg");
+        action2.setEffect("http://stoopidthings.com/wp-content/uploads/2012/04/flamingos_02.jpg");
         action2.setTextOrWav("What color is the animal in the picture?");
         action2.setWhatToPlay("");
         actions2[0] = action2;
@@ -138,6 +138,7 @@ public class LessonController {
         ExpectedAnswer expectedAnswer2 = new ExpectedAnswer();
         expectedAnswer2.setInput("Pink");
         expectedAnswer2.setSuccessRating(75);
+
 
         waitFor2.setTypeOfWaiting(1);
         waitFor2.setExpectedAnswer(expectedAnswer2);
