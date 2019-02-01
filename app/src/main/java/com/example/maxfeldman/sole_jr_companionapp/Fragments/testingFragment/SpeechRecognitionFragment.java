@@ -57,7 +57,7 @@ public class SpeechRecognitionFragment extends DialogFragment
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getActivity());
         setOrientationLandscape();
