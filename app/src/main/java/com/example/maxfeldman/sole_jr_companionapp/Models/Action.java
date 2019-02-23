@@ -5,13 +5,15 @@ public class Action
     private String effect;
     private String textOrWav;
     private String whatToPlay;
+    private String timeForAction;
 
     public Action(){}
 
-    public Action(String effect, String textOrWav, String whatToPlay) {
+    public Action(String effect, String textOrWav, String whatToPlay,String timeForAction ) {
         this.effect = effect;
         this.textOrWav = textOrWav;
         this.whatToPlay = whatToPlay;
+        this.timeForAction = timeForAction;
     }
 
     public String getEffect() {
@@ -36,5 +38,13 @@ public class Action
 
     public void setWhatToPlay(String whatToPlay) {
         this.whatToPlay = whatToPlay;
+    }
+
+    public String getTimeForAction() {
+        return timeForAction;
+    }
+
+    public void setTimeForAction(String timeForAction) {
+        this.timeForAction = timeForAction;
     }
 }

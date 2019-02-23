@@ -52,6 +52,7 @@ public class LessonController {
         action1.setEffect("https://i.kym-cdn.com/entries/icons/mobile/000/013/564/doge.jpg");
         action1.setTextOrWav("Can you say the name of this animals?");
         action1.setWhatToPlay("");
+        action1.
 
         actions1[0] = action1;
 
