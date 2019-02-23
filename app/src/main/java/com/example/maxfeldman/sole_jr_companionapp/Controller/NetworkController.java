@@ -3,12 +3,17 @@ package com.example.maxfeldman.sole_jr_companionapp.Controller;
 import android.util.Log;
 
 import com.example.maxfeldman.sole_jr_companionapp.Models.InputListener;
+import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
+import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.net.MalformedURLException;
 import java.net.Socket;
+import java.net.URL;
 
 public class NetworkController
 {
@@ -148,5 +153,33 @@ public class NetworkController
         inputThread.start();
     }
 
+    public Lesson getLessonFromUrl()
+    {
+        final Lesson[] lesson = new Lesson[1];
+        Thread thread = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                URL url = null;
+                try {
+                    url = new URL("https://api.myjson.com/bins/1bzfpa");
+                    InputStreamReader reader = new InputStreamReader(url.openStream());
+
+                    Gson gson = new Gson();
+                    lesson[0] = gson.fromJson(reader, Lesson.class);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+
+        return lesson[0];
+    }
 
 }

@@ -7,6 +7,7 @@ import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.QuestionFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.SpotClickFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
+import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,5 +26,7 @@ public class MainActivity extends AppCompatActivity {
                 //,new QuestionFragment(),"QuestionFragment")
                  ,new SpotClickFragment(),"SpotClickFragment") // just to test the spot click fragment
                 .commitNow();
+
+
     }
 }
