@@ -21,9 +21,10 @@ import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.Spe
 import com.example.maxfeldman.sole_jr_companionapp.Models.Action;
 import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
+import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkTest;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
+import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
-import com.mapzen.speakerbox.Speakerbox;
 
 import java.util.Locale;
 
@@ -59,8 +60,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         super.onCreate(savedInstanceState);
         setOrientationLandscape();
 
-        Speakerbox speakerbox = new Speakerbox(getActivity().getApplication());
-        speakerbox.play("can you say the name of this animal?");
+        //Speakerbox speakerbox = new Speakerbox(getActivity().getApplication());
+        //speakerbox.play("can you say the name of this animal?");
     }
 
     @Override
@@ -114,9 +115,9 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         activateTimer(QUESTION_TIME);
 
 
-        scenarios = getScenariosFromLesson();
+        //scenarios = getScenariosFromLesson();
 
-        activateScenario(scenarios,0);
+        //activateScenario(scenarios,0);
 
 //        for (int i = 0; i < scenarios.length; i++)
 //        {
@@ -128,10 +129,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
 
 
-
-
-
-
+        getScenariosFromLesson();
         return view;
     }
 
@@ -263,17 +261,40 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 
-    private Scenario[] getScenariosFromLesson(){
-        MainController.getInstance();
-        Lesson lesson = mainController.getLesson(1);
-        Scenario[] scenario = lesson.getScenarios();
+    private void getScenariosFromLesson()
+    {
+        final Lesson[] lessonFromUrl = new Lesson[1];
+        final Scenario[] scenario = new Scenario[0];
 
-        return scenario;
+        NetworkTest networkTest = NetworkTest.INSTANCE;
+
+        networkTest.getLessonFromUrl(new updateFragment<Object>()
+        {
+            @Override
+            public void updateData(Object data)
+            {
+                Lesson lesson = (Lesson) data;
+
+                //System.out.println(lesson);
+
+                scenarios = lesson.getScenarios();
+
+                activateScenario(scenarios,0);
+
+
+            }
+        });
+
+        //MainController.getInstance();
+        //Scenario[] scenario = lesson.getScenarios();
+
     }
 
     private String activateScenario(Scenario[] scenario,int i){
 
             Action[] action = scenario[i].getActions();
+
+            System.out.println();
 
             String effect = action[0].getEffect();
             String text = action[0].getTextOrWav();

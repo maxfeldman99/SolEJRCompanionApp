@@ -1,5 +1,7 @@
 package com.example.maxfeldman.sole_jr_companionapp.Models;
 
+import java.util.Arrays;
+
 public class Lesson
 {
     private int id;
@@ -66,6 +68,18 @@ public class Lesson
 
     public void setScenarios(Scenario[] scenarios) {
         this.scenarios = scenarios;
+    }
+
+    @Override
+    public String toString() {
+        return "Lesson{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", badge='" + badge + '\'' +
+                ", category='" + category + '\'' +
+                ", goals=" + Arrays.toString(goals) +
+                ", scenarios=" + Arrays.toString(scenarios) +
+                '}';
     }
 }
 

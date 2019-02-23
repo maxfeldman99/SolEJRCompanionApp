@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.maxfeldman.sole_jr_companionapp.Models.InputListener;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
+import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -153,7 +154,7 @@ public class NetworkController
         inputThread.start();
     }
 
-    public Lesson getLessonFromUrl()
+    public void getLessonFromUrl(final updateFragment update)
     {
         final Lesson[] lesson = new Lesson[1];
         Thread thread = new Thread(new Runnable()
@@ -169,17 +170,18 @@ public class NetworkController
                     Gson gson = new Gson();
                     lesson[0] = gson.fromJson(reader, Lesson.class);
 
+                    update.updateData(lesson[0]);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-
             }
         });
 
-        return lesson[0];
+        thread.start();
+
     }
 
 }

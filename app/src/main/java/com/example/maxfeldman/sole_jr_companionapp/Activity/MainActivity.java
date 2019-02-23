@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.mainFragmentPlaceHolder
-                //,new QuestionFragment(),"QuestionFragment")
-                 ,new SpotClickFragment(),"SpotClickFragment") // just to test the spot click fragment
+                ,new QuestionFragment(),"QuestionFragment")
+                 //,new SpotClickFragment(),"SpotClickFragment") // just to test the spot click fragment
                 .commitNow();
 
 
