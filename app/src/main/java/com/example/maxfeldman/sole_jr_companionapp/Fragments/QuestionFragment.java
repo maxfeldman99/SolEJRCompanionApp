@@ -1,9 +1,6 @@
 package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 
 import android.content.pm.ActivityInfo;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
@@ -27,6 +24,7 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.mapzen.speakerbox.Speakerbox;
+
 import java.util.Locale;
 
 public class QuestionFragment extends Fragment implements DialogFragmentListener
@@ -285,9 +283,10 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             currentQuestion.setText(text);
             questionImage.setImageDrawable(null); // to refresh the picture
 
+
             Glide.with(getContext()) // this section is for updating the image
                 .load(effect)
-                .into(questionImage);
+                    .into(questionImage);
 
 
 

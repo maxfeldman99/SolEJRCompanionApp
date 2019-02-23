@@ -1,6 +1,7 @@
 package com.example.maxfeldman.sole_jr_companionapp.Controller;
 
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
+import com.google.gson.Gson;
 
 public class MainController
 {
@@ -28,6 +29,13 @@ public class MainController
 
     public Lesson getLesson(int lessonId)
     {
-       return lessonController.getLessonById(lessonId);
+        Lesson temp = lessonController.getLessonById(lessonId);
+
+        Gson gson = new Gson();
+        String s = gson.toJson(temp);
+
+        System.out.println(s);
+
+        return temp;
     }
 }
