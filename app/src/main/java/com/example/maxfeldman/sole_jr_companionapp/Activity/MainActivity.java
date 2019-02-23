@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.QuestionFragment;
+import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.SpotClickFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.mainFragmentPlaceHolder
-                ,new QuestionFragment(),"QuestionFragment")
+                //,new QuestionFragment(),"QuestionFragment")
+                 ,new SpotClickFragment(),"SpotClickFragment") // just to test the spot click fragment
                 .commitNow();
     }
 }

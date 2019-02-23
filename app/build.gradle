@@ -34,6 +34,8 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.8.0' // glide
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0' // glide
+    implementation 'com.github.Lukle:ClickableAreasImages:v0.1' // spot-click
+
 
     implementation 'com.google.code.gson:gson:2.8.5'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
