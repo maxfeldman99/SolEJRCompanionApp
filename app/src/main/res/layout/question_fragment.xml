@@ -1,7 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -19,12 +20,16 @@
             android:orientation="vertical"
             >
 
-         <TextView
-             android:layout_width="match_parent"
+         <cn.iwgang.countdownview.CountdownView
+             android:layout_width="50dp"
              android:layout_height="wrap_content"
-             android:text="15"
-             android:textSize="30dp"
              android:id="@+id/question_timer_tv"
+             app:timeTextSize="25dp"
+             app:isShowMinute="false"
+             app:timeTextColor="@color/timerColor"
+
+
+
              />
         </LinearLayout>
 

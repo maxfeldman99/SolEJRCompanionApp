@@ -18,7 +18,7 @@ object NetworkTest
         GlobalScope.launch(Dispatchers.Default)
         {
 
-            val url = URL("https://api.myjson.com/bins/1bzfpa")
+            val url = URL("https://api.myjson.com/bins/8xmwm")
             val inputStreamReader = InputStreamReader(url.openStream())
 
             val gson = Gson()

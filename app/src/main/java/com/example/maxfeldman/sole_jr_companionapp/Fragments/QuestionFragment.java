@@ -1,6 +1,7 @@
 package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
@@ -13,8 +14,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.InputTestFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.RobotTTS;
@@ -28,13 +31,20 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.mapzen.speakerbox.Speakerbox;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
-public class QuestionFragment extends Fragment implements DialogFragmentListener,RobotTTS
+import at.lukle.clickableareasimage.ClickableArea;
+import at.lukle.clickableareasimage.ClickableAreasImage;
+import at.lukle.clickableareasimage.OnClickableAreaClickedListener;
+import cn.iwgang.countdownview.CountdownView;
+import uk.co.senab.photoview.PhotoViewAttacher;
+
+public class QuestionFragment extends Fragment implements DialogFragmentListener,RobotTTS,OnClickableAreaClickedListener
 {
     private int QUESTION_TIME = 20;
     private int myTime = 20;
-    private TextView timerText;
     private TextView currentQuestion;
     private ImageView questionImage;
     private Button answerButton;
@@ -47,6 +57,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private Scenario[] scenarios;
     private String inputText;
     private Speakerbox speakerbox;
+    private CountdownView countdownView;
 
     private TextToSpeech mTTS = null;
 
@@ -70,10 +81,10 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
 
         View view = inflater.inflate(R.layout.question_fragment, container, false);
-        timerText = view.findViewById(R.id.question_timer_tv);
         currentQuestion = view.findViewById(R.id.question_tv);
         questionImage = view.findViewById(R.id.question_image);
         answerButton = view.findViewById(R.id.question_answer_button);
+        countdownView = view.findViewById(R.id.question_timer_tv);
         mainController = MainController.getInstance();
         answerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +117,23 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             }
         });
 
-        activateTimer(QUESTION_TIME);
+        countdownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
+            @Override
+            public void onEnd(CountdownView cv) {
+                activateScenario(scenarios,++questionCounter);
+            }
+
+
+        });
+        countdownView.setOnCountdownIntervalListener(1000, new CountdownView.OnCountdownIntervalListener() {
+            @Override
+            public void onInterval(CountdownView cv, long remainTime) {
+                if(cv.getSecond()==10){
+                    speakerBoxTTS("Hurry up! time is running up!");
+                }
+            }
+        });
+        //activateTimer(QUESTION_TIME);
 
 
         //scenarios = getScenariosFromLesson();
@@ -124,34 +151,30 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
 
         getScenariosFromLesson();
+
         return view;
     }
 
-    private void activateTimer(int time) {
-        myTime = time;
-        new CountDownTimer(time * 1000, 1000) {
-            public void onTick(long millisUntilFinished) {
-                timerText.setText("" + millisUntilFinished / 1000);
-                myTime--;
-                if (myTime == 5) {
-                    // timerText.setTextColor(getResources().getColor(R.color.colorRed));
-                    //speak("Hurry!,time is running up!",0.4f,0.9f);
-                }
-            }
-
-
-
-            public void onFinish() {
-                timerText.setText("0");
-//                if(correct!=true)
-//                {
-//
-//                    //test_execute(null, "sad", null);
+//    private void activateTimer(int time) {
+//        myTime = time;
+//        new CountDownTimer(time * 1000, 1000) {
+//            public void onTick(long millisUntilFinished) {
+//                timerText.setText("" + millisUntilFinished / 1000);
+//                myTime--;
+//                if (myTime == 5) {
+//                    timerText.setTextColor(getResources().getColor(R.color.colorRed));
+//                    speakerBoxTTS("Hurry!,time is running up!");
 //                }
-            }
-
-        }.start();
-    }
+//            }
+//
+//            public void onFinish() {
+//                timerText.setText("0");
+//                questionCounter++;
+//                activateScenario(scenarios,questionCounter);
+//            }
+//
+//        }.start();
+//    }
 
     @Override
     public void onComplete(Object o, String sender) {
@@ -244,10 +267,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     @Override
     public void onResume() {
         super.onResume();
-        if(mTTS==null){
-            initializeTTS();
-        }
-        speak("can you say the name of this animal?",0.4f,0.9f);
+
     }
 
     private void setOrientationLandscape(){
@@ -261,7 +281,6 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         final Scenario[] scenario = new Scenario[0];
 
         NetworkTest networkTest = NetworkTest.INSTANCE;
-
         networkTest.getLessonFromUrl(new updateFragment<Object>()
         {
             @Override
@@ -304,8 +323,9 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 .load(effect)
                     .into(questionImage);
 
-
-
+            //setUpSpotClick();
+            Long time = Long.valueOf(action[0].getTimeForAction());
+            countdownView.start(time*1000);
             return expectedAnswer;
 
         }
@@ -321,5 +341,40 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         initializeTTS();
         speak(question,0.2f,0.9f);
     }
+
+    @Override
+    public void onClickableAreaTouched(Object item) {
+//        if (item instanceof Character) {
+//            String text = ((Character) item).getFirstName() + " " + ((Character) item).getLastName();
+//            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+//        }
+        if (item instanceof String) {
+            String text = "test";
+            Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+        }
+
     }
+
+    private void setUpSpotClick(){
+
+
+            questionImage.setImageResource(R.drawable.flamingo);
+
+            ClickableAreasImage clickableAreasImage = new ClickableAreasImage(new PhotoViewAttacher(questionImage), this);
+            // Initialize your clickable area list
+            List<ClickableArea> clickableAreas = new ArrayList<>();
+
+            // Define your clickable areas
+            // parameter values (pixels): (x coordinate, y coordinate, width, height) and assign an object to it
+            clickableAreas.add(new ClickableArea(500, 200, 125, 200, new String("ssss")));
+            clickableAreas.add(new ClickableArea(400, 200, 125, 200, new String("sss")));
+            clickableAreas.add(new ClickableArea(300, 200, 125, 200, new String("ss")));
+            //clickableAreas.add(new ClickableArea(600, 440, 130, 160, new Character("Bart", "Simpson")));
+
+            // Set your clickable areas to the image
+            clickableAreasImage.setClickableAreas(clickableAreas);
+
+
+    }
+}
 

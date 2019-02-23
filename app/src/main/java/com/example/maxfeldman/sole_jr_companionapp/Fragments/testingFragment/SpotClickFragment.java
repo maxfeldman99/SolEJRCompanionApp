@@ -59,15 +59,15 @@ public class SpotClickFragment extends Fragment implements OnClickableAreaClicke
     }
 
     @Override
-    public void onClickableAreaTouched(Object item) {
+        public void onClickableAreaTouched(Object item) {
 //        if (item instanceof Character) {
 //            String text = ((Character) item).getFirstName() + " " + ((Character) item).getLastName();
 //            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 //        }
-        if (item instanceof String) {
-            String text = "test";
-            Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
-        }
+            if (item instanceof String) {
+                String text = "test";
+                Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+            }
 
     }
 }

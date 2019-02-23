@@ -34,7 +34,7 @@ public class MainController
         Gson gson = new Gson();
         String s = gson.toJson(temp);
 
-        //System.out.println(s);
+        System.out.println(s);
 
         return temp;
     }

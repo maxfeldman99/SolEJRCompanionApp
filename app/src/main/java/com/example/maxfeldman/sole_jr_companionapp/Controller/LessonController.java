@@ -56,6 +56,7 @@ public class LessonController {
         action1.setEffect("https://i.kym-cdn.com/entries/icons/mobile/000/013/564/doge.jpg");
         action1.setTextOrWav("Can you say the name of this animals?");
         action1.setWhatToPlay("");
+        action1.setTimeForAction("30");
         actions1[0] = action1;
 
         scenario1.setActions(actions1);
@@ -110,6 +111,7 @@ public class LessonController {
         action2.setEffect("http://stoopidthings.com/wp-content/uploads/2012/04/flamingos_02.jpg");
         action2.setTextOrWav("What color is the animal in the picture?");
         action2.setWhatToPlay("");
+        action2.setTimeForAction("35");
         actions2[0] = action2;
 
 
@@ -166,6 +168,7 @@ public class LessonController {
         action3.setEffect("https://ichef.bbci.co.uk/news/660/cpsprodpb/025B/production/_85730600_monkey2.jpg");
         action3.setTextOrWav("can you say the name of this animal?");
         action3.setWhatToPlay("");
+        action3.setTimeForAction("30");
         actions3[0] = action3;
 
 
