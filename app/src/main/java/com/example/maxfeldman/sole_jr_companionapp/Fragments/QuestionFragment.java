@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.InputTestFragment;
+import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.RobotTTS;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.SpeechRecognitionFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Action;
 import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
@@ -25,10 +26,11 @@ import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkTest;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
+import com.mapzen.speakerbox.Speakerbox;
 
 import java.util.Locale;
 
-public class QuestionFragment extends Fragment implements DialogFragmentListener
+public class QuestionFragment extends Fragment implements DialogFragmentListener,RobotTTS
 {
     private int QUESTION_TIME = 20;
     private int myTime = 20;
@@ -44,6 +46,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private boolean isAnswerTrue;
     private Scenario[] scenarios;
     private String inputText;
+    private Speakerbox speakerbox;
 
     private TextToSpeech mTTS = null;
 
@@ -60,8 +63,6 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         super.onCreate(savedInstanceState);
         setOrientationLandscape();
 
-        //Speakerbox speakerbox = new Speakerbox(getActivity().getApplication());
-        //speakerbox.play("can you say the name of this animal?");
     }
 
     @Override
@@ -73,14 +74,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         currentQuestion = view.findViewById(R.id.question_tv);
         questionImage = view.findViewById(R.id.question_image);
         answerButton = view.findViewById(R.id.question_answer_button);
-
-
-        //initializeTTS();
-
-
         mainController = MainController.getInstance();
-
-
         answerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -303,6 +297,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             correctAnswer = expectedAnswer;
             currentQuestion.setText(text);
             questionImage.setImageDrawable(null); // to refresh the picture
+            speakerBoxTTS(text);
 
 
             Glide.with(getContext()) // this section is for updating the image
@@ -314,5 +309,17 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             return expectedAnswer;
 
         }
+
+    @Override
+    public void speakerBoxTTS(String question) {
+        speakerbox = new Speakerbox(getActivity().getApplication());
+        speakerbox.play(question);
+    }
+
+    @Override
+    public void androidTTS(String question) {
+        initializeTTS();
+        speak(question,0.2f,0.9f);
+    }
     }
 

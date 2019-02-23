@@ -7,9 +7,11 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.OnFailure;
 import com.example.maxfeldman.sole_jr_companionapp.Models.OnSuccess;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.Models.WaitFor;
+import com.google.gson.Gson;
 
 public class LessonController {
     private static final LessonController ourInstance = new LessonController();
+    private Gson gson = new Gson();
 
     public static LessonController getInstance() {
         return ourInstance;
@@ -28,6 +30,8 @@ public class LessonController {
 
     public Lesson getCurrentLesson()
     {
+
+
         Lesson animalLesson = new Lesson();
 
         animalLesson.setId(1);

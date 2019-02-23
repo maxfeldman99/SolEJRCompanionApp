@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/question_tv"
-                android:text="Can you say the name of this animal? ?"
+                android:text="Waiting for lesson"
                 android:textSize="30dp"
                 android:textAlignment="center"
                 />
@@ -57,7 +57,7 @@
             <ImageView
                 android:layout_width="400dp"
                 android:layout_height="200dp"
-                android:src="@drawable/dog"
+                android:src="@drawable/ic_launcher_foreground"
                 android:layout_gravity="center"
                 android:id="@+id/question_image"
 
