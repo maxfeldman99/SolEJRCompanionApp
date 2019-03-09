@@ -1,5 +1,6 @@
 package com.example.maxfeldman.sole_jr_companionapp.Activity;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
                 ,new QuestionFragment(),"QuestionFragment")
                  //,new SpotClickFragment(),"SpotClickFragment") // just to test the spot click fragment
                 .commitNow();
+
+        Intent intent = new Intent(this,SplashScreenActivity.class); ////////////////////////////////////////////////////////////////////
+        startActivity(intent);
 
 
     }

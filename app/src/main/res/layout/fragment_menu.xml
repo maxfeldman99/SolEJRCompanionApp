@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.MenuFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lin1"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Main Menu"
+            android:textSize="50dp"
+            android:textAlignment="center"
+
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lin2"
+        android:orientation="horizontal"
+        android:layout_below="@id/lin1"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="300dp"
+            android:layout_height="480dp"
+            android:id="@+id/my_recycler_view"
+            >
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lin3"
+        android:orientation="horizontal"
+        android:layout_below="@id/lin2"
+        android:layout_marginTop="20dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Connection:"
+            android:textSize="50dp"
+            android:textAlignment="center"
+            android:id="@+id/connection_tv"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lin4"
+        android:orientation="horizontal"
+        android:layout_below="@id/lin3"
+        >
+       <EditText
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="Enter Your IP here ,for example 1.1.1.1"
+           android:textAlignment="center"
+           android:textSize="40dp"
+           />
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

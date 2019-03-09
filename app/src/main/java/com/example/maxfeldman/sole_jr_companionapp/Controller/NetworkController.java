@@ -156,6 +156,7 @@ public class NetworkController
 
     public void getLessonFromUrl(final updateFragment update)
     {
+
         final Lesson[] lesson = new Lesson[1];
         Thread thread = new Thread(new Runnable()
         {

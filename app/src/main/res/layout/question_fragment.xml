@@ -60,8 +60,8 @@
             android:layout_marginTop="10dp"
             >
             <ImageView
-                android:layout_width="400dp"
-                android:layout_height="200dp"
+                android:layout_width="1000dp"
+                android:layout_height="600dp"
                 android:src="@drawable/ic_launcher_foreground"
                 android:layout_gravity="center"
                 android:id="@+id/question_image"

@@ -17,17 +17,26 @@ object NetworkTest
 
         GlobalScope.launch(Dispatchers.Default)
         {
-
-            val url = URL("https://api.myjson.com/bins/8xmwm")
-            val inputStreamReader = InputStreamReader(url.openStream())
-
-            val gson = Gson()
-            val toJson = gson.fromJson(inputStreamReader, Lesson::class.java)
-
-           GlobalScope.launch(Dispatchers.Main)
+            //val lesson1 = MainController.getInstance().getLesson(1)
+            try
             {
-                update.updateData(toJson)
+                val url = URL("https://api.myjson.com/bins/mlk5y")
+                val inputStreamReader = InputStreamReader(url.openStream())
+
+                val gson = Gson()
+                val toJson = gson.fromJson(inputStreamReader, Lesson::class.java)
+
+                GlobalScope.launch(Dispatchers.Main)
+                {
+                    update.updateData(toJson)
+                }
+
+
+            }catch (e: Exception)
+            {
+                e.printStackTrace()
             }
+
 
         }
 

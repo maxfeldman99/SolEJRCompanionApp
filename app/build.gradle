@@ -47,6 +47,10 @@ dependencies {
     implementation 'com.github.Lukle:ClickableAreasImages:v0.1' //Spot Click
     implementation 'com.github.iwgang:countdownview:2.1.6' // timer
 
+    implementation 'com.android.support:recyclerview-v7:26.1.0' // recycler view for the lessons
+
+    implementation 'com.android.support:cardview-v7:26.1.0' // for recyclerView
+
 
 }
 repositories {

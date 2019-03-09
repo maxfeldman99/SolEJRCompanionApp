@@ -182,7 +182,7 @@ public class LessonController {
         onFailureAction3.setWhatToPlay("");
 
         failure3.setAction(onFailureAction2);
-        failure3.setNextScenarioID("3");
+        failure3.setNextScenarioID("4");
         failure3.setNumOfRetries(2);
 
         OnSuccess success3 = new OnSuccess();
@@ -210,18 +210,133 @@ public class LessonController {
         scenario3.setOnfailure(failure3);
         scenario3.setOnSuccess(success3);
 
+///
+
+        //Start of scenario4
+        Scenario scenario4 = new Scenario();
+
+
+        scenario2.setId(4);
+        scenario2.setLevel("4");
+
+
+        Action[] actions4 = new Action[1];
+        Action action4 = new Action();
+        action4.setEffect("https://www.worldatlas.com/r/w728-h425-c728x425/upload/9a/0b/6c/shutterstock-264986516.jpg");
+        action4.setTextOrWav("can you say how many legs this animal have?");
+        action4.setWhatToPlay("");
+        action4.setTimeForAction("30");
+        actions4[0] = action4;
+
+
+        scenario4.setActions(actions4);
+
+        OnFailure failure4 = new OnFailure();
+
+        Action onFailureAction4 = new Action();
+        onFailureAction4.setEffect("sadFace");
+        onFailureAction4.setTextOrWav("No worries, Try again!");
+        onFailureAction4.setWhatToPlay("");
+
+        failure4.setAction(onFailureAction2);
+        failure4.setNextScenarioID("3");
+        failure4.setNumOfRetries(2);
+
+        OnSuccess success4 = new OnSuccess();
+
+        Action onSuccessAction4 = new Action();
+        onSuccessAction4 = new Action();
+        onSuccessAction4.setEffect("Smile");
+        onSuccessAction4.setTextOrWav("Good job!!!");
+        onSuccessAction4.setWhatToPlay("");
+
+        success4.setAction(onSuccessAction4);
+        success4.setNextScenarioID("5");
+
+        WaitFor waitFor4= new WaitFor();
+        ExpectedAnswer expectedAnswer4 = new ExpectedAnswer();
+        expectedAnswer4.setInput("4");
+        expectedAnswer4.setSuccessRating(75);
+
+
+        waitFor4.setTypeOfWaiting(1);
+        waitFor4.setExpectedAnswer(expectedAnswer4);
+        waitFor4.setTypeOfInput("inputText");
+
+        scenario4.setWaitFor(waitFor4);
+        scenario4.setOnfailure(failure4);
+        scenario4.setOnSuccess(success4);
+
+        //Start of scenario5
+        Scenario scenario5 = new Scenario();
+
+
+        scenario2.setId(5);
+        scenario2.setLevel("5");
+
+
+        Action[] actions5 = new Action[1];
+        Action action5 = new Action();
+        action5.setEffect("https://thumbs-prod.si-cdn.com/rjR9dBkPzbx3tV22Yhi-aA4aCRw=/800x600/filters:no_upscale()/https://public-media.si-cdn.com/filer/a3/3f/a33f8ee0-bfee-4cce-9a13-f9388c5323c0/42-55375529.jpg");
+        action5.setTextOrWav("can you say how many legs this animal have?");
+        action5.setWhatToPlay("");
+        action5.setTimeForAction("30");
+        actions5[0] = action5;
+
+
+        scenario5.setActions(actions4);
+
+        OnFailure failure5 = new OnFailure();
+
+        Action onFailureAction5 = new Action();
+        onFailureAction5.setEffect("sadFace");
+        onFailureAction5.setTextOrWav("No worries, Try again!");
+        onFailureAction5.setWhatToPlay("");
+
+        failure4.setAction(onFailureAction2);
+        failure4.setNextScenarioID("6");
+        failure4.setNumOfRetries(2);
+
+        OnSuccess success5 = new OnSuccess();
+
+        Action onSuccessAction5 = new Action();
+        onSuccessAction5 = new Action();
+        onSuccessAction5.setEffect("Smile");
+        onSuccessAction5.setTextOrWav("Good job!!!");
+        onSuccessAction5.setWhatToPlay("");
+
+        success5.setAction(onSuccessAction5);
+        success5.setNextScenarioID("5");
+
+        WaitFor waitFor5= new WaitFor();
+        ExpectedAnswer expectedAnswer5 = new ExpectedAnswer();
+        expectedAnswer5.setInput("0");
+        expectedAnswer5.setSuccessRating(75);
+
+
+        waitFor5.setTypeOfWaiting(1);
+        waitFor5.setExpectedAnswer(expectedAnswer5);
+        waitFor5.setTypeOfInput("inputText");
+
+        scenario5.setWaitFor(waitFor5);
+        scenario5.setOnfailure(failure5);
+        scenario5.setOnSuccess(success5);
 
 
 
 
         //getting things together
-        Scenario[] scenarios = new Scenario[3];
+        Scenario[] scenarios = new Scenario[5];
 
         scenarios[0] = scenario1;
 
         scenarios[1] = scenario2;
 
         scenarios[2] = scenario3;
+
+        scenarios[3] = scenario4;
+
+        scenarios[4] = scenario5;
 
         animalLesson.setScenarios(scenarios);
 
