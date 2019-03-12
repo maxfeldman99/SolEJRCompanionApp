@@ -12,6 +12,7 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.MyViewHolder> {
 
@@ -46,6 +47,7 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.MyViewHold
 
         //holder.imageView.setImageBitmap(userList.get(position).getPhoto());
         holder.nameTv.setText(lessonList.get(position).getTitle()+"");
+        holder.amountTv.setText("Number of Questions: ".concat(String.valueOf(new Random().nextInt(10))));
 
     }
 
@@ -58,12 +60,13 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
         TextView nameTv;
+        TextView amountTv;
         ImageView imageView;
 
         public MyViewHolder(View itemView)
         {
             super(itemView);
-
+            amountTv = itemView.findViewById(R.id.tv_item_2);
             nameTv = itemView.findViewById(R.id.tv_item_1);
             imageView = itemView.findViewById(R.id.iv_item_1);
 

@@ -39,6 +39,16 @@
                 android:layout_marginLeft="60dp"
                 />
 
+            <TextView
+                android:id="@+id/tv_item_2"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Number of Questions:"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="60dp"
+                />
+
 
         </LinearLayout>
 
