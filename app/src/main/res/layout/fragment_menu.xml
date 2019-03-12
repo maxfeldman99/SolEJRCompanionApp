@@ -78,7 +78,7 @@
            android:hint="Enter Your IP here ,for example 1.1.1.1"
            android:textAlignment="center"
            android:textSize="40sp"
-           android:textColor="#AD242222"
+           android:textColorHint="#AD242222"
            />
 
     </LinearLayout>
