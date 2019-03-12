@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.MenuFragment">
+    tools:context=".Fragments.MenuFragment"
+    android:background="@drawable/background"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +18,9 @@
             android:layout_height="wrap_content"
             android:text="Main Menu"
             android:textSize="50dp"
+            android:textStyle="bold"
             android:textAlignment="center"
+            android:textColor="#AD242222"
 
             />
 
@@ -35,6 +39,7 @@
             android:layout_width="600dp"
             android:layout_height="480dp"
             android:id="@+id/my_recycler_view"
+
             >
         </android.support.v7.widget.RecyclerView>
 
@@ -55,6 +60,7 @@
             android:textSize="50dp"
             android:textAlignment="center"
             android:id="@+id/connection_tv"
+            android:textColor="#AD242222"
             />
 
     </LinearLayout>
@@ -71,7 +77,8 @@
            android:layout_height="wrap_content"
            android:hint="Enter Your IP here ,for example 1.1.1.1"
            android:textAlignment="center"
-           android:textSize="40dp"
+           android:textSize="40sp"
+           android:textColor="#AD242222"
            />
 
     </LinearLayout>
