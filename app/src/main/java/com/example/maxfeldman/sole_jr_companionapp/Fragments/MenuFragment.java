@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,8 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,6 +54,9 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         recyclerView.setLayoutManager(mLayoutManager);
         TextView textView = view.findViewById(R.id.tv_item_1);
         ImageView imageView = view.findViewById(R.id.iv_item_1);
+        final ImageView imageVal = view.findViewById(R.id.img_val);
+        final EditText editText = view.findViewById(R.id.ip_et);
+        Button button = view.findViewById(R.id.validateButton);
         setAdapter(lessonList);
 
         NetworkTest networkTest = NetworkTest.INSTANCE;
@@ -68,6 +75,21 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
                 }
             });
         }
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String ip = editText.getText().toString();
+                boolean isValid = validateIP(ip);
+                if(isValid == true){
+                    imageVal.setImageResource(R.drawable.ic_done);
+                    imageVal.setVisibility(View.VISIBLE);
+                }else{
+                    imageVal.setImageResource(R.drawable.ic_error);
+                    imageVal.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         return view;
     }
@@ -98,9 +120,23 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         QuestionFragment questionFragment = new QuestionFragment();
         //Intent intent = new Intent(getContext(),MainActivity.class);
        // startActivity(intent);
-        fragmentManager.beginTransaction().replace(R.id.SplashActivity,questionFragment,"bla1").commitNow();
+        fragmentManager.beginTransaction().replace(R.id.SplashActivity,questionFragment,"questionFragment").commitNow();
 
         questionFragment.updateData(l);
 
+    }
+
+    private boolean validateIP(String inputIP){
+          final Pattern IP_ADDRESS
+                = Pattern.compile(
+                "((25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\.(25[0-5]|2[0-4]"
+                        + "[0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]"
+                        + "[0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}"
+                        + "|[1-9][0-9]|[0-9]))");
+        Matcher matcher = IP_ADDRESS.matcher(inputIP);
+        if (matcher.matches()) {
+            return true;
+        }
+        return false;
     }
 }
