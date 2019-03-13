@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.InputStreamReader
+import java.lang.Exception
 import java.net.URL
 
 object NetworkTest

@@ -56,7 +56,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private Button answerButton;
     final public static String IP = "192.168.43.12";
     MainController mainController;
-    private int questionCounter = 3;
+    private int questionCounter = 1;
     private String myAnswer;
     private String correctAnswer;
     private boolean isAnswerTrue;
@@ -288,7 +288,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     }
 
     private boolean checkIndex(int index){
-        return (index>=scenarios.length);
+        return (index>scenarios.length);
     }
 
 
@@ -372,6 +372,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         }
 
         private void goBackToMenu(){
+
+            questionCounter = 0;
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             MenuFragment menuFragment = new MenuFragment();
             fragmentManager.beginTransaction().replace(R.id.SplashActivity,menuFragment,"menuFragment").commitNow();

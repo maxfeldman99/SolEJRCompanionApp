@@ -67,12 +67,21 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         String ipAdress = prefName.getString("ipAddress", "");
         ipEditText.setText(ipAdress);
 
+        ArrayList<String> lessonsList = new ArrayList<>();
+        lessonsList.add("https://api.myjson.com/bins/mlk5y");
+        lessonsList.add("https://api.myjson.com/bins/10vsl6");
+        lessonsList.add("https://api.myjson.com/bins/s0ne2");
+
+
+        // math https://api.myjson.com/bins/10vsl6
+        // vehicles https://api.myjson.com/bins/s0ne2
+
 
         NetworkTest networkTest = NetworkTest.INSTANCE;
 
-        for (int i = 0; i <10 ; i++)
+        for (int i = 0; i <3 ; i++)
         {
-            networkTest.getLessonFromUrl("https://api.myjson.com/bins/mlk5y", new updateFragment<Object>()
+            networkTest.getLessonFromUrl(lessonsList.get(i), new updateFragment<Object>()
             {
 
                 @Override
