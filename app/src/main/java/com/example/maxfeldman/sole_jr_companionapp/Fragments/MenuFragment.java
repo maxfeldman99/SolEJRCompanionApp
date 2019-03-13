@@ -38,6 +38,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     RecyclerView.LayoutManager mLayoutManager;
     private LessonAdapter adapter;
     final ArrayList<Lesson> lessonList = new ArrayList<>();
+    boolean isValid = false;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -80,7 +81,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
             @Override
             public void onClick(View view) {
                 String ip = editText.getText().toString();
-                boolean isValid = validateIP(ip);
+                 isValid = validateIP(ip);
                 if(isValid == true){
                     imageVal.setImageResource(R.drawable.ic_done);
                     imageVal.setVisibility(View.VISIBLE);
@@ -96,9 +97,13 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(getContext(), "clicked", Toast.LENGTH_SHORT).show();
 
-        goToLesson(lessonList.get(position));
+        if(isValid){
+            goToLesson(lessonList.get(position));
+        }else{
+            Toast.makeText(getContext(), "Please Enter a Valid IP Address of Destination Unit", Toast.LENGTH_SHORT).show();
+        }
+
 
 
     }
@@ -120,7 +125,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         QuestionFragment questionFragment = new QuestionFragment();
         //Intent intent = new Intent(getContext(),MainActivity.class);
        // startActivity(intent);
-        fragmentManager.beginTransaction().replace(R.id.SplashActivity,questionFragment,"questionFragment").commitNow();
+        fragmentManager.beginTransaction().replace(R.id.SplashActivity,questionFragment,"QuestionFragment").commitNow();
 
         questionFragment.updateData(l);
 

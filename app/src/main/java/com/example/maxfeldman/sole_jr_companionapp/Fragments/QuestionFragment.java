@@ -131,7 +131,11 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         countdownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
             @Override
             public void onEnd(CountdownView cv) {
-                activateScenario(scenarios,++questionCounter);
+                if(checkIndex(questionCounter+1)) {
+                    goBackToMenu();
+                }else{
+                    activateScenario(scenarios, ++questionCounter);
+                }
             }
 
 
@@ -361,7 +365,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         private void goBackToMenu(){
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             MenuFragment menuFragment = new MenuFragment();
-            fragmentManager.beginTransaction().replace(R.id.SplashActivity,menuFragment,"menuFragment");
+            fragmentManager.beginTransaction().replace(R.id.SplashActivity,menuFragment,"menuFragment").commitNow();
 
         }
 
