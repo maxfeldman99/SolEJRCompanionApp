@@ -56,7 +56,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private Button answerButton;
     final public static String IP = "192.168.43.12";
     MainController mainController;
-    private int questionCounter = 1;
+    private int questionCounter = 0;
     private String myAnswer;
     private String correctAnswer;
     private boolean isAnswerTrue;
@@ -288,7 +288,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     }
 
     private boolean checkIndex(int index){
-        return (index>scenarios.length);
+        return (index>=scenarios.length);
     }
 
 

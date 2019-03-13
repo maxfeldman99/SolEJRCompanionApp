@@ -71,6 +71,8 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         lessonsList.add("https://api.myjson.com/bins/mlk5y");
         lessonsList.add("https://api.myjson.com/bins/10vsl6");
         lessonsList.add("https://api.myjson.com/bins/s0ne2");
+        //lessonsList.add("https://api.myjson.com/bins/6abt6");
+        lessonsList.add("https://api.myjson.com/bins/19kxqi");
 
 
         // math https://api.myjson.com/bins/10vsl6
@@ -79,7 +81,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
         NetworkTest networkTest = NetworkTest.INSTANCE;
 
-        for (int i = 0; i <3 ; i++)
+        for (int i = 0; i<lessonsList.size() ; i++)
         {
             networkTest.getLessonFromUrl(lessonsList.get(i), new updateFragment<Object>()
             {
