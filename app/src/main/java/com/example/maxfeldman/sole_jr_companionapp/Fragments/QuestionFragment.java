@@ -52,7 +52,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private Button answerButton;
     final public static String IP = "192.168.43.12";
     MainController mainController;
-    private int questionCounter = 0;
+    private int questionCounter = 3;
     private String myAnswer;
     private String correctAnswer;
     private boolean isAnswerTrue;
@@ -69,7 +69,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     {
         Lesson lesson = (Lesson) data;
         scenarios = lesson.getScenarios();
-        activateScenario(scenarios,3);
+        activateScenario(scenarios,questionCounter);
 
     }
 
@@ -196,15 +196,27 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 if (result.equals(correctAnswer)) {
                     mainController.sendDataToIp(IP, "happy");
                     questionCounter++;
-                    checkIndex(questionCounter);
-                    activateScenario(scenarios,questionCounter );
+                    if(checkIndex(questionCounter))
+                    {
+                        goBackToMenu();
+                    }else
+                    {
+                        activateScenario(scenarios,questionCounter );
+
+                    }
                     //goToNextFragment();
                 } else {
                     mainController.sendDataToIp(IP, "sad");
                     questionCounter++;
-                        checkIndex(questionCounter);
-                     activateScenario(scenarios, questionCounter);
-                    //goToNextFragment();
+                    if(checkIndex(questionCounter))
+                    {
+                        goBackToMenu();
+                    }
+                    else
+                    {
+                        activateScenario(scenarios,questionCounter );
+
+                    }                    //goToNextFragment();
                 }
                 Log.d("TestFrag", result);
             }
@@ -218,15 +230,28 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 if (result.equals(correctAnswer)) {
                     mainController.sendDataToIp(IP, "happy");
                     questionCounter++;
-                    checkIndex(questionCounter);
-                    activateScenario(scenarios, questionCounter);
+                    if(checkIndex(questionCounter))
+                    {
+                        goBackToMenu();
+                    }
+                    else
+                    {
+                        activateScenario(scenarios,questionCounter );
+
+                    }
                     //goToNextFragment();
                 } else {
                     mainController.sendDataToIp(IP, "sad");
                     questionCounter++;
-                    checkIndex(questionCounter);
-                    activateScenario(scenarios, questionCounter);
-                    //goToNextFragment();
+                    if(checkIndex(questionCounter))
+                    {
+                        goBackToMenu();
+                    }
+                    else
+                    {
+                        activateScenario(scenarios,questionCounter );
+
+                    }                    //goToNextFragment();
                 }
 
                 Log.d("TestFrag", result);
@@ -252,10 +277,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
     }
 
-    private void checkIndex(int index){
-        if(index>scenarios.length){
-            goBackToMenu();
-        }
+    private boolean checkIndex(int index){
+        return (index>=scenarios.length);
     }
 
 
@@ -338,7 +361,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         private void goBackToMenu(){
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             MenuFragment menuFragment = new MenuFragment();
-            fragmentManager.beginTransaction().replace(R.id.SplashActivity,menuFragment,"bla");
+            fragmentManager.beginTransaction().replace(R.id.SplashActivity,menuFragment,"menuFragment");
 
         }
 
