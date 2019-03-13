@@ -7,7 +7,7 @@
     app:contentPadding="3dp"
     app:cardCornerRadius="3dp"
     app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="#9EFFE62B"
+    app:cardBackgroundColor="#9E52B8FF"
     >
 
 

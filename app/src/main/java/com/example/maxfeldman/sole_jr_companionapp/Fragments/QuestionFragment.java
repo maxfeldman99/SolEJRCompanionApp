@@ -1,5 +1,6 @@
 package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -41,7 +42,8 @@ import at.lukle.clickableareasimage.OnClickableAreaClickedListener;
 import cn.iwgang.countdownview.CountdownView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class QuestionFragment extends Fragment implements DialogFragmentListener,RobotTTS,OnClickableAreaClickedListener
+public class QuestionFragment extends Fragment implements DialogFragmentListener,RobotTTS,OnClickableAreaClickedListener,
+        updateFragment
 {
     private int QUESTION_TIME = 20;
     private int myTime = 20;
@@ -61,6 +63,15 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
     private TextToSpeech mTTS = null;
 
+
+    @Override
+    public void updateData(Object data)
+    {
+        Lesson lesson = (Lesson) data;
+        scenarios = lesson.getScenarios();
+        activateScenario(scenarios,3);
+
+    }
 
 
     @Override
@@ -150,7 +161,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
 
 
-        getScenariosFromLesson();
+        //getScenariosFromLesson();
 
         return view;
     }
@@ -185,11 +196,13 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 if (result.equals(correctAnswer)) {
                     mainController.sendDataToIp(IP, "happy");
                     questionCounter++;
+                    checkIndex(questionCounter);
                     activateScenario(scenarios,questionCounter );
                     //goToNextFragment();
                 } else {
                     mainController.sendDataToIp(IP, "sad");
                     questionCounter++;
+                        checkIndex(questionCounter);
                      activateScenario(scenarios, questionCounter);
                     //goToNextFragment();
                 }
@@ -205,11 +218,13 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 if (result.equals(correctAnswer)) {
                     mainController.sendDataToIp(IP, "happy");
                     questionCounter++;
+                    checkIndex(questionCounter);
                     activateScenario(scenarios, questionCounter);
                     //goToNextFragment();
                 } else {
                     mainController.sendDataToIp(IP, "sad");
                     questionCounter++;
+                    checkIndex(questionCounter);
                     activateScenario(scenarios, questionCounter);
                     //goToNextFragment();
                 }
@@ -235,6 +250,12 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     @Override
     public void onError(String errorMsg) {
 
+    }
+
+    private void checkIndex(int index){
+        if(index>scenarios.length){
+            goBackToMenu();
+        }
     }
 
 
@@ -275,28 +296,13 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 
-    private void getScenariosFromLesson()
+    private void getScenariosFromLesson(Lesson lesson)
     {
         final Lesson[] lessonFromUrl = new Lesson[1];
         final Scenario[] scenario = new Scenario[0];
 
         NetworkTest networkTest = NetworkTest.INSTANCE;
-        networkTest.getLessonFromUrl(new updateFragment<Object>()
-        {
-            @Override
-            public void updateData(Object data)
-            {
-                Lesson lesson = (Lesson) data;
 
-                //System.out.println(lesson);
-
-                scenarios = lesson.getScenarios();
-
-                activateScenario(scenarios,0);
-
-
-            }
-        });
 
         //MainController.getInstance();
         //Scenario[] scenario = lesson.getScenarios();
@@ -304,7 +310,6 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     }
 
     private String activateScenario(Scenario[] scenario,int i){
-
             Action[] action = scenario[i].getActions();
 
             System.out.println();
@@ -327,6 +332,13 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             Long time = Long.valueOf(action[0].getTimeForAction());
             countdownView.start(time*1000);
             return expectedAnswer;
+
+        }
+
+        private void goBackToMenu(){
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            MenuFragment menuFragment = new MenuFragment();
+            fragmentManager.beginTransaction().replace(R.id.SplashActivity,menuFragment,"bla");
 
         }
 
@@ -376,5 +388,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
 
     }
+
+
 }
 

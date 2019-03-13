@@ -12,7 +12,7 @@ import java.net.URL
 object NetworkTest
 {
 
-    fun getLessonFromUrl(update: updateFragment<Any>)
+    fun getLessonFromUrl(url: String,update: updateFragment<Any>)
     {
 
         GlobalScope.launch(Dispatchers.Default)
@@ -20,7 +20,7 @@ object NetworkTest
             //val lesson1 = MainController.getInstance().getLesson(1)
             try
             {
-                val url = URL("https://api.myjson.com/bins/mlk5y")
+                val url = URL(url)
                 val inputStreamReader = InputStreamReader(url.openStream())
 
                 val gson = Gson()
@@ -41,5 +41,6 @@ object NetworkTest
         }
 
     }
+    //"https://api.myjson.com/bins/mlk5y"
 
 }
