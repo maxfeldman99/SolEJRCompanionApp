@@ -1,7 +1,9 @@
 package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -39,7 +41,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     private LessonAdapter adapter;
     final ArrayList<Lesson> lessonList = new ArrayList<>();
     boolean isValid = false;
-
+    SharedPreferences prefName;
     public MenuFragment() {
         // Required empty public constructor
     }
@@ -56,9 +58,15 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         TextView textView = view.findViewById(R.id.tv_item_1);
         ImageView imageView = view.findViewById(R.id.iv_item_1);
         final ImageView imageVal = view.findViewById(R.id.img_val);
-        final EditText editText = view.findViewById(R.id.ip_et);
+        final EditText ipEditText = view.findViewById(R.id.ip_et);
         Button button = view.findViewById(R.id.validateButton);
         setAdapter(lessonList);
+
+        prefName = getActivity().getSharedPreferences("prefName", Context.MODE_PRIVATE);
+
+        String ipAdress = prefName.getString("ipAddress", "");
+        ipEditText.setText(ipAdress);
+
 
         NetworkTest networkTest = NetworkTest.INSTANCE;
 
@@ -80,11 +88,13 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String ip = editText.getText().toString();
+                String ip = ipEditText.getText().toString();
                  isValid = validateIP(ip);
                 if(isValid == true){
                     imageVal.setImageResource(R.drawable.ic_done);
                     imageVal.setVisibility(View.VISIBLE);
+                    prefName.edit().putString("ipAddress",ip);
+                    prefName.edit().commit();
                 }else{
                     imageVal.setImageResource(R.drawable.ic_error);
                     imageVal.setVisibility(View.VISIBLE);

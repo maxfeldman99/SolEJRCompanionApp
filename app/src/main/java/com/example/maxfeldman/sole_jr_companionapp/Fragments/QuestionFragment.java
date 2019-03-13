@@ -31,6 +31,11 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.mapzen.speakerbox.Speakerbox;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +46,8 @@ import at.lukle.clickableareasimage.ClickableAreasImage;
 import at.lukle.clickableareasimage.OnClickableAreaClickedListener;
 import cn.iwgang.countdownview.CountdownView;
 import uk.co.senab.photoview.PhotoViewAttacher;
+
+import static android.view.View.GONE;
 
 public class QuestionFragment extends Fragment implements DialogFragmentListener,RobotTTS,OnClickableAreaClickedListener,
         updateFragment
@@ -60,6 +67,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private String inputText;
     private Speakerbox speakerbox;
     private CountdownView countdownView;
+
+    private YouTubePlayerView tubePlayerView;
 
     private TextToSpeech mTTS = null;
 
@@ -97,6 +106,20 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         answerButton = view.findViewById(R.id.question_answer_button);
         countdownView = view.findViewById(R.id.question_timer_tv);
         mainController = MainController.getInstance();
+
+        tubePlayerView = view.findViewById(R.id.youtube_player_view);
+
+        tubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener()
+        {
+            @Override
+            public void onReady(@NotNull YouTubePlayer youTubePlayer)
+            {
+                super.onReady(youTubePlayer);
+            }
+
+
+        });
+
         answerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -343,11 +366,24 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
             String effect = action[0].getEffect();
             String text = action[0].getTextOrWav();
+            String type = action[0].getWhatToPlay();
             String expectedAnswer = scenario[i].getWaitFor().getExpectedAnswer().getInput();
             inputText = scenario[i].getWaitFor().getTypeOfInput();
             correctAnswer = expectedAnswer;
-            currentQuestion.setText(text);
-            questionImage.setImageDrawable(null); // to refresh the picture
+
+            if(type.equals("youtube"))
+            {
+                questionImage.setVisibility(GONE);
+                tubePlayerView.setVisibility(View.VISIBLE);
+                tubePlayerView.
+
+            }else
+            {
+                currentQuestion.setText(text);
+                questionImage.setImageDrawable(null); // to refresh the picture
+
+            }
+
             speakerBoxTTS(text);
 
 
