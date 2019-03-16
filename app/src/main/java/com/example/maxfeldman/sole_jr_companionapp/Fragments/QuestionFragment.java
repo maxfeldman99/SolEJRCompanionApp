@@ -316,6 +316,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         mTTS.setPitch(pitch);
         mTTS.speak(speechText,TextToSpeech.QUEUE_FLUSH,null);
 
+
     }
 
     @Override
