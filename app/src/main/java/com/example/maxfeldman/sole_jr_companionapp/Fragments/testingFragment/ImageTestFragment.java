@@ -3,14 +3,13 @@ package com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment;
 
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;

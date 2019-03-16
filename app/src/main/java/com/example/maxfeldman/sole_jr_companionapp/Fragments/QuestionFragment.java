@@ -1,13 +1,10 @@
 package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.Target;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.InputTestFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.RobotTTS;
@@ -31,6 +27,10 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.mapzen.speakerbox.Speakerbox;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -43,8 +43,6 @@ import at.lukle.clickableareasimage.ClickableAreasImage;
 import at.lukle.clickableareasimage.OnClickableAreaClickedListener;
 import cn.iwgang.countdownview.CountdownView;
 import uk.co.senab.photoview.PhotoViewAttacher;
-
-import static android.view.View.GONE;
 
 public class QuestionFragment extends Fragment implements DialogFragmentListener,RobotTTS,OnClickableAreaClickedListener,
         updateFragment
@@ -67,6 +65,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
     private TextToSpeech mTTS = null;
 
+    private YouTubePlayerView youTubePlayerView;
 
     @Override
     public void updateData(Object data)
@@ -101,7 +100,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         answerButton = view.findViewById(R.id.question_answer_button);
         countdownView = view.findViewById(R.id.question_timer_tv);
         mainController = MainController.getInstance();
-
+        youTubePlayerView = view.findViewById(R.id.youtube_player_view);
 
         answerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -346,6 +345,13 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private String activateScenario(Scenario[] scenario,int i){
             Action[] action = scenario[i].getActions();
 
+            youTubePlayerView.getYouTubePlayerWhenReady(new YouTubePlayerCallback() {
+                @Override
+                public void onYouTubePlayer(@NotNull YouTubePlayer youTubePlayer) {
+                    youTubePlayer.pause();
+                }
+            });
+
             System.out.println();
 
             final String effect = action[0].getEffect();
@@ -357,17 +363,52 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             currentQuestion.setText(text);
             questionImage.setImageDrawable(null); // to refresh the picture
 
+            final Long time = Long.valueOf(action[0].getTimeForAction());
+
 
         speakerBoxTTS(text);
 
+        if(type.equals("youtube"))
+        {
+            youTubePlayerView.setVisibility(View.VISIBLE);
+
+            questionImage.setVisibility(View.GONE);
+
+            youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener()
+            {
+                @Override
+                public void onReady(@NotNull YouTubePlayer youTubePlayer)
+                {
+                    youTubePlayer.loadVideo(effect,0);
+                    youTubePlayer.play();
+                }
+
+                @Override
+                public void onCurrentSecond(@NotNull YouTubePlayer youTubePlayer, float duration) {
+                    if (duration > 70)
+                    {
+                        youTubePlayer.pause();
+                        countdownView.start(time*1000);
+                    }
+                }
+            });
+
+
+
+        }else
+        {
+            youTubePlayerView.setVisibility(View.GONE);
+
+            questionImage.setVisibility(View.VISIBLE);
 
             Glide.with(getContext()) // this section is for updating the image
-                .load(effect)
+                    .load(effect)
                     .into(questionImage);
+            countdownView.start(time*1000);
+
+        }
 
             //setUpSpotClick();
-            Long time = Long.valueOf(action[0].getTimeForAction());
-            countdownView.start(time*1000);
             return expectedAnswer;
 
         }

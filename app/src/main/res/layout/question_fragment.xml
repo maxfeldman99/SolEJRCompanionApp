@@ -61,13 +61,21 @@
             >
 
 
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/youtube_player_view"
+                android:layout_width="1000dp"
+                android:layout_height="600dp"
+                app:showFullScreenButton="false"
+                android:visibility="gone"
+                />
+
             <ImageView
                 android:layout_width="1000dp"
                 android:layout_height="600dp"
                 android:src="@drawable/ic_launcher_foreground"
                 android:layout_gravity="center"
                 android:id="@+id/question_image"
-
+                android:visibility="visible"
                 />
 
         </LinearLayout>

@@ -2,13 +2,11 @@ package com.example.maxfeldman.sole_jr_companionapp.Activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.QuestionFragment;
-import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.SpotClickFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
-import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
 

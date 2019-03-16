@@ -2,14 +2,12 @@ package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.maxfeldman.sole_jr_companionapp.Activity.MainActivity;
-import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkTest;
 import com.example.maxfeldman.sole_jr_companionapp.Lesson.LessonAdapter;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
@@ -71,7 +67,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         lessonsList.add("https://api.myjson.com/bins/mlk5y");
         lessonsList.add("https://api.myjson.com/bins/10vsl6");
         lessonsList.add("https://api.myjson.com/bins/s0ne2");
-        //lessonsList.add("https://api.myjson.com/bins/6abt6");
+        lessonsList.add("https://api.myjson.com/bins/pgtwu");
         lessonsList.add("https://api.myjson.com/bins/19kxqi");
 
 

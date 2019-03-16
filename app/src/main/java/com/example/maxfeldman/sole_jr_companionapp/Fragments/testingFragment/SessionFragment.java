@@ -3,7 +3,7 @@ package com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment;
 
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +14,6 @@ import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 /**
