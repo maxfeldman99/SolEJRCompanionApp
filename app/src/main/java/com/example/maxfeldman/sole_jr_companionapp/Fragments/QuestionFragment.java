@@ -381,16 +381,9 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 {
                     youTubePlayer.loadVideo(effect,0);
                     youTubePlayer.play();
+                    countdownView.start(time*1000);
                 }
 
-                @Override
-                public void onCurrentSecond(@NotNull YouTubePlayer youTubePlayer, float duration) {
-                    if (duration > 70)
-                    {
-                        youTubePlayer.pause();
-                        countdownView.start(time*1000);
-                    }
-                }
             });
 
 

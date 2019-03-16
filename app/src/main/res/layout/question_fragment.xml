@@ -67,6 +67,7 @@
                 android:layout_height="600dp"
                 app:showFullScreenButton="false"
                 android:visibility="gone"
+                android:layout_gravity="center"
                 />
 
             <ImageView
