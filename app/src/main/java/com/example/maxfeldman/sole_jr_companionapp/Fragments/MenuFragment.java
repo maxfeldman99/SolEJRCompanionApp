@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -41,7 +43,9 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     private LessonAdapter adapter;
     final ArrayList<Lesson> lessonList = new ArrayList<>();
     boolean isValid = false;
-    SharedPreferences prefName;
+    SharedPreferences.Editor editor;
+
+
     public MenuFragment() {
         // Required empty public constructor
     }
@@ -50,6 +54,12 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Context context = getActivity();
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                "pref", Context.MODE_PRIVATE);
+
+        editor = sharedPref.edit();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
         recyclerView = view.findViewById(R.id.my_recycler_view);
@@ -62,12 +72,11 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         Button button = view.findViewById(R.id.validateButton);
         setAdapter(lessonList);
 
-        prefName = getActivity().getSharedPreferences("prefName", Context.MODE_PRIVATE);
-
-        String ipAdress = prefName.getString("ipAddress", "");
+        sharedPref = context.getSharedPreferences("pref", Context.MODE_PRIVATE);
+        String ipAdress = sharedPref.getString("ip", "");
         ipEditText.setText(ipAdress);
 
-        ArrayList<String> lessonsList = new ArrayList<>();
+        final ArrayList<String> lessonsList = new ArrayList<>();
         lessonsList.add("https://api.myjson.com/bins/mlk5y");
         lessonsList.add("https://api.myjson.com/bins/10vsl6");
         lessonsList.add("https://api.myjson.com/bins/s0ne2");
@@ -104,8 +113,12 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
                 if(isValid == true){
                     imageVal.setImageResource(R.drawable.ic_done);
                     imageVal.setVisibility(View.VISIBLE);
-                    prefName.edit().putString("ipAddress",ip);
-                    prefName.edit().commit();
+
+
+                    editor.putString(ip, "ip");
+                    editor.apply();
+
+
                 }else{
                     imageVal.setImageResource(R.drawable.ic_error);
                     imageVal.setVisibility(View.VISIBLE);
