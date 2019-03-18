@@ -1,8 +1,10 @@
 package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -13,10 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.maxfeldman.sole_jr_companionapp.Activity.MainActivity;
+import com.example.maxfeldman.sole_jr_companionapp.Activity.SplashScreenActivity;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkTest;
 import com.example.maxfeldman.sole_jr_companionapp.Lesson.LessonAdapter;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
@@ -27,6 +32,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.security.AccessController.getContext;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -36,8 +43,10 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     RecyclerView.LayoutManager mLayoutManager;
     private LessonAdapter adapter;
     final ArrayList<Lesson> lessonList = new ArrayList<>();
+    MediaPlayer mediaPlayer;
     boolean isValid = false;
     SharedPreferences prefName;
+    boolean muteFlag = false;
     public MenuFragment() {
         // Required empty public constructor
     }
@@ -57,6 +66,9 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         final EditText ipEditText = view.findViewById(R.id.ip_et);
         Button button = view.findViewById(R.id.validateButton);
         setAdapter(lessonList);
+        playIntroSound();
+        final ImageButton mute = view.findViewById(R.id.unmute_sound_ib);
+
 
         prefName = getActivity().getSharedPreferences("prefName", Context.MODE_PRIVATE);
 
@@ -109,6 +121,25 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
             }
         });
 
+        mute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    if (!muteFlag){
+                        mute.setImageResource(R.drawable.ic_volume_off_black_24dp);
+                        muteFlag = true;
+                        muteSound();
+                    }else{
+
+                        mute.setImageResource(R.drawable.ic_unmute);
+                        muteFlag = false;
+                        unmuteSound();
+                    }
+
+
+            }
+        });
+
+
         return view;
     }
 
@@ -116,6 +147,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     public void onItemClick(View view, int position) {
 
         if(isValid){
+            mediaPlayer.stop();
             goToLesson(lessonList.get(position));
         }else{
             Toast.makeText(getContext(), "Please Enter a Valid IP Address of Destination Unit", Toast.LENGTH_SHORT).show();
@@ -161,4 +193,18 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         }
         return false;
     }
+
+    private void playIntroSound(){
+        mediaPlayer = MediaPlayer.create(getContext(),R.raw.intro);
+        mediaPlayer.start();
+
+    }
+
+    private void muteSound(){
+        mediaPlayer.pause();
+    }
+
+    private void unmuteSound(){
+        mediaPlayer.start();
+}
 }
