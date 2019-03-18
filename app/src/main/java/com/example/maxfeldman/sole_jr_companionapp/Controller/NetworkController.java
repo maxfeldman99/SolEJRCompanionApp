@@ -95,11 +95,11 @@ public class NetworkController
             public void run() {
                 String id = UUID.randomUUID().toString();
                 try {
-                    Socket socket = new Socket(ip,12345);
+                    Socket socket = new Socket(ip,1234);
                     ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
-                    objectOutputStream.writeObject(id);
-
+                    objectOutputStream.writeObject("ack"+id);
+                    System.out.println("ack"+id);
                     ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
                     String inputId = (String) objectInputStream.readObject();
 

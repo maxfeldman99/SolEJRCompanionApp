@@ -6,10 +6,14 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.IOException
 import java.io.InputStreamReader
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 import java.lang.Exception
 import java.net.Socket
 import java.net.URL
+import java.util.*
 
 object KotlinNetworkController
 {
@@ -45,6 +49,38 @@ object KotlinNetworkController
     }
 
 
+    fun validateIp(ip: String, listeners: updateFragment<Any>)
+    {
+        GlobalScope.launch(Dispatchers.Default)
+        {
+            val id = UUID.randomUUID().toString()
+            try {
+                val socket = Socket(ip, 1234)
+                val objectOutputStream = ObjectOutputStream(socket.getOutputStream())
+
+                objectOutputStream.writeObject("ack$id")
+                println("ack$id")
+                val objectInputStream = ObjectInputStream(socket.getInputStream())
+                val inputId = objectInputStream.readObject() as String
+
+                GlobalScope.launch(Dispatchers.Main)
+                {
+                    if (inputId == id) {
+                        listeners.updateData("valid")
+                    } else {
+                        listeners.updateData("invalid")
+                    }
+                }
+
+
+            } catch (e: IOException) {
+                e.printStackTrace()
+            } catch (e: ClassNotFoundException) {
+                e.printStackTrace()
+            }
+        }
+
+    }
 
 
 }

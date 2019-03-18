@@ -49,8 +49,10 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     MainController mainController;
     EditText ipEditText;
 
-    NetworkController networkController;
+    ImageView imageVal;
 
+    NetworkController networkController;
+    KotlinNetworkController kotlinNetworkControllerl;
     public MenuFragment() {
         // Required empty public constructor
     }
@@ -66,7 +68,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         recyclerView.setLayoutManager(mLayoutManager);
         TextView textView = view.findViewById(R.id.tv_item_1);
         ImageView imageView = view.findViewById(R.id.iv_item_1);
-        final ImageView imageVal = view.findViewById(R.id.img_val);
+        imageVal = view.findViewById(R.id.img_val);
          ipEditText = view.findViewById(R.id.ip_et);
         Button button = view.findViewById(R.id.validateButton);
         setAdapter(lessonList);
@@ -75,6 +77,8 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
         mainController = MainController.getInstance();
         networkController = NetworkController.getInstance();
+        kotlinNetworkControllerl = KotlinNetworkController.INSTANCE;
+
         String ip = mainController.getIp();
 
         if(ip != null)
@@ -121,18 +125,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
             @Override
             public void onClick(View view) {
                 String ip = ipEditText.getText().toString();
-                 isValid = validateIP(ip);
-                if(isValid == true)
-                {
-                    imageVal.setImageResource(R.drawable.ic_done);
-                    imageVal.setVisibility(View.VISIBLE);
-                    mainController.setIp(ip);
-
-
-                }else{
-                    imageVal.setImageResource(R.drawable.ic_error);
-                    imageVal.setVisibility(View.VISIBLE);
-                }
+                 validateIP(ip);
             }
         });
 
@@ -168,8 +161,6 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
             Toast.makeText(getContext(), "Please Enter a Valid IP Address of Destination Unit", Toast.LENGTH_SHORT).show();
         }
 
-
-
     }
 
     @Override
@@ -195,7 +186,8 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
     }
 
-    private boolean validateIP(String inputIP){
+    private boolean validateIP(final String inputIP)
+    {
           final Pattern IP_ADDRESS
                 = Pattern.compile(
                 "((25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\.(25[0-5]|2[0-4]"
@@ -203,8 +195,34 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
                         + "[0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}"
                         + "|[1-9][0-9]|[0-9]))");
         Matcher matcher = IP_ADDRESS.matcher(inputIP);
-        if (matcher.matches()) {
-            return true;
+        if (matcher.matches())
+        {
+            kotlinNetworkControllerl.validateIp(inputIP, new updateFragment()
+            {
+                @Override
+                public void updateData(Object data)
+                {
+                    String result = (String) data;
+
+                    if(result.equals("valid"))
+                    {
+                        imageVal.setImageResource(R.drawable.ic_done);
+                        imageVal.setVisibility(View.VISIBLE);
+                        mainController.setIp(inputIP);
+
+                        isValid = true;
+
+                    }else {
+                        imageVal.setImageResource(R.drawable.ic_error);
+                        imageVal.setVisibility(View.VISIBLE);
+
+                        isValid = false;
+                    }
+
+                }
+            });
+
+
         }
         return false;
     }
