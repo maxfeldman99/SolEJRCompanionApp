@@ -1,15 +1,10 @@
 package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.maxfeldman.sole_jr_companionapp.Activity.MainActivity;
-import com.example.maxfeldman.sole_jr_companionapp.Activity.SplashScreenActivity;
-import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkTest;
+import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
+import com.example.maxfeldman.sole_jr_companionapp.Controller.KotlinNetworkController;
+import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.Lesson.LessonAdapter;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
@@ -32,11 +27,15 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static java.security.AccessController.getContext;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * A simple {@link Fragment} subclass.
  */
+
 public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapterListener {
 
     private RecyclerView recyclerView;
@@ -47,6 +46,11 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     boolean isValid = false;
     SharedPreferences prefName;
     boolean muteFlag = false;
+    MainController mainController;
+    EditText ipEditText;
+
+    NetworkController networkController;
+
     public MenuFragment() {
         // Required empty public constructor
     }
@@ -63,16 +67,25 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         TextView textView = view.findViewById(R.id.tv_item_1);
         ImageView imageView = view.findViewById(R.id.iv_item_1);
         final ImageView imageVal = view.findViewById(R.id.img_val);
-        final EditText ipEditText = view.findViewById(R.id.ip_et);
+         ipEditText = view.findViewById(R.id.ip_et);
         Button button = view.findViewById(R.id.validateButton);
         setAdapter(lessonList);
         playIntroSound();
         final ImageButton mute = view.findViewById(R.id.unmute_sound_ib);
 
+        mainController = MainController.getInstance();
+        networkController = NetworkController.getInstance();
+        String ip = mainController.getIp();
+
+        if(ip != null)
+        {
+            ipEditText.setText(ip);
+        }
+
 
         prefName = getActivity().getSharedPreferences("prefName", Context.MODE_PRIVATE);
 
-        String ipAdress = prefName.getString("ipAddress", "");
+        final String ipAdress = prefName.getString("ipAddress", "");
         ipEditText.setText(ipAdress);
 
         ArrayList<String> lessonsList = new ArrayList<>();
@@ -87,7 +100,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         // vehicles https://api.myjson.com/bins/s0ne2
 
 
-        NetworkTest networkTest = NetworkTest.INSTANCE;
+        final KotlinNetworkController networkTest = KotlinNetworkController.INSTANCE;
 
         for (int i = 0; i<lessonsList.size() ; i++)
         {
@@ -109,11 +122,13 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
             public void onClick(View view) {
                 String ip = ipEditText.getText().toString();
                  isValid = validateIP(ip);
-                if(isValid == true){
+                if(isValid == true)
+                {
                     imageVal.setImageResource(R.drawable.ic_done);
                     imageVal.setVisibility(View.VISIBLE);
-                    prefName.edit().putString("ipAddress",ip);
-                    prefName.edit().commit();
+                    mainController.setIp(ip);
+
+
                 }else{
                     imageVal.setImageResource(R.drawable.ic_error);
                     imageVal.setVisibility(View.VISIBLE);
@@ -207,4 +222,17 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     private void unmuteSound(){
         mediaPlayer.start();
 }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        String ip = mainController.getIp();
+
+        if(ip != null)
+        {
+            ipEditText.setText(ip);
+        }
+    }
 }

@@ -8,9 +8,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.InputStreamReader
 import java.lang.Exception
+import java.net.Socket
 import java.net.URL
 
-object NetworkTest
+object KotlinNetworkController
 {
 
     fun getLessonFromUrl(url: String,update: updateFragment<Any>)
@@ -42,6 +43,8 @@ object NetworkTest
         }
 
     }
-    //"https://api.myjson.com/bins/mlk5y"
+
+
+
 
 }

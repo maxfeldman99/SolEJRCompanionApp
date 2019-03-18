@@ -15,6 +15,7 @@ import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
+import java.util.UUID;
 
 public class NetworkController
 {
@@ -85,6 +86,41 @@ public class NetworkController
 
         netWorkThread.start();
 
+    }
+
+    public void validateIp(final String ip, final updateFragment listeners)
+    {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String id = UUID.randomUUID().toString();
+                try {
+                    Socket socket = new Socket(ip,12345);
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
+                    objectOutputStream.writeObject(id);
+
+                    ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                    String inputId = (String) objectInputStream.readObject();
+
+                    if(inputId.equals(id))
+                    {
+                        listeners.updateData("valid");
+                    }else
+                    {
+                        listeners.updateData("invalid");
+                    }
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
     }
 
     public void closeSocket()
@@ -184,5 +220,7 @@ public class NetworkController
         thread.start();
 
     }
+
+
 
 }

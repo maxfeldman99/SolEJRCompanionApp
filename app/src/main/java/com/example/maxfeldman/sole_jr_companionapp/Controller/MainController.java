@@ -7,6 +7,8 @@ public class MainController
 {
     private static final MainController ourInstance = new MainController();
 
+    public String ip = null;
+
     NetworkController networkController;
 
     LessonController lessonController;
@@ -26,6 +28,14 @@ public class MainController
     }
 
 
+    public void setIp(String ip)
+    {
+        this.ip = ip;
+    }
+    public String getIp()
+    {
+        return this.ip;
+    }
 
     public Lesson getLesson(int lessonId)
     {

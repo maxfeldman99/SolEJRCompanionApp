@@ -3,8 +3,6 @@ package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +14,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
+import com.example.maxfeldman.sole_jr_companionapp.Controller.KotlinNetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.InputTestFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.RobotTTS;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.SpeechRecognitionFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Action;
 import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
-import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkTest;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
@@ -38,6 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import at.lukle.clickableareasimage.ClickableArea;
 import at.lukle.clickableareasimage.ClickableAreasImage;
 import at.lukle.clickableareasimage.OnClickableAreaClickedListener;
@@ -148,7 +148,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         countdownView.setOnCountdownIntervalListener(1000, new CountdownView.OnCountdownIntervalListener() {
             @Override
             public void onInterval(CountdownView cv, long remainTime) {
-                if(cv.getSecond()==10){
+                if(cv.getRemainTime() < 10000 &&cv.getRemainTime() > 9000 )
+                {
                     speakerBoxTTS("Hurry up! time is running up!");
                 }
             }
@@ -334,7 +335,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         final Lesson[] lessonFromUrl = new Lesson[1];
         final Scenario[] scenario = new Scenario[0];
 
-        NetworkTest networkTest = NetworkTest.INSTANCE;
+        KotlinNetworkController networkTest = KotlinNetworkController.INSTANCE;
 
 
         //MainController.getInstance();
