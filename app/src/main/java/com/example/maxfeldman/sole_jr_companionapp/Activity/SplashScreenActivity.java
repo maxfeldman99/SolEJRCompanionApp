@@ -18,4 +18,11 @@ public class SplashScreenActivity extends AppCompatActivity {
                 //,new SpotClickFragment(),"SpotClickFragment") // just to test the spot click fragment
                 .commitNow();
     }
+
+
+    @Override
+    public void onBackPressed()
+    {
+        //Do Nothing
+    }
 }

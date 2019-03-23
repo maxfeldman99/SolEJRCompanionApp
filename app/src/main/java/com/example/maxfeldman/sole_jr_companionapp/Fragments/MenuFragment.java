@@ -93,15 +93,11 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         ipEditText.setText(ipAdress);
 
         ArrayList<String> lessonsList = new ArrayList<>();
-        lessonsList.add("https://api.myjson.com/bins/mlk5y");
+        lessonsList.add("https://api.myjson.com/bins/zrvxq");
         lessonsList.add("https://api.myjson.com/bins/10vsl6");
         lessonsList.add("https://api.myjson.com/bins/s0ne2");
         lessonsList.add("https://api.myjson.com/bins/pgtwu");
         lessonsList.add("https://api.myjson.com/bins/19kxqi");
-
-
-        // math https://api.myjson.com/bins/10vsl6
-        // vehicles https://api.myjson.com/bins/s0ne2
 
 
         final KotlinNetworkController networkTest = KotlinNetworkController.INSTANCE;
@@ -125,7 +121,13 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
             @Override
             public void onClick(View view) {
                 String ip = ipEditText.getText().toString();
-                 validateIP(ip);
+
+                if(!ip.equals(mainController.ip))
+                {
+                    validateIP(ip);
+                }
+
+
             }
         });
 
@@ -154,7 +156,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     @Override
     public void onItemClick(View view, int position) {
 
-        if(isValid){
+        if(mainController.ipValidated){
             mediaPlayer.stop();
             goToLesson(lessonList.get(position));
         }else{
@@ -209,13 +211,13 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
                         imageVal.setImageResource(R.drawable.ic_done);
                         imageVal.setVisibility(View.VISIBLE);
                         mainController.setIp(inputIP);
-
+                        mainController.ipValidated = true;
                         isValid = true;
 
                     }else {
                         imageVal.setImageResource(R.drawable.ic_error);
                         imageVal.setVisibility(View.VISIBLE);
-
+                        mainController.ipValidated = false;
                         isValid = false;
                     }
 
@@ -229,7 +231,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
     private void playIntroSound(){
         mediaPlayer = MediaPlayer.create(getContext(),R.raw.intro);
-        mediaPlayer.start();
+        //mediaPlayer.start();
 
     }
 
@@ -251,6 +253,13 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         if(ip != null)
         {
             ipEditText.setText(ip);
+        }
+
+        if(mainController.ipValidated)
+        {
+            imageVal.setImageResource(R.drawable.ic_done);
+            imageVal.setVisibility(View.VISIBLE);
+
         }
     }
 }

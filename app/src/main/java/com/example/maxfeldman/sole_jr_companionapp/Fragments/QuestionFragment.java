@@ -52,7 +52,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private TextView currentQuestion;
     private ImageView questionImage;
     private Button answerButton;
-    final public static String IP = "192.168.43.12";
+    public static String IP = "192.168.43.12";
     MainController mainController;
     private int questionCounter = 0;
     private String myAnswer;
@@ -66,6 +66,9 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private TextToSpeech mTTS = null;
 
     private YouTubePlayerView youTubePlayerView;
+
+    LottieAnimation lottieAnimation;
+
 
     @Override
     public void updateData(Object data)
@@ -87,6 +90,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setOrientationLandscape();
+
+        IP = MainController.getInstance().ip;
 
     }
 
@@ -211,7 +216,18 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                         goBackToMenu();
                     }else
                     {
-                        activateScenario(scenarios,questionCounter );
+                        lottieAnimation = new LottieAnimation();
+                        lottieAnimation.setListener(new updateFragment() {
+                            @Override
+                            public void updateData(Object data)
+                            {
+                                activateScenario(scenarios,questionCounter );
+
+                            }
+                        });
+
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        lottieAnimation.show(fragmentManager,"lottie");
 
                     }
                     //goToNextFragment();
@@ -224,7 +240,18 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                     }
                     else
                     {
-                        activateScenario(scenarios,questionCounter );
+                        lottieAnimation = new LottieAnimation();
+                        lottieAnimation.setListener(new updateFragment() {
+                            @Override
+                            public void updateData(Object data)
+                            {
+                                activateScenario(scenarios,questionCounter );
+
+                            }
+                        });
+
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        lottieAnimation.show(fragmentManager,"lottie");
 
                     }                    //goToNextFragment();
                 }
@@ -246,7 +273,18 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                     }
                     else
                     {
-                        activateScenario(scenarios,questionCounter );
+                        lottieAnimation = new LottieAnimation();
+                        lottieAnimation.setListener(new updateFragment() {
+                            @Override
+                            public void updateData(Object data)
+                            {
+                                activateScenario(scenarios,questionCounter );
+
+                            }
+                        });
+
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        lottieAnimation.show(fragmentManager,"lottie");
 
                     }
                     //goToNextFragment();
@@ -259,7 +297,18 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                     }
                     else
                     {
-                        activateScenario(scenarios,questionCounter );
+                        lottieAnimation = new LottieAnimation();
+                        lottieAnimation.setListener(new updateFragment() {
+                            @Override
+                            public void updateData(Object data)
+                            {
+                                activateScenario(scenarios,questionCounter );
+
+                            }
+                        });
+
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        lottieAnimation.show(fragmentManager,"lottie");
 
                     }                    //goToNextFragment();
                 }

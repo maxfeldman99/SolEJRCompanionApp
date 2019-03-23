@@ -29,6 +29,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,SplashScreenActivity.class); ////////////////////////////////////////////////////////////////////
         startActivity(intent);
 
-
     }
+
 }

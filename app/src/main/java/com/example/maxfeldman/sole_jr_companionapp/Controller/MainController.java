@@ -8,6 +8,7 @@ public class MainController
     private static final MainController ourInstance = new MainController();
 
     public String ip = null;
+    public boolean ipValidated = false;
 
     NetworkController networkController;
 
@@ -20,6 +21,16 @@ public class MainController
     private MainController() {
         networkController = NetworkController.getInstance();
         lessonController = LessonController.getInstance();
+    }
+
+    public void setIpValidated(boolean validated)
+    {
+        this.ipValidated = validated;
+    }
+
+    public boolean isIpValidated()
+    {
+        return this.ipValidated;
     }
 
     public void sendDataToIp(String ip, String data)
