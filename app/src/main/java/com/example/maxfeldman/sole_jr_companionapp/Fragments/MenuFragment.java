@@ -106,7 +106,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         lessonsList.add("https://api.myjson.com/bins/pgtwu");
         lessonsList.add("https://api.myjson.com/bins/19kxqi");
 
-        fireBase = new FireBase();
+        fireBase = FireBase.getInstance();
 
 
         final KotlinNetworkController networkTest = KotlinNetworkController.INSTANCE;

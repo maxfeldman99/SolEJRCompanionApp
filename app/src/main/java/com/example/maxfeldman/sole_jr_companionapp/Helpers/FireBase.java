@@ -1,5 +1,6 @@
 package com.example.maxfeldman.sole_jr_companionapp.Helpers;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
@@ -15,13 +16,40 @@ import androidx.annotation.NonNull;
 public class FireBase {
 
 
-    public static FirebaseFirestore db=FirebaseFirestore.getInstance();
+    public FirebaseFirestore db;
+    private static FireBase ourInstance = null;
 
+    private Context context;
 
     private Lesson lesson;
 
+    public static FireBase getInstance()
+    {
+        if (ourInstance == null)
+        {
+            ourInstance = new FireBase();
+        }
+
+        return ourInstance;
+    }
+
+    private FireBase()
+    {
+    }
+
+    public void iniFirebase()
+    {
+       // FirebaseApp.initializeApp(context);
+        db = FirebaseFirestore.getInstance();
+    }
+
+    public void setContext(Context context)
+    {
+        this.context = context;
+    }
 
     public void addLesson(Lesson lesson,String id){
+
 
 
         db.collection("sole_jr_comp_app_lessons").document(id)
