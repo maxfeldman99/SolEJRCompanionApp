@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "348793288479",
+    "firebase_url": "https://solejr-comp-app.firebaseio.com",
+    "project_id": "solejr-comp-app",
+    "storage_bucket": "solejr-comp-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348793288479:android:a48871de226c3d41",
+        "android_client_info": {
+          "package_name": "com.example.maxfeldman.sole_jr_companionapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348793288479-cq3vcv62cqin555f3q01njggbplu5ihi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.maxfeldman.sole_jr_companionapp",
+            "certificate_hash": "50f258f4f69c66a0be6336955316406620f5286a"
+          }
+        },
+        {
+          "client_id": "348793288479-pkrfq0uv1ks61iqaitu8gs6185vef025.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC90ZSyA-QDvdoYHjCSwCXGtaItm_of2dM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "348793288479-pkrfq0uv1ks61iqaitu8gs6185vef025.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
