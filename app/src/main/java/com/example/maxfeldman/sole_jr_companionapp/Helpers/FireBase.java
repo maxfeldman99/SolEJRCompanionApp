@@ -145,5 +145,27 @@ public class FireBase {
 
     }
 
+    public void getScenario(final String scenarioName, final DataListener listener){
+
+        CollectionReference docRef = db.collection("Scenario");
+        docRef.whereEqualTo("id", scenarioName).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots.isEmpty()) {
+
+                } else {
+                    List<Scenario> scenarios = queryDocumentSnapshots.toObjects(Scenario.class);
+                    for (int i = 0; i < scenarios.size(); i++) {
+                        Scenario scenario = scenarios.get(i);
+                        if (scenario.getId() == Integer.valueOf(scenarioName)) {
+                            listener.onDataLoad(scenario);
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+
 
 }
