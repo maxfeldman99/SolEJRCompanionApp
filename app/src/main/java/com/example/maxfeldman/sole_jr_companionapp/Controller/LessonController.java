@@ -41,7 +41,7 @@ public class LessonController {
         animalLesson.setTitle("Animals Lesson");
 
         String[] goals = {"Teach animals", "Teach english", "Teach colors"};
-        animalLesson.setGoals(goals);
+        //animalLesson.setGoals(goals);
 
 
         //Start of scenario1
@@ -59,7 +59,7 @@ public class LessonController {
         action1.setTimeForAction("30");
         actions1[0] = action1;
 
-        scenario1.setActions(actions1);
+        //scenario1.setActions(actions1);
 
         OnFailure failure1 = new OnFailure();
 
@@ -115,7 +115,7 @@ public class LessonController {
         actions2[0] = action2;
 
 
-        scenario2.setActions(actions2);
+       // scenario2.setActions(actions2);
 
         OnFailure failure2 = new OnFailure();
 
@@ -172,7 +172,7 @@ public class LessonController {
         actions3[0] = action3;
 
 
-        scenario3.setActions(actions3);
+       // scenario3.setActions(actions3);
 
         OnFailure failure3 = new OnFailure();
 
@@ -229,7 +229,7 @@ public class LessonController {
         actions4[0] = action4;
 
 
-        scenario4.setActions(actions4);
+       // scenario4.setActions(actions4);
 
         OnFailure failure4 = new OnFailure();
 
@@ -284,7 +284,7 @@ public class LessonController {
         actions5[0] = action5;
 
 
-        scenario5.setActions(actions4);
+        //scenario5.setActions(actions4);
 
         OnFailure failure5 = new OnFailure();
 
@@ -338,7 +338,7 @@ public class LessonController {
 
         scenarios[4] = scenario5;
 
-        animalLesson.setScenarios(scenarios);
+        //animalLesson.setScenarios(scenarios);
 
         return animalLesson;
     }

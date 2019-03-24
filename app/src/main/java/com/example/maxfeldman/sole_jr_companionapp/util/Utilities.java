@@ -4,7 +4,7 @@ import com.example.maxfeldman.sole_jr_companionapp.Helpers.FireBase;
 
 public class Utilities {
 
-    private FireBase fireBase;
+    //private FireBase fireBase;
 
     private static Utilities ourInstance = null;
     public static Utilities getInstance() {
@@ -15,7 +15,7 @@ public class Utilities {
         return ourInstance;
     }
     private Utilities() {
-      fireBase = FireBase.getInstance();
+     // fireBase = FireBase.getInstance();
     }
 
 

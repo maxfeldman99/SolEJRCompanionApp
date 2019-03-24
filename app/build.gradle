@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
@@ -61,10 +62,15 @@ dependencies {
     //Lottie
     implementation "com.airbnb.android:lottie:3.0.0"
 
+    implementation 'com.google.firebase:firebase-core:16.0.8'
+
     implementation 'com.google.firebase:firebase-firestore:18.0.1' //firestore
 
 
 }
+
+apply plugin: 'com.google.gms.google-services'
+
 repositories {
     maven { url "https://jitpack.io" }
     mavenCentral()

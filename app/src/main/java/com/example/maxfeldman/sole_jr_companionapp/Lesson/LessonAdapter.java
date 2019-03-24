@@ -46,7 +46,7 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.MyViewHold
 
         //holder.imageView.setImageBitmap(userList.get(position).getPhoto());
         holder.nameTv.setText(lessonList.get(position).getTitle()+"");
-        holder.amountTv.setText(lessonList.get(position).getGoals()[0]);
+        holder.amountTv.setText(lessonList.get(position).getGoals().get(0));
 
     }
 

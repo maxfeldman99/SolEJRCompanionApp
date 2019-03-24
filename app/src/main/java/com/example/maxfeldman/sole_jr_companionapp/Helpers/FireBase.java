@@ -2,10 +2,14 @@ package com.example.maxfeldman.sole_jr_companionapp.Helpers;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
+import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -35,12 +39,13 @@ public class FireBase {
 
     private FireBase()
     {
+//        db = FirebaseFirestore.getInstance();
     }
 
     public void iniFirebase()
     {
        // FirebaseApp.initializeApp(context);
-        db = FirebaseFirestore.getInstance();
+
     }
 
     public void setContext(Context context)
@@ -51,6 +56,9 @@ public class FireBase {
     public void addLesson(Lesson lesson,String id){
 
 
+        FirebaseApp.initializeApp(context);
+
+        db = FirebaseFirestore.getInstance();
 
         db.collection("sole_jr_comp_app_lessons").document(id)
                 .set(lesson)
@@ -84,6 +92,31 @@ public class FireBase {
     }
 
 
+    public void addScenario(Scenario scenario)
+    {
+        //FirebaseApp.initializeApp(context);
+
+        db = FirebaseFirestore.getInstance();
+
+        db.collection("Scenarios")
+                .add(scenario)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task)
+                    {
+                        if(task.isSuccessful())
+                        {
+                            Toast.makeText(context,"Scenario Added",Toast.LENGTH_SHORT).show();
+                        }else
+                        {
+                            Toast.makeText(context,"Scenario Failed",Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    }
+                });
+    }
 
 
 }

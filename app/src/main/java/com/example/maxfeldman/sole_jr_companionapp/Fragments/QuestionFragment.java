@@ -58,7 +58,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private String myAnswer;
     private String correctAnswer;
     private boolean isAnswerTrue;
-    private Scenario[] scenarios;
+    private List<Scenario> scenarios;
     private String inputText;
     private Speakerbox speakerbox;
     private CountdownView countdownView;
@@ -75,7 +75,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     {
         Lesson lesson = (Lesson) data;
         scenarios = lesson.getScenarios();
-        activateScenario(scenarios,questionCounter);
+        activateScenario((Scenario[]) scenarios.toArray(),questionCounter);
 
     }
 
@@ -144,7 +144,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 if(checkIndex(questionCounter+1)) {
                     goBackToMenu();
                 }else{
-                    activateScenario(scenarios, ++questionCounter);
+                    activateScenario((Scenario[]) scenarios.toArray(), ++questionCounter);
                 }
             }
 
@@ -221,7 +221,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                             @Override
                             public void updateData(Object data)
                             {
-                                activateScenario(scenarios,questionCounter );
+                                activateScenario((Scenario[]) scenarios.toArray(),questionCounter );
 
                             }
                         });
@@ -245,7 +245,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                             @Override
                             public void updateData(Object data)
                             {
-                                activateScenario(scenarios,questionCounter );
+                                activateScenario((Scenario[]) scenarios.toArray(),questionCounter );
 
                             }
                         });
@@ -278,7 +278,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                             @Override
                             public void updateData(Object data)
                             {
-                                activateScenario(scenarios,questionCounter );
+                                activateScenario((Scenario[]) scenarios.toArray(),questionCounter );
 
                             }
                         });
@@ -302,7 +302,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                             @Override
                             public void updateData(Object data)
                             {
-                                activateScenario(scenarios,questionCounter );
+                                activateScenario((Scenario[]) scenarios.toArray(),questionCounter );
 
                             }
                         });
@@ -337,7 +337,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     }
 
     private boolean checkIndex(int index){
-        return (index>=scenarios.length);
+        return (index>=scenarios.size());
     }
 
 
@@ -393,7 +393,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     }
 
     private String activateScenario(Scenario[] scenario,int i){
-            Action[] action = scenario[i].getActions();
+            Action[] action = (Action[]) scenario[i].getActions().toArray();
 
             youTubePlayerView.getYouTubePlayerWhenReady(new YouTubePlayerCallback() {
                 @Override
