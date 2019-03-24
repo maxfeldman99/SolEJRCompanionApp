@@ -4,12 +4,14 @@ import android.os.Bundle;
 
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.MenuFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
+import com.google.firebase.FirebaseApp;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_splash_screen);
 
         getSupportFragmentManager().beginTransaction()

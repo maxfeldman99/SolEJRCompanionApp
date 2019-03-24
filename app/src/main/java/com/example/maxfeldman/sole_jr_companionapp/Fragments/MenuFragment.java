@@ -18,10 +18,12 @@ import android.widget.Toast;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.KotlinNetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
+import com.example.maxfeldman.sole_jr_companionapp.Helpers.FireBase;
 import com.example.maxfeldman.sole_jr_companionapp.Lesson.LessonAdapter;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
+import com.example.maxfeldman.sole_jr_companionapp.util.Utilities;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -48,13 +50,14 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     boolean muteFlag = true;
     MainController mainController;
     EditText ipEditText;
-
     ImageView imageVal;
 
     NetworkController networkController;
     KotlinNetworkController kotlinNetworkControllerl;
+    Utilities utilities;
+    FireBase fireBase;
     public MenuFragment() {
-        // Required empty public constructor
+
     }
 
 
@@ -79,6 +82,9 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         mainController = MainController.getInstance();
         networkController = NetworkController.getInstance();
         kotlinNetworkControllerl = KotlinNetworkController.INSTANCE;
+        utilities = Utilities.getInstance();
+
+
 
         String ip = mainController.getIp();
 
@@ -100,6 +106,8 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         lessonsList.add("https://api.myjson.com/bins/pgtwu");
         lessonsList.add("https://api.myjson.com/bins/19kxqi");
 
+        fireBase = new FireBase();
+
 
         final KotlinNetworkController networkTest = KotlinNetworkController.INSTANCE;
 
@@ -114,6 +122,9 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
                     Lesson lesson = (Lesson) data;
                     lessonList.add(lesson);
                     adapter.notifyDataSetChanged();
+
+                    fireBase.addLesson(lesson,lesson.getTitle());
+
                 }
             });
         }

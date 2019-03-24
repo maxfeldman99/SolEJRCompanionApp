@@ -1,5 +1,7 @@
 package com.example.maxfeldman.sole_jr_companionapp.Models;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.util.Arrays;
 
 public class Lesson
@@ -8,7 +10,9 @@ public class Lesson
     private String title;
     private String badge;
     private String category;
+    @Exclude
     private String[] goals;
+    @Exclude
     private Scenario[] scenarios;
 
     public Lesson(){}
@@ -54,18 +58,21 @@ public class Lesson
         this.category = category;
     }
 
+    @Exclude
     public String[] getGoals() {
         return goals;
     }
-
+    @Exclude
     public void setGoals(String[] goals) {
         this.goals = goals;
     }
 
+    @Exclude
     public Scenario[] getScenarios() {
         return scenarios;
     }
 
+    @Exclude
     public void setScenarios(Scenario[] scenarios) {
         this.scenarios = scenarios;
     }
