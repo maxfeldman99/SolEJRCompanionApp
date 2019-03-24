@@ -45,7 +45,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     MediaPlayer mediaPlayer;
     boolean isValid = false;
     SharedPreferences prefName;
-    boolean muteFlag = false;
+    boolean muteFlag = true;
     MainController mainController;
     EditText ipEditText;
 
@@ -74,6 +74,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         setAdapter(lessonList);
         playIntroSound();
         final ImageButton mute = view.findViewById(R.id.unmute_sound_ib);
+        mute.setImageResource(R.drawable.ic_volume_off_black_24dp);
 
         mainController = MainController.getInstance();
         networkController = NetworkController.getInstance();
