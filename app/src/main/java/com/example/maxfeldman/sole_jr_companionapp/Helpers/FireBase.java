@@ -150,12 +150,13 @@ public class FireBase {
 
         db = FirebaseFirestore.getInstance();
 
-        CollectionReference docRef = db.collection("Scenario");
-        docRef.whereEqualTo("id", scenarioName).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        CollectionReference docRef = db.collection("Scenarios");
+        docRef.whereEqualTo("id", Integer.parseInt(scenarioName)).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (queryDocumentSnapshots.isEmpty()) {
-
+                if (queryDocumentSnapshots.isEmpty())
+                {
+                    Log.d("TAG", "Scenario not found");
                 } else {
                     List<Scenario> scenarios = queryDocumentSnapshots.toObjects(Scenario.class);
                     for (int i = 0; i < scenarios.size(); i++) {

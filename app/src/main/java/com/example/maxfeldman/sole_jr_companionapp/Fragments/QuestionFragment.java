@@ -159,7 +159,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 if(checkIndex(questionCounter+1)) {
                     goBackToMenu();
                 }else{
-                    answersCounter--;
+                    answersCounter-=10;
                     triesLeft.setText("Tries left: " + answersCounter);
                     if(answersCounter > 0)
                     {
@@ -252,6 +252,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 lottieAnimation.dismiss();
                 Scenario nextScenario = (Scenario) o;
 
+                Log.d("onDataLoad",nextScenario.toString());
+
                 startScenario(nextScenario,false);
             }
         });
@@ -272,7 +274,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
         }else
         {
-            answersCounter--;
+            answersCounter-=10;
             triesLeft.setText("Tries left: " + answersCounter);
             if(answersCounter > 0)
             {

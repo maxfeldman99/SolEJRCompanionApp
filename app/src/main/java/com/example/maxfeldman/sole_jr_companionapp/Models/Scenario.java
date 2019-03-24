@@ -71,4 +71,16 @@ public class Scenario
     public void setWaitFor(WaitFor waitFor) {
         this.waitFor = waitFor;
     }
+
+    @Override
+    public String toString() {
+        return "Scenario{" +
+                "id=" + id +
+                ", actions=" + actions +
+                ", level='" + level + '\'' +
+                ", onfailure=" + onfailure +
+                ", onSuccess=" + onSuccess +
+                ", waitFor=" + waitFor +
+                '}';
+    }
 }
