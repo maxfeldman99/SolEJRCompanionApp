@@ -62,6 +62,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private String inputText;
     private Speakerbox speakerbox;
     private CountdownView countdownView;
+    private TextView triesLeft;
 
     private TextToSpeech mTTS = null;
 
@@ -106,6 +107,9 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         countdownView = view.findViewById(R.id.question_timer_tv);
         mainController = MainController.getInstance();
         youTubePlayerView = view.findViewById(R.id.youtube_player_view);
+        triesLeft = view.findViewById(R.id.tries_tv);
+
+
 
         answerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -511,6 +515,16 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
 
     }
+
+    private void onFailure(){
+
+    }
+
+    private void onSuccess(){
+
+    }
+
+
 
 
 }
