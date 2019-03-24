@@ -18,6 +18,8 @@ import com.example.maxfeldman.sole_jr_companionapp.Controller.KotlinNetworkContr
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.InputTestFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.RobotTTS;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.SpeechRecognitionFragment;
+import com.example.maxfeldman.sole_jr_companionapp.Helpers.DataListener;
+import com.example.maxfeldman.sole_jr_companionapp.Helpers.FireBase;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Action;
 import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
@@ -70,6 +72,12 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
     LottieAnimation lottieAnimation;
 
+    FireBase fireBase;
+
+    Scenario currentScenario;
+
+    int answersCounter;
+
 
 
     @Override
@@ -78,8 +86,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         Lesson lesson = (Lesson) data;
         scenarios = lesson.getScenarios();
         Log.d("TAG", lesson.getTitle());
-       // activateScenario((Scenario[]) scenarios.toArray(),questionCounter);
-
+       //activateScenario((Scenario[]) scenarios.toArray(),questionCounter);
+        startScenario(lesson.getScenarios().get(0),false);
     }
 
 
@@ -112,6 +120,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         triesLeft = view.findViewById(R.id.tries_tv);
 
 
+        fireBase = FireBase.getInstance();
 
         answerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,7 +159,19 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 if(checkIndex(questionCounter+1)) {
                     goBackToMenu();
                 }else{
-                    activateScenario((Scenario[]) scenarios.toArray(), ++questionCounter);
+                    answersCounter--;
+                    triesLeft.setText("Tries left: " + answersCounter);
+                    if(answersCounter > 0)
+                    {
+                        startScenario(currentScenario,true);
+                    }else
+                    {
+                        startNextScenario(currentScenario.getOnfailure().getNextScenarioID());
+                    }
+
+                    mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
+                    mainController.sendDataToIp(IP, "sad");
+
                 }
             }
 
@@ -208,123 +229,182 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 //        }.start();
 //    }
 
+
+    private void startNextScenario(String nextScenario)
+    {
+        final LottieAnimation lottieAnimation = new LottieAnimation();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        lottieAnimation.setListener(new updateFragment() {
+            @Override
+            public void updateData(Object data) {
+
+            }
+        });
+        lottieAnimation.show(fragmentManager,"lottie");
+
+        String nextScenarioID = currentScenario.getOnSuccess().getNextScenarioID();
+
+        fireBase.getScenario(nextScenarioID, new DataListener()
+        {
+            @Override
+            public void onDataLoad(Object o)
+            {
+                lottieAnimation.dismiss();
+                Scenario nextScenario = (Scenario) o;
+
+                startScenario(nextScenario,false);
+            }
+        });
+
+
+    }
+
     @Override
-    public void onComplete(Object o, String sender) {
-        switch (sender) {
-            case "speech": {
-                String result = (String) o;
+    public void onComplete(Object o, String sender)
+    {
+        String result = (String) o;
 
-                if (result.equals(correctAnswer)) {
-                    mainController.sendDataToIp(IP, "happy");
-                    questionCounter++;
-                    if(checkIndex(questionCounter))
-                    {
-                        goBackToMenu();
-                    }else
-                    {
-                        lottieAnimation = new LottieAnimation();
-                        lottieAnimation.setListener(new updateFragment() {
-                            @Override
-                            public void updateData(Object data)
-                            {
-                                activateScenario((Scenario[]) scenarios.toArray(),questionCounter );
+        if(correctAnswer.equals(result))
+        {
+            startNextScenario(currentScenario.getOnSuccess().getNextScenarioID());
+            mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
+            mainController.sendDataToIp(IP, "happy");
 
-                            }
-                        });
-
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        lottieAnimation.show(fragmentManager,"lottie");
-
-                    }
-                    //goToNextFragment();
-                } else {
-                    mainController.sendDataToIp(IP, "sad");
-                    questionCounter++;
-                    if(checkIndex(questionCounter))
-                    {
-                        goBackToMenu();
-                    }
-                    else
-                    {
-                        lottieAnimation = new LottieAnimation();
-                        lottieAnimation.setListener(new updateFragment() {
-                            @Override
-                            public void updateData(Object data)
-                            {
-                                activateScenario((Scenario[]) scenarios.toArray(),questionCounter );
-
-                            }
-                        });
-
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        lottieAnimation.show(fragmentManager,"lottie");
-
-                    }                    //goToNextFragment();
-                }
-                Log.d("TestFrag", result);
+        }else
+        {
+            answersCounter--;
+            triesLeft.setText("Tries left: " + answersCounter);
+            if(answersCounter > 0)
+            {
+                startScenario(currentScenario,true);
+            }else
+            {
+                startNextScenario(currentScenario.getOnfailure().getNextScenarioID());
             }
 
-
-            break;
-
-            case "input": {
-                String result = (String) o;
-
-                if (result.equals(correctAnswer)) {
-                    mainController.sendDataToIp(IP, "happy");
-                    questionCounter++;
-                    if(checkIndex(questionCounter))
-                    {
-                        goBackToMenu();
-                    }
-                    else
-                    {
-                        lottieAnimation = new LottieAnimation();
-                        lottieAnimation.setListener(new updateFragment() {
-                            @Override
-                            public void updateData(Object data)
-                            {
-                                activateScenario((Scenario[]) scenarios.toArray(),questionCounter );
-
-                            }
-                        });
-
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        lottieAnimation.show(fragmentManager,"lottie");
-
-                    }
-                    //goToNextFragment();
-                } else {
-                    mainController.sendDataToIp(IP, "sad");
-                    questionCounter++;
-                    if(checkIndex(questionCounter))
-                    {
-                        goBackToMenu();
-                    }
-                    else
-                    {
-                        lottieAnimation = new LottieAnimation();
-                        lottieAnimation.setListener(new updateFragment() {
-                            @Override
-                            public void updateData(Object data)
-                            {
-                                activateScenario((Scenario[]) scenarios.toArray(),questionCounter );
-
-                            }
-                        });
-
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        lottieAnimation.show(fragmentManager,"lottie");
-
-                    }                    //goToNextFragment();
-                }
-
-                Log.d("TestFrag", result);
-
-                break;
-
-            }
+            mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
+            mainController.sendDataToIp(IP, "sad");
         }
+
+//        switch (sender)
+//        {
+//            case "speech": {
+//                String result = (String) o;
+//
+//                if (result.equals(correctAnswer))
+//                {
+//                    startNextScenario(currentScenario.getOnSuccess().getNextScenarioID());
+//
+//                    mainController.sendDataToIp(IP, "happy");
+//                    //questionCounter++;
+//                    if(checkIndex(questionCounter))
+//                    {
+//                        goBackToMenu();
+//                    }else
+//                    {
+//                        lottieAnimation = new LottieAnimation();
+//                        lottieAnimation.setListener(new updateFragment() {
+//                            @Override
+//                            public void updateData(Object data)
+//                            {
+//                                activateScenario((Scenario[]) scenarios.toArray(),questionCounter);
+//
+//                            }
+//                        });
+//
+//                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                        lottieAnimation.show(fragmentManager,"lottie");
+//
+//                    }
+//                    //goToNextFragment();
+//                } else {
+//                    mainController.sendDataToIp(IP, "sad");
+//                    questionCounter++;
+//                    if(checkIndex(questionCounter))
+//                    {
+//                        goBackToMenu();
+//                    }
+//                    else
+//                    {
+//                        lottieAnimation = new LottieAnimation();
+//                        lottieAnimation.setListener(new updateFragment() {
+//                            @Override
+//                            public void updateData(Object data)
+//                            {
+//                                activateScenario((Scenario[]) scenarios.toArray(),questionCounter );
+//
+//                            }
+//                        });
+//
+//                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                        lottieAnimation.show(fragmentManager,"lottie");
+//
+//                    }                    //goToNextFragment();
+//                }
+//                Log.d("TestFrag", result);
+//            }
+//
+//
+//            break;
+//
+//            case "input": {
+//                String result = (String) o;
+//
+//                if (result.equals(correctAnswer)) {
+//                    mainController.sendDataToIp(IP, "happy");
+//                    questionCounter++;
+//                    if(checkIndex(questionCounter))
+//                    {
+//                        goBackToMenu();
+//                    }
+//                    else
+//                    {
+//                        lottieAnimation = new LottieAnimation();
+//                        lottieAnimation.setListener(new updateFragment() {
+//                            @Override
+//                            public void updateData(Object data)
+//                            {
+//                                activateScenario((Scenario[]) scenarios.toArray(),questionCounter );
+//
+//                            }
+//                        });
+//
+//                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                        lottieAnimation.show(fragmentManager,"lottie");
+//
+//                    }
+//                    //goToNextFragment();
+//                } else {
+//                    mainController.sendDataToIp(IP, "sad");
+//                    questionCounter++;
+//                    if(checkIndex(questionCounter))
+//                    {
+//                        goBackToMenu();
+//                    }
+//                    else
+//                    {
+//                        lottieAnimation = new LottieAnimation();
+//                        lottieAnimation.setListener(new updateFragment() {
+//                            @Override
+//                            public void updateData(Object data)
+//                            {
+//                                activateScenario((Scenario[]) scenarios.toArray(),questionCounter );
+//
+//                            }
+//                        });
+//
+//                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                        lottieAnimation.show(fragmentManager,"lottie");
+//
+//                    }                    //goToNextFragment();
+//                }
+//
+//                Log.d("TestFrag", result);
+//
+//                break;
+//
+//            }
+//        }
     }
 
     public void goToNextFragment() {
@@ -398,7 +478,76 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
     }
 
-    private String activateScenario(Scenario[] scenario,int i){
+
+    private void startScenario(Scenario scenario,boolean isWrong)
+    {
+        List<Action> action = scenario.getActions();
+
+        currentScenario = scenario;
+        if(!isWrong)
+        {
+            answersCounter = scenario.getOnfailure().getNumOfRetries();
+        }
+
+        triesLeft.setText("Tries left: " + answersCounter);
+
+        final String effect = action.get(0).getEffect();
+        String text = action.get(0).getTextOrWav();
+        String type = action.get(0).getWhatToPlay();
+        String expectedAnswer = scenario.getWaitFor().getExpectedAnswer().getInput();
+        inputText = scenario.getWaitFor().getTypeOfInput();
+        correctAnswer = expectedAnswer;
+        currentQuestion.setText(text);
+        questionImage.setImageDrawable(null); // to refresh the picture
+        final Long time = Long.valueOf(action.get(0).getTimeForAction());
+
+        speakerBoxTTS(text);
+
+        youTubePlayerView.getYouTubePlayerWhenReady(new YouTubePlayerCallback() {
+            @Override
+            public void onYouTubePlayer(@NotNull YouTubePlayer youTubePlayer) {
+                youTubePlayer.pause();
+            }
+        });
+
+
+        if(type.equals("youtube"))
+        {
+            youTubePlayerView.setVisibility(View.VISIBLE);
+
+            questionImage.setVisibility(View.GONE);
+
+            youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener()
+            {
+                @Override
+                public void onReady(@NotNull YouTubePlayer youTubePlayer)
+                {
+                    youTubePlayer.loadVideo(effect,0);
+                    youTubePlayer.play();
+                    countdownView.start(time*1000);
+                }
+
+            });
+
+
+
+        }else
+        {
+            youTubePlayerView.setVisibility(View.GONE);
+
+            questionImage.setVisibility(View.VISIBLE);
+
+            Glide.with(getContext()) // this section is for updating the image
+                    .load(effect)
+                    .into(questionImage);
+            countdownView.start(time*1000);
+
+        }
+
+    }
+
+    private String activateScenario(Scenario[] scenario,int i)
+    {
             Action[] action = (Action[]) scenario[i].getActions().toArray();
 
             youTubePlayerView.getYouTubePlayerWhenReady(new YouTubePlayerCallback() {
@@ -408,7 +557,6 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 }
             });
 
-            System.out.println();
 
             final String effect = action[0].getEffect();
             String text = action[0].getTextOrWav();
@@ -472,9 +620,17 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         }
 
     @Override
-    public void speakerBoxTTS(String question) {
+    public void speakerBoxTTS(String question)
+    {
         speakerbox = new Speakerbox(getActivity().getApplication());
-
+        speakerbox.playAndOnDone(question, new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                answerButton.callOnClick();
+            }
+        });
 
     }
 

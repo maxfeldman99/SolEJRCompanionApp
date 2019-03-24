@@ -145,7 +145,10 @@ public class FireBase {
 
     }
 
-    public void getScenario(final String scenarioName, final DataListener listener){
+    public void getScenario(final String scenarioName, final DataListener listener)
+    {
+
+        db = FirebaseFirestore.getInstance();
 
         CollectionReference docRef = db.collection("Scenario");
         docRef.whereEqualTo("id", scenarioName).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
