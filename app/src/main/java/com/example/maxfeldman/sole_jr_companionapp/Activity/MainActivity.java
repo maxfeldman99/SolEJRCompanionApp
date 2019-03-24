@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_main);
 
-        NetworkController.getInstance().openSocket("192.168.137.136","max");
+        //NetworkController.getInstance().openSocket("192.168.137.136","max");
 
 
         getSupportFragmentManager().beginTransaction()

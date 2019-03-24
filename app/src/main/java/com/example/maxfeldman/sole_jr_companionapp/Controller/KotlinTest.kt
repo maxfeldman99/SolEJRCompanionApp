@@ -1,7 +1,9 @@
 package com.example.maxfeldman.sole_jr_companionapp.Controller
 
+import android.content.Context
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment
+import com.google.firebase.FirebaseApp
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -18,6 +20,13 @@ import java.util.*
 object KotlinNetworkController
 {
 
+    var contxt: Context ?= null
+
+    fun setContext(incontext: Context)
+    {
+        contxt = incontext
+    }
+
     fun getLessonFromUrl(url: String,update: updateFragment<Any>)
     {
 
@@ -26,6 +35,7 @@ object KotlinNetworkController
             //val lesson1 = MainController.getInstance().getLesson(1)
             try
             {
+                FirebaseApp.initializeApp(contxt)
                 val url = URL(url)
                 val inputStreamReader = InputStreamReader(url.openStream())
 
@@ -34,6 +44,7 @@ object KotlinNetworkController
 
                 GlobalScope.launch(Dispatchers.Main)
                 {
+                    FirebaseApp.initializeApp(contxt)
                     update.updateData(toJson)
                 }
 

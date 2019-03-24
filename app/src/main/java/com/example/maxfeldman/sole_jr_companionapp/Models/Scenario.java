@@ -1,9 +1,11 @@
 package com.example.maxfeldman.sole_jr_companionapp.Models;
 
+import java.util.List;
+
 public class Scenario
 {
     private int id;
-    private Action[] actions;
+    private List<Action> actions;
     private String level;
     private OnFailure onfailure;
     private OnSuccess onSuccess;
@@ -11,7 +13,9 @@ public class Scenario
 
     public Scenario(){}
 
-    public Scenario(int id, Action[] actions, String level, OnFailure onfailure, OnSuccess onSuccess, WaitFor waitFor) {
+    public Scenario(int id, List<Action> actions, String level,
+                    OnFailure onfailure,
+                    OnSuccess onSuccess, WaitFor waitFor) {
         this.id = id;
         this.actions = actions;
         this.level = level;
@@ -28,11 +32,11 @@ public class Scenario
         this.id = id;
     }
 
-    public Action[] getActions() {
+    public List<Action> getActions() {
         return actions;
     }
 
-    public void setActions(Action[] actions) {
+    public void setActions(List<Action> actions) {
         this.actions = actions;
     }
 

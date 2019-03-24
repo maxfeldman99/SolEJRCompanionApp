@@ -21,9 +21,11 @@ import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.Helpers.FireBase;
 import com.example.maxfeldman.sole_jr_companionapp.Lesson.LessonAdapter;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
+import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.example.maxfeldman.sole_jr_companionapp.util.Utilities;
+import com.google.firebase.FirebaseApp;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -110,6 +112,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
 
         final KotlinNetworkController networkTest = KotlinNetworkController.INSTANCE;
+        networkTest.setContext(getActivity());
 
         for (int i = 0; i<lessonsList.size() ; i++)
         {
@@ -123,8 +126,13 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
                     lessonList.add(lesson);
                     adapter.notifyDataSetChanged();
 
-                    fireBase.addLesson(lesson,lesson.getTitle());
-
+                    //fireBase.addLesson(lesson,lesson.getTitle());
+//
+//                    for (int j = 0; j < lesson.getScenarios().size(); j++)
+//                    {
+//                        FirebaseApp.initializeApp(getActivity());
+//                        fireBase.addScenario(lesson.getScenarios().get(j));
+//                    }
                 }
             });
         }
@@ -160,6 +168,8 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
             }
         });
+
+
 
 
         return view;
