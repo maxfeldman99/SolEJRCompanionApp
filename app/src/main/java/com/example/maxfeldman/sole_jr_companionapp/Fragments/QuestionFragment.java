@@ -71,6 +71,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     LottieAnimation lottieAnimation;
 
 
+
     @Override
     public void updateData(Object data)
     {
@@ -84,7 +85,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState)
     {
-      
+
     }
 
     @Override
@@ -528,4 +529,3 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
 
 }
-

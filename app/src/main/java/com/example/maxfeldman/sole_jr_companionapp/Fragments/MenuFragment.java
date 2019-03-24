@@ -101,16 +101,24 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         final String ipAdress = prefName.getString("ipAddress", "");
         ipEditText.setText(ipAdress);
 
-        ArrayList<String> lessonsList = new ArrayList<>();
-        lessonsList.add("https://api.myjson.com/bins/zrvxq");
-        lessonsList.add("https://api.myjson.com/bins/10vsl6");
-        lessonsList.add("https://api.myjson.com/bins/s0ne2");
-        lessonsList.add("https://api.myjson.com/bins/pgtwu");
-        lessonsList.add("https://api.myjson.com/bins/19kxqi");
+    //    ArrayList<String> lessonsList = new ArrayList<>();
+        //lessonsList.add("https://api.myjson.com/bins/zrvxq");
+      ///  lessonsList.add("https://api.myjson.com/bins/10vsl6");
+    //    lessonsList.add("https://api.myjson.com/bins/s0ne2");
+    //    lessonsList.add("https://api.myjson.com/bins/pgtwu");
+    //    lessonsList.add("https://api.myjson.com/bins/19kxqi");
 
         fireBase = FireBase.getInstance();
 
 
+        fireBase.getAllLessons(new DataListener ()
+        {
+
+
+
+        })
+
+/* Deprecated
         final KotlinNetworkController networkTest = KotlinNetworkController.INSTANCE;
         networkTest.setContext(getActivity());
 
@@ -136,7 +144,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
                 }
             });
         }
-
+*/
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
