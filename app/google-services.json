@@ -31,6 +31,14 @@
           }
         },
         {
+          "client_id": "348793288479-hrvpj2vdmulep5mhhpdrab0ajmvikfr8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.maxfeldman.sole_jr_companionapp",
+            "certificate_hash": "f09a43a86a957ac3040559e8b64ab06d9ad01cd0"
+          }
+        },
+        {
           "client_id": "348793288479-pkrfq0uv1ks61iqaitu8gs6185vef025.apps.googleusercontent.com",
           "client_type": 3
         }

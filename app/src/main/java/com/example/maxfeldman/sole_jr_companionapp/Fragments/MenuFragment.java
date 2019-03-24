@@ -15,19 +15,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.KotlinNetworkController;
+import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
+import com.example.maxfeldman.sole_jr_companionapp.Helpers.DataListener;
 import com.example.maxfeldman.sole_jr_companionapp.Helpers.FireBase;
 import com.example.maxfeldman.sole_jr_companionapp.Lesson.LessonAdapter;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
-import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.example.maxfeldman.sole_jr_companionapp.util.Utilities;
-import com.google.firebase.FirebaseApp;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,7 +74,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         TextView textView = view.findViewById(R.id.tv_item_1);
         ImageView imageView = view.findViewById(R.id.iv_item_1);
         imageVal = view.findViewById(R.id.img_val);
-         ipEditText = view.findViewById(R.id.ip_et);
+        ipEditText = view.findViewById(R.id.ip_et);
         Button button = view.findViewById(R.id.validateButton);
         setAdapter(lessonList);
         playIntroSound();
@@ -86,6 +86,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         kotlinNetworkControllerl = KotlinNetworkController.INSTANCE;
         utilities = Utilities.getInstance();
 
+        mainController.ipValidated = true;
 
 
         String ip = mainController.getIp();
@@ -110,13 +111,22 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
         fireBase = FireBase.getInstance();
 
-
-        fireBase.getAllLessons(new DataListener ()
+        fireBase.getAllLessons(new DataListener()
         {
+            @Override
+            public void onDataLoad(Object o)
+            {
+                List<Lesson> tempList = (List) o;
 
+                for(Lesson l: tempList)
+                {
+                    lessonList.add(l);
+                }
 
+                adapter.notifyDataSetChanged();
 
-        })
+            }
+        });
 
 /* Deprecated
         final KotlinNetworkController networkTest = KotlinNetworkController.INSTANCE;
@@ -154,7 +164,6 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
                 {
                     validateIP(ip);
                 }
-
 
             }
         });

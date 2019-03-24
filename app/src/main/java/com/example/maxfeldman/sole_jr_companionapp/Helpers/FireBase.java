@@ -15,7 +15,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -137,7 +136,7 @@ public class FireBase {
                     for (DocumentSnapshot document : task.getResult()) {
                         Lesson lesson = document.toObject(Lesson.class);
                         lessons.add(lesson);
-                        Log.d("TAG", null);
+                        Log.d("TAG", lesson.toString());
                     }
                     listener.onDataLoad(lessons);
                 }

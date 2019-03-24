@@ -77,7 +77,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     {
         Lesson lesson = (Lesson) data;
         scenarios = lesson.getScenarios();
-        activateScenario((Scenario[]) scenarios.toArray(),questionCounter);
+        Log.d("TAG", lesson.getTitle());
+       // activateScenario((Scenario[]) scenarios.toArray(),questionCounter);
 
     }
 
@@ -473,7 +474,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     @Override
     public void speakerBoxTTS(String question) {
         speakerbox = new Speakerbox(getActivity().getApplication());
-        speakerbox.play(question);
+
+
     }
 
     @Override
