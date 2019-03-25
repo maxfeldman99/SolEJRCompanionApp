@@ -151,7 +151,7 @@ public class FireBase {
         db = FirebaseFirestore.getInstance();
 
         CollectionReference docRef = db.collection("Scenarios");
-        docRef.whereEqualTo("id", Integer.parseInt(scenarioName)).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        docRef.whereEqualTo("name", scenarioName).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (queryDocumentSnapshots.isEmpty())

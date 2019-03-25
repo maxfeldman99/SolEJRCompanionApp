@@ -242,9 +242,11 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         });
         lottieAnimation.show(fragmentManager,"lottie");
 
-        String nextScenarioID = currentScenario.getOnSuccess().getNextScenarioID();
+        //String nextScenarioID = currentScenario.getOnSuccess().getNextScenarioID();
 
-        fireBase.getScenario(nextScenarioID, new DataListener()
+
+
+        fireBase.getScenario(nextScenario, new DataListener()
         {
             @Override
             public void onDataLoad(Object o)
@@ -269,6 +271,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         if(correctAnswer.equals(result))
         {
             startNextScenario(currentScenario.getOnSuccess().getNextScenarioID());
+            speakerBoxTTS(currentScenario.getOnSuccess().getAction().getTextOrWav());
             mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
             mainController.sendDataToIp(IP, "happy");
 
@@ -279,6 +282,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             if(answersCounter > 0)
             {
                 startScenario(currentScenario,true);
+                speakerBoxTTS(currentScenario.getOnfailure().getAction().getTextOrWav());
             }else
             {
                 startNextScenario(currentScenario.getOnfailure().getNextScenarioID());
