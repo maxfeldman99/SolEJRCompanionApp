@@ -5,9 +5,12 @@ import android.os.Bundle;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.MenuFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Helpers.FireBase;
 import com.example.maxfeldman.sole_jr_companionapp.R;
+import com.example.maxfeldman.sole_jr_companionapp.Server.Server;
 import com.google.firebase.FirebaseApp;
 
 public class SplashScreenActivity extends AppCompatActivity {
+
+    private Server server;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +25,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 //,new SpotClickFragment(),"SpotClickFragment") // just to test the spot click fragment
                 .commitNow();
 
-
     }
 
 
@@ -31,4 +33,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     {
         //Do Nothing
     }
+
+
+
 }

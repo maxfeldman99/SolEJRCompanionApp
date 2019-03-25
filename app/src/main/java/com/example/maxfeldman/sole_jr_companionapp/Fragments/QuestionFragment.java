@@ -285,6 +285,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 speakerBoxTTS(currentScenario.getOnfailure().getAction().getTextOrWav());
             }else
             {
+                speakerBoxTTS(currentScenario.getOnfailure().getAction().getTextOrWav());
                 startNextScenario(currentScenario.getOnfailure().getNextScenarioID());
             }
 
@@ -634,7 +635,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             @Override
             public void run()
             {
-                answerButton.callOnClick();
+                answerButton.performClick();
             }
         });
 

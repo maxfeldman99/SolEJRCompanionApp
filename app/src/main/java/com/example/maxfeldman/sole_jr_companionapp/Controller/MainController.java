@@ -9,6 +9,7 @@ public class MainController
 
     public String ip = null;
     public boolean ipValidated = false;
+    public boolean isFirstRun = true;
 
     NetworkController networkController;
 

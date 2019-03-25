@@ -24,6 +24,7 @@ import com.example.maxfeldman.sole_jr_companionapp.Lesson.LessonAdapter;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
+import com.example.maxfeldman.sole_jr_companionapp.Server.Server;
 import com.example.maxfeldman.sole_jr_companionapp.util.Utilities;
 import com.google.firebase.FirebaseApp;
 
@@ -59,6 +60,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     KotlinNetworkController kotlinNetworkControllerl;
     Utilities utilities;
     FireBase fireBase;
+    private Server server;
     public MenuFragment() {
 
     }
@@ -187,6 +189,12 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         });
 
 
+        if(mainController.isFirstRun){
+            startServer();
+            mainController.isFirstRun=false;
+        }
+
+
 
 
         return view;
@@ -300,5 +308,11 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
             imageVal.setVisibility(View.VISIBLE);
 
         }
+    }
+
+
+    public void startServer(){
+        Thread thread = new Thread(server);
+        thread.start();
     }
 }
