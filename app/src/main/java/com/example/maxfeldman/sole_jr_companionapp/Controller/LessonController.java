@@ -20,6 +20,7 @@ public class LessonController {
     private LessonController() {
     }
 
+    /*
     public Lesson getLessonById(int lessonId)
     {
 
@@ -28,6 +29,7 @@ public class LessonController {
 
     }
 
+    /*
     public Lesson getCurrentLesson()
     {
 
@@ -342,4 +344,5 @@ public class LessonController {
 
         return animalLesson;
     }
+    */
 }

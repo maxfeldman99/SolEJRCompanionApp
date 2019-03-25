@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Scenario
 {
-    private int id;
+    private String name;
     private List<Action> actions;
     private String level;
     private OnFailure onfailure;
@@ -13,10 +13,9 @@ public class Scenario
 
     public Scenario(){}
 
-    public Scenario(int id, List<Action> actions, String level,
-                    OnFailure onfailure,
-                    OnSuccess onSuccess, WaitFor waitFor) {
-        this.id = id;
+    public Scenario(String name, List<Action> actions, String level
+            , OnFailure onfailure, OnSuccess onSuccess, WaitFor waitFor) {
+        this.name = name;
         this.actions = actions;
         this.level = level;
         this.onfailure = onfailure;
@@ -24,12 +23,12 @@ public class Scenario
         this.waitFor = waitFor;
     }
 
-    public int getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Action> getActions() {
@@ -72,10 +71,11 @@ public class Scenario
         this.waitFor = waitFor;
     }
 
+
     @Override
     public String toString() {
         return "Scenario{" +
-                "id=" + id +
+                "name='" + name + '\'' +
                 ", actions=" + actions +
                 ", level='" + level + '\'' +
                 ", onfailure=" + onfailure +

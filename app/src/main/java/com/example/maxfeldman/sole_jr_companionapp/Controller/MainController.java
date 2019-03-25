@@ -48,6 +48,7 @@ public class MainController
         return this.ip;
     }
 
+    /*
     public Lesson getLesson(int lessonId)
     {
         Lesson temp = lessonController.getLessonById(lessonId);
@@ -59,4 +60,5 @@ public class MainController
 
         return temp;
     }
+    */
 }

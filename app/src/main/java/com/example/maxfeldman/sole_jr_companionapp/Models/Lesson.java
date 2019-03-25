@@ -11,9 +11,9 @@ public class Lesson
     private String title;
     private String badge;
     private String category;
-    @Exclude
+
     private List<String> goals;
-    @Exclude
+
     private List<Scenario> scenarios;
 
     public Lesson(){}

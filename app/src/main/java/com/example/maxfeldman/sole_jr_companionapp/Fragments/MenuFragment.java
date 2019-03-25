@@ -25,6 +25,7 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.example.maxfeldman.sole_jr_companionapp.util.Utilities;
+import com.google.firebase.FirebaseApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,13 +102,12 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
         final String ipAdress = prefName.getString("ipAddress", "");
         ipEditText.setText(ipAdress);
-
-    //    ArrayList<String> lessonsList = new ArrayList<>();
-        //lessonsList.add("https://api.myjson.com/bins/zrvxq");
-      ///  lessonsList.add("https://api.myjson.com/bins/10vsl6");
-    //    lessonsList.add("https://api.myjson.com/bins/s0ne2");
-    //    lessonsList.add("https://api.myjson.com/bins/pgtwu");
-    //    lessonsList.add("https://api.myjson.com/bins/19kxqi");
+        ArrayList<String> lessonsList = new ArrayList<>();
+        lessonsList.add("https://api.myjson.com/bins/zrvxq");
+        lessonsList.add("https://api.myjson.com/bins/10vsl6");
+        lessonsList.add("https://api.myjson.com/bins/s0ne2");
+        lessonsList.add("https://api.myjson.com/bins/pgtwu");
+        lessonsList.add("https://api.myjson.com/bins/19kxqi");
 
         fireBase = FireBase.getInstance();
 
@@ -128,7 +128,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
             }
         });
 
-/* Deprecated
+        /*
         final KotlinNetworkController networkTest = KotlinNetworkController.INSTANCE;
         networkTest.setContext(getActivity());
 
@@ -145,12 +145,12 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
                     adapter.notifyDataSetChanged();
 
                     //fireBase.addLesson(lesson,lesson.getTitle());
-//
-//                    for (int j = 0; j < lesson.getScenarios().size(); j++)
-//                    {
-//                        FirebaseApp.initializeApp(getActivity());
-//                        fireBase.addScenario(lesson.getScenarios().get(j));
-//                    }
+
+                    for (int j = 0; j < lesson.getScenarios().size(); j++)
+                    {
+                        FirebaseApp.initializeApp(getActivity());
+                        fireBase.addScenario(lesson.getScenarios().get(j));
+                    }
                 }
             });
         }

@@ -161,7 +161,7 @@ public class FireBase {
                     List<Scenario> scenarios = queryDocumentSnapshots.toObjects(Scenario.class);
                     for (int i = 0; i < scenarios.size(); i++) {
                         Scenario scenario = scenarios.get(i);
-                        if (scenario.getId() == Integer.valueOf(scenarioName)) {
+                        if (scenario.getName().equals(scenarioName)) {
                             listener.onDataLoad(scenario);
                         }
                     }
