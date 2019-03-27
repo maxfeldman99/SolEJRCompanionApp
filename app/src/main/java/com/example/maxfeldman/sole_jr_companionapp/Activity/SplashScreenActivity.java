@@ -19,11 +19,19 @@ public class SplashScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
         FireBase.getInstance().setContext(this);
        // FireBase.getInstance().iniFirebase();
+
+        MenuFragment menuFragment = new MenuFragment();
+
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.SplashActivity
-                        ,new MenuFragment(),"MenuFragment")
+                        ,menuFragment,"MenuFragment")
                 //,new SpotClickFragment(),"SpotClickFragment") // just to test the spot click fragment
                 .commitNow();
+
+        menuFragment.setAppCompatActivity(this);
+
+
+
 
     }
 

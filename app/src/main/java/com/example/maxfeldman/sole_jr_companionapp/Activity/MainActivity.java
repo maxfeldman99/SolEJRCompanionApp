@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.QuestionFragment;
+import com.example.maxfeldman.sole_jr_companionapp.Helpers.DataListener;
+import com.example.maxfeldman.sole_jr_companionapp.Helpers.FireBase;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.google.firebase.FirebaseApp;
 
@@ -30,7 +32,15 @@ public class MainActivity extends AppCompatActivity {
                // .commitNow();
 
 
+        /*
+        FireBase.getInstance().getAllLessons(new DataListener() {
+            @Override
+            public void onDataLoad(Object o) {
 
+            }
+        });
+
+*/
 
         Intent intent = new Intent(this,SplashScreenActivity.class); ////////////////////////////////////////////////////////////////////
         startActivity(intent);

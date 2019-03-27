@@ -22,6 +22,7 @@ import com.example.maxfeldman.sole_jr_companionapp.Helpers.DataListener;
 import com.example.maxfeldman.sole_jr_companionapp.Helpers.FireBase;
 import com.example.maxfeldman.sole_jr_companionapp.Lesson.LessonAdapter;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
+import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.example.maxfeldman.sole_jr_companionapp.Server.Server;
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -61,10 +63,20 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     Utilities utilities;
     FireBase fireBase;
     private Server server;
+
+    AppCompatActivity appCompatActivity;
+
     public MenuFragment() {
 
     }
 
+    public AppCompatActivity getAppCompatActivity() {
+        return appCompatActivity;
+    }
+
+    public void setAppCompatActivity(AppCompatActivity appCompatActivity) {
+        this.appCompatActivity = appCompatActivity;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,6 +123,8 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 //        lessonsList.add("https://api.myjson.com/bins/pgtwu");
 //        lessonsList.add("https://api.myjson.com/bins/19kxqi");
 
+
+
         fireBase = FireBase.getInstance();
 
         fireBase.getAllLessons(new DataListener()
@@ -129,6 +143,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
             }
         });
+
 
 /*
         final KotlinNetworkController networkTest = KotlinNetworkController.INSTANCE;
@@ -231,11 +246,13 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         //Intent intent = new Intent(getContext(),MainActivity.class);
        // startActivity(intent);
 
+        questionFragment.setActivity(appCompatActivity);
 
 
         fragmentManager.beginTransaction().replace(R.id.SplashActivity,questionFragment,"QuestionFragment").commitNow();
         questionFragment.updateData(lesson,"lesson");
         server.setListener(questionFragment);
+
     }
 
     private boolean validateIP(final String inputIP)

@@ -37,7 +37,7 @@
         <EditText
             android:layout_width="900dp"
             android:layout_height="wrap_content"
-            android:hint="Enter Your IP here ,for example 1.1.1.1"
+            android:hint="Enter Mobile Unit ip, for example 1.1.1.1"
             android:textAlignment="textStart"
             android:layout_marginLeft="50dp"
             android:textSize="40sp"

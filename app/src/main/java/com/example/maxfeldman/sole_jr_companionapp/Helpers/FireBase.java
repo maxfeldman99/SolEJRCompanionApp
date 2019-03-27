@@ -16,6 +16,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,9 +134,17 @@ public class FireBase {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     List<Lesson> lessons = new ArrayList<>();
-                    for (DocumentSnapshot document : task.getResult()) {
+                    for (DocumentSnapshot document : task.getResult())
+                    {
                         Lesson lesson = document.toObject(Lesson.class);
+
+                        Gson gson = new Gson();
+                        String s = gson.toJson(lesson);
+
+                        Log.d("JSON", s);
+
                         lessons.add(lesson);
+
                         Log.d("TAG", lesson.toString());
                     }
                     listener.onDataLoad(lessons);
@@ -161,8 +170,11 @@ public class FireBase {
                     List<Scenario> scenarios = queryDocumentSnapshots.toObjects(Scenario.class);
                     for (int i = 0; i < scenarios.size(); i++) {
                         Scenario scenario = scenarios.get(i);
-                        if (scenario.getName().equals(scenarioName)) {
-                            listener.onDataLoad(scenario);
+                        if(scenario != null)
+                        {
+                            if (scenario.getName().equals(scenarioName)) {
+                                listener.onDataLoad(scenario);
+                            }
                         }
                     }
 

@@ -1,5 +1,6 @@
 package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 
+import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -41,7 +42,9 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import at.lukle.clickableareasimage.ClickableArea;
 import at.lukle.clickableareasimage.ClickableAreasImage;
@@ -81,6 +84,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     String nextcurrentScenario;
     int answersCounter;
 
+    AppCompatActivity activity;
 
 
     @Override
@@ -116,6 +120,12 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
         }
 
+    }
+
+
+    public void setActivity(AppCompatActivity activity)
+    {
+        this.activity = activity;
     }
 
 
@@ -160,7 +170,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 {
                     case "speech":
                     {
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        FragmentManager fragmentManager = activity.getSupportFragmentManager();
                         SpeechRecognitionFragment srf = new SpeechRecognitionFragment();
                         QuestionFragment testFragment = (QuestionFragment) getActivity().getSupportFragmentManager().findFragmentByTag("QuestionFragment");
                         srf.setListener(testFragment);
@@ -170,7 +180,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
                     case "inputText":
                     {
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        FragmentManager fragmentManager = activity.getSupportFragmentManager();
                         InputTestFragment itf = new InputTestFragment();
                         QuestionFragment testFragment = (QuestionFragment) getActivity().getSupportFragmentManager().findFragmentByTag("QuestionFragment");
                         itf.setListener(testFragment);
@@ -261,25 +271,29 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
     private void startNextScenario(String nextScenario)
     {
-        nextcurrentScenario = nextScenario;
-        final LottieAnimation tempLottieAnimation = new LottieAnimation();
-        lottieAnimation = tempLottieAnimation;
-        countdownView.stop();
+
+        if(nextScenario.equals("exit"))
+        {
+            goBackToMenu();
+        }else
+        {
+            nextcurrentScenario = nextScenario;
+            final LottieAnimation tempLottieAnimation = new LottieAnimation();
+            lottieAnimation = tempLottieAnimation;
+            countdownView.stop();
 
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        tempLottieAnimation.setListener(new updateFragment() {
-            @Override
-            public void updateData(Object data, String type) {
+            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+            tempLottieAnimation.setListener(new updateFragment() {
+                @Override
+                public void updateData(Object data, String type) {
 
-            }
-        });
-        tempLottieAnimation.show(fragmentManager,"lottie");
-        //String nextScenarioID = currentScenario.getOnSuccess().getNextScenarioID();
+                }
+            });
+            tempLottieAnimation.show(fragmentManager,"lottie");
+            //String nextScenarioID = currentScenario.getOnSuccess().getNextScenarioID();
 
-
-
-
+        }
 
 
     }
@@ -289,7 +303,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     {
         String result = (String) o;
         String data;
-        if(correctAnswer.equals(result))
+        if(correctAnswer.toLowerCase().equals(result.toLowerCase()))
         {
             startNextScenario(currentScenario.getOnSuccess().getNextScenarioID());
             speakerBoxTTS(currentScenario.getOnSuccess().getAction().getTextOrWav());
@@ -305,15 +319,15 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
         }else
         {
-            answersCounter-=10;
+            answersCounter--;
             triesLeft.setText("Tries left: " + answersCounter);
             if(answersCounter > 0)
             {
+                speakerBoxTTS("try again bitch!");
                 startScenario(currentScenario,true);
-                speakerBoxTTS(currentScenario.getOnfailure().getAction().getTextOrWav());
             }else
             {
-                speakerBoxTTS(currentScenario.getOnfailure().getAction().getTextOrWav());
+                speakerBoxTTS("you stupid fuck, what is wrong with you?");
                 startNextScenario(currentScenario.getOnfailure().getNextScenarioID());
             }
 
@@ -443,9 +457,9 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     }
 
     public void goToNextFragment() {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
         TimerFragment timerFragment = new TimerFragment();
-        QuestionFragment testFragment = (QuestionFragment) getActivity().getSupportFragmentManager().findFragmentByTag("QuestionFragment");
+        QuestionFragment testFragment = (QuestionFragment) activity.getSupportFragmentManager().findFragmentByTag("QuestionFragment");
         //timerFragment.setListener(testFragment);
         timerFragment.setCancelable(false);
         timerFragment.show(fragmentManager, "speech");
@@ -570,7 +584,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
             questionImage.setVisibility(View.VISIBLE);
 
-            Glide.with(getContext()) // this section is for updating the image
+            Glide.with(activity) // this section is for updating the image
                     .load(effect)
                     .into(questionImage);
             countdownView.start(time*1000);
@@ -649,22 +663,26 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         private void goBackToMenu(){
 
             questionCounter = 0;
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            MenuFragment menuFragment = new MenuFragment();
-            fragmentManager.beginTransaction().replace(R.id.SplashActivity,menuFragment,"menuFragment").commitNow();
-
+            countdownView.stop();
+//            mTTS.shutdown();
+            if(activity != null)
+            {
+                FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
+                MenuFragment menuFragment = new MenuFragment();
+                supportFragmentManager.beginTransaction().replace(R.id.SplashActivity,menuFragment,"menuFragment").commitNow();
+            }
         }
 
     @Override
     public void speakerBoxTTS(String question)
     {
-        speakerbox = new Speakerbox(getActivity().getApplication());
+        speakerbox = new Speakerbox(activity.getApplication());
         speakerbox.playAndOnDone(question, new Runnable()
         {
             @Override
             public void run()
             {
-                answerButton.performClick();
+                answerButton.callOnClick();
             }
         });
 
@@ -712,7 +730,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     }
 
     private int randAnswer(){
-        Random rand = null;
+        Random rand = new Random();
         return rand.nextInt((2 - 1) + 1) + 1;
     }
 
