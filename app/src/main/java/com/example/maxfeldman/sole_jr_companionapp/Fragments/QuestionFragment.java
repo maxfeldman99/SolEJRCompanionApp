@@ -38,6 +38,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -286,13 +288,20 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     public void onComplete(Object o, String sender)
     {
         String result = (String) o;
-
+        String data;
         if(correctAnswer.equals(result))
         {
             startNextScenario(currentScenario.getOnSuccess().getNextScenarioID());
             speakerBoxTTS(currentScenario.getOnSuccess().getAction().getTextOrWav());
             //mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
-            mainController.sendDataToIp(mainController.getIp(), "happy");
+            int randAnswer = randAnswer();
+            if(randAnswer==1){
+                data = "happy";
+            }else{
+                data = "funny";
+            }
+
+            mainController.sendDataToIp(mainController.getIp(), data);
 
         }else
         {
@@ -702,13 +711,12 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
     }
 
-    private void onFailure(){
-
+    private int randAnswer(){
+        Random rand = null;
+        return rand.nextInt((2 - 1) + 1) + 1;
     }
 
-    private void onSuccess(){
 
-    }
 
 
 
