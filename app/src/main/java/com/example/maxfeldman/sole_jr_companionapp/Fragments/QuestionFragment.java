@@ -3,6 +3,7 @@ package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.mapzen.speakerbox.Speakerbox;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback;
@@ -303,7 +305,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     {
         String result = (String) o;
         String data;
-        if(correctAnswer.toLowerCase().equals(result.toLowerCase()))
+        if(correctAnswer.toLowerCase().trim().equals(result.toLowerCase().trim()))
         {
             startNextScenario(currentScenario.getOnSuccess().getNextScenarioID());
             speakerBoxTTS(currentScenario.getOnSuccess().getAction().getTextOrWav());
@@ -323,11 +325,11 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             triesLeft.setText("Tries left: " + answersCounter);
             if(answersCounter > 0)
             {
-                speakerBoxTTS("try again bitch!");
+                speakerBoxTTS(currentScenario.getOnfailure().getAction().getTextOrWav());
                 startScenario(currentScenario,true);
             }else
             {
-                speakerBoxTTS("you stupid fuck, what is wrong with you?");
+                speakerBoxTTS(currentScenario.getOnfailure().getAction().getTextOrWav());
                 startNextScenario(currentScenario.getOnfailure().getNextScenarioID());
             }
 
@@ -573,7 +575,6 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                     youTubePlayer.play();
                     countdownView.start(time*1000);
                 }
-
             });
 
 
@@ -664,7 +665,6 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
             questionCounter = 0;
             countdownView.stop();
-//            mTTS.shutdown();
             if(activity != null)
             {
                 FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
@@ -677,14 +677,28 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     public void speakerBoxTTS(String question)
     {
         speakerbox = new Speakerbox(activity.getApplication());
-        speakerbox.playAndOnDone(question, new Runnable()
+        speakerbox.play(question);
+
+        if(currentScenario.getActions().get(0).getTextOrWav().toLowerCase()
+                .equals(question.toLowerCase()))
         {
+                    new Handler().postDelayed(new Runnable() {
             @Override
-            public void run()
-            {
-                answerButton.callOnClick();
+            public void run() {
+                answerButton.performClick();
             }
-        });
+                   },3000);
+
+
+        }
+
+//
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                answerButton.performClick();
+//            }
+//        },5000);
 
     }
 
@@ -735,7 +749,32 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     }
 
 
+    public void setUpAnswerScreen()
+    {
+        switch (inputText)
+        {
+            case "speech":
+            {
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                SpeechRecognitionFragment srf = new SpeechRecognitionFragment();
+                QuestionFragment testFragment = (QuestionFragment) getActivity().getSupportFragmentManager().findFragmentByTag("QuestionFragment");
+                srf.setListener(testFragment);
+                srf.show(fragmentManager, "speech");
+                break;
+            }
 
+            case "inputText":
+            {
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                InputTestFragment itf = new InputTestFragment();
+                QuestionFragment testFragment = (QuestionFragment) getActivity().getSupportFragmentManager().findFragmentByTag("QuestionFragment");
+                itf.setListener(testFragment);
+                itf.show(fragmentManager,"inputText");
+
+            }
+        }
+
+    }
 
 
 
