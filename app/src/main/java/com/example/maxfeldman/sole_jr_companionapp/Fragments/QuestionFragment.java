@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.KotlinNetworkController;
+import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.InputTestFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.RobotTTS;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.SpeechRecognitionFragment;
@@ -75,19 +76,44 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     FireBase fireBase;
 
     Scenario currentScenario;
-
+    String nextcurrentScenario;
     int answersCounter;
 
 
 
     @Override
-    public void updateData(Object data)
+    public void updateData(Object data, String type)
     {
-        Lesson lesson = (Lesson) data;
-        scenarios = lesson.getScenarios();
-        Log.d("TAG", lesson.getTitle());
-       //activateScenario((Scenario[]) scenarios.toArray(),questionCounter);
-        startScenario(lesson.getScenarios().get(0),false);
+        if(type.equals("lesson"))
+        {
+
+            Lesson lesson = (Lesson) data;
+            scenarios = lesson.getScenarios();
+            Log.d("TAG", lesson.getTitle());
+            //activateScenario((Scenario[]) scenarios.toArray(),questionCounter);
+            startScenario(lesson.getScenarios().get(0),false);
+
+        }
+        if(type.equals("finVideo"))
+        {
+            //lottieAnimation.dismiss();
+
+            fireBase.getScenario(nextcurrentScenario, new DataListener()
+            {
+                @Override
+                public void onDataLoad(Object o)
+                {
+                    lottieAnimation.dismiss();
+                    Scenario nextScenario = (Scenario) o;
+
+                    Log.d("onDataLoad",nextScenario.toString());
+
+                        startScenario(nextScenario,false);
+                }
+            });
+
+        }
+
     }
 
 
@@ -119,6 +145,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         youTubePlayerView = view.findViewById(R.id.youtube_player_view);
         triesLeft = view.findViewById(R.id.tries_tv);
 
+
+        NetworkController.getInstance().setUpdateFragmentListener(this);
 
         fireBase = FireBase.getInstance();
 
@@ -169,8 +197,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                         startNextScenario(currentScenario.getOnfailure().getNextScenarioID());
                     }
 
-                    mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
-                    mainController.sendDataToIp(IP, "sad");
+                    //mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
+                    mainController.sendDataToIp(mainController.getIp(), "sad");
 
                 }
             }
@@ -229,36 +257,27 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 //        }.start();
 //    }
 
-
     private void startNextScenario(String nextScenario)
     {
-        final LottieAnimation lottieAnimation = new LottieAnimation();
+        nextcurrentScenario = nextScenario;
+        final LottieAnimation tempLottieAnimation = new LottieAnimation();
+        lottieAnimation = tempLottieAnimation;
+        countdownView.stop();
+
+
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        lottieAnimation.setListener(new updateFragment() {
+        tempLottieAnimation.setListener(new updateFragment() {
             @Override
-            public void updateData(Object data) {
+            public void updateData(Object data, String type) {
 
             }
         });
-        lottieAnimation.show(fragmentManager,"lottie");
-
+        tempLottieAnimation.show(fragmentManager,"lottie");
         //String nextScenarioID = currentScenario.getOnSuccess().getNextScenarioID();
 
 
 
-        fireBase.getScenario(nextScenario, new DataListener()
-        {
-            @Override
-            public void onDataLoad(Object o)
-            {
-                lottieAnimation.dismiss();
-                Scenario nextScenario = (Scenario) o;
 
-                Log.d("onDataLoad",nextScenario.toString());
-
-                startScenario(nextScenario,false);
-            }
-        });
 
 
     }
@@ -272,8 +291,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         {
             startNextScenario(currentScenario.getOnSuccess().getNextScenarioID());
             speakerBoxTTS(currentScenario.getOnSuccess().getAction().getTextOrWav());
-            mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
-            mainController.sendDataToIp(IP, "happy");
+            //mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
+            mainController.sendDataToIp(mainController.getIp(), "happy");
 
         }else
         {
@@ -289,8 +308,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 startNextScenario(currentScenario.getOnfailure().getNextScenarioID());
             }
 
-            mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
-            mainController.sendDataToIp(IP, "sad");
+           // mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
+            mainController.sendDataToIp(mainController.getIp(), "sad");
         }
 
 //        switch (sender)
@@ -421,7 +440,6 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         //timerFragment.setListener(testFragment);
         timerFragment.setCancelable(false);
         timerFragment.show(fragmentManager, "speech");
-
     }
 
     @Override
@@ -432,7 +450,6 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private boolean checkIndex(int index){
         return (index>=scenarios.size());
     }
-
 
     private void initializeTTS() {
         mTTS = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
@@ -553,8 +570,10 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
     }
 
+
     private String activateScenario(Scenario[] scenario,int i)
     {
+        /*
             Action[] action = (Action[]) scenario[i].getActions().toArray();
 
             youTubePlayerView.getYouTubePlayerWhenReady(new YouTubePlayerCallback() {
@@ -611,9 +630,10 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             countdownView.start(time*1000);
 
         }
+        */
 
             //setUpSpotClick();
-            return expectedAnswer;
+            return "";
 
         }
 

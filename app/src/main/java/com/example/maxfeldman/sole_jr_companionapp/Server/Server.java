@@ -16,10 +16,10 @@ import java.net.Socket;
  * Created by MAX FELDMAN on 04/01/2019.
  */
 
-public class Server implements Runnable {
+public class Server implements Runnable
+{
 
-
-    private final int PORT = 123456;
+    private final int PORT = 1234;
     private boolean SERVER_IS_RUNNING = true;
     private ObjectInputStream inputStream = null;
     private ObjectOutputStream outputStream = null;
@@ -58,20 +58,11 @@ public class Server implements Runnable {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                String compMessage = null;
-                String test = "ack";
                 try {
-                    if(message!=null) {
-
-                        if (message.equals("finVideo")) {
-
-                        }
-                        else{
-                            Log.e("error",message);
-
-                        }
-
-
+                    if(message!=null)
+                    {
+                        Log.d("msgFromServer",message);
+                        listener.updateData(message,message);
                     }
 
 

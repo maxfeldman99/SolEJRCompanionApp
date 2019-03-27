@@ -45,7 +45,7 @@ object KotlinNetworkController
                 GlobalScope.launch(Dispatchers.Main)
                 {
                     FirebaseApp.initializeApp(contxt)
-                    update.updateData(toJson)
+                    update.updateData(toJson,"json")
                 }
 
 
@@ -77,9 +77,9 @@ object KotlinNetworkController
                 GlobalScope.launch(Dispatchers.Main)
                 {
                     if (inputId == id) {
-                        listeners.updateData("valid")
+                        listeners.updateData("valid","String")
                     } else {
-                        listeners.updateData("invalid")
+                        listeners.updateData("invalid","String")
                     }
                 }
 

@@ -66,7 +66,7 @@ public class LottieAnimation extends DialogFragment implements updateFragment
             @Override
             public void onAnimationEnd(Animator animation)
             {
-                listener.updateData("done");
+                //listener.updateData("done");
                 dismiss();
             }
 
@@ -108,7 +108,7 @@ public class LottieAnimation extends DialogFragment implements updateFragment
     }
 
     @Override
-    public void updateData(Object data) {
+    public void updateData(Object data,String type) {
 
     }
 }

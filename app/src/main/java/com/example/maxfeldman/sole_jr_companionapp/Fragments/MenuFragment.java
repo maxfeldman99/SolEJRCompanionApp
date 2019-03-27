@@ -89,7 +89,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         kotlinNetworkControllerl = KotlinNetworkController.INSTANCE;
         utilities = Utilities.getInstance();
 
-        mainController.ipValidated = true;
+        //mainController.ipValidated = true;
 
 
         String ip = mainController.getIp();
@@ -102,14 +102,14 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
         prefName = getActivity().getSharedPreferences("prefName", Context.MODE_PRIVATE);
 
-        final String ipAdress = prefName.getString("ipAddress", "");
-        ipEditText.setText(ipAdress);
-        ArrayList<String> lessonsList = new ArrayList<>();
-        lessonsList.add("https://api.myjson.com/bins/zrvxq");
-        lessonsList.add("https://api.myjson.com/bins/10vsl6");
-        lessonsList.add("https://api.myjson.com/bins/s0ne2");
-        lessonsList.add("https://api.myjson.com/bins/pgtwu");
-        lessonsList.add("https://api.myjson.com/bins/19kxqi");
+//        final String ipAdress = prefName.getString("ipAddress", "");
+//        ipEditText.setText(ipAdress);
+//        ArrayList<String> lessonsList = new ArrayList<>();
+//        lessonsList.add("https://api.myjson.com/bins/zrvxq");
+//        lessonsList.add("https://api.myjson.com/bins/10vsl6");
+//        lessonsList.add("https://api.myjson.com/bins/s0ne2");
+//        lessonsList.add("https://api.myjson.com/bins/pgtwu");
+//        lessonsList.add("https://api.myjson.com/bins/19kxqi");
 
         fireBase = FireBase.getInstance();
 
@@ -130,7 +130,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
             }
         });
 
-        /*
+/*
         final KotlinNetworkController networkTest = KotlinNetworkController.INSTANCE;
         networkTest.setContext(getActivity());
 
@@ -190,6 +190,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
 
         if(mainController.isFirstRun){
+            server = new Server();
             startServer();
             mainController.isFirstRun=false;
         }
@@ -224,15 +225,17 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         adapter.notifyDataSetChanged();
     }
 
-    private void goToLesson(Lesson l){
+    private void goToLesson(Lesson lesson){
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         QuestionFragment questionFragment = new QuestionFragment();
         //Intent intent = new Intent(getContext(),MainActivity.class);
        // startActivity(intent);
+
+
+
         fragmentManager.beginTransaction().replace(R.id.SplashActivity,questionFragment,"QuestionFragment").commitNow();
-
-        questionFragment.updateData(l);
-
+        questionFragment.updateData(lesson,"lesson");
+        server.setListener(questionFragment);
     }
 
     private boolean validateIP(final String inputIP)
@@ -249,7 +252,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
             kotlinNetworkControllerl.validateIp(inputIP, new updateFragment()
             {
                 @Override
-                public void updateData(Object data)
+                public void updateData(Object data,String type)
                 {
                     String result = (String) data;
 
