@@ -211,8 +211,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                         startNextScenario(currentScenario.getOnfailure().getNextScenarioID());
                     }
 
-                    //mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
-                    mainController.sendDataToIp(mainController.getIp(), "sad");
+                    mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
+                    //mainController.sendDataToIp(mainController.getIp(), "sadFace");
 
                 }
             }
@@ -310,13 +310,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             startNextScenario(currentScenario.getOnSuccess().getNextScenarioID());
             speakerBoxTTS(currentScenario.getOnSuccess().getAction().getTextOrWav());
             //mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
-            int randAnswer = randAnswer();
-            if(randAnswer==1){
-                data = "happy";
-            }else{
-                data = "funny";
-            }
-
+            data = currentScenario.getOnSuccess().getAction().getEffect();
             mainController.sendDataToIp(mainController.getIp(), data);
 
         }else
@@ -334,7 +328,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             }
 
            // mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
-            mainController.sendDataToIp(mainController.getIp(), "sad");
+            data = currentScenario.getOnfailure().getAction().getEffect();
+            mainController.sendDataToIp(mainController.getIp(), data);
         }
 
 //        switch (sender)
