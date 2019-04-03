@@ -310,7 +310,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             startNextScenario(currentScenario.getOnSuccess().getNextScenarioID());
             speakerBoxTTS(currentScenario.getOnSuccess().getAction().getTextOrWav());
             //mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
-            data = currentScenario.getOnSuccess().getAction().getEffect();
+            data = currentScenario.getOnSuccess().getAction().getWhatToPlay();
             mainController.sendDataToIp(mainController.getIp(), data);
 
         }else
@@ -328,7 +328,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             }
 
            // mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
-            data = currentScenario.getOnfailure().getAction().getEffect();
+            data = currentScenario.getOnfailure().getAction().getWhatToPlay();
             mainController.sendDataToIp(mainController.getIp(), data);
         }
 
@@ -535,7 +535,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
         triesLeft.setText("Tries left: " + answersCounter);
 
-        final String effect = action.get(0).getEffect();
+        final String effect = action.get(0).getWhatToPlay();
         String text = action.get(0).getTextOrWav();
         String type = action.get(0).getWhatToPlay();
         String expectedAnswer = scenario.getWaitFor().getExpectedAnswer().getInput();
