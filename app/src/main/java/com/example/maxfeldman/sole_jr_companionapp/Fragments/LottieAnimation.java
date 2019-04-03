@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 
@@ -20,17 +19,12 @@ import androidx.fragment.app.DialogFragment;
 public class LottieAnimation extends DialogFragment implements updateFragment
 {
 
-    LottieAnimationView animationView;
-    int animationToPlay;
-    TextView animaionText;
+    private LottieAnimationView animationView;
+    private int animationToPlay;
+    private TextView animaionText;
 
-    updateFragment listener;
+    private updateFragment listener;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override

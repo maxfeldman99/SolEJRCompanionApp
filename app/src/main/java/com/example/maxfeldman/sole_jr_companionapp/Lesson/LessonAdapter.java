@@ -16,9 +16,9 @@ import java.util.ArrayList;
 public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.MyViewHolder> {
 
 
-    ArrayList<Lesson> lessonList;
-    Context context;
-    LessonAdapterListener lessonAdapterListener;
+    private final ArrayList<Lesson> lessonList;
+    private final Context context;
+    private LessonAdapterListener lessonAdapterListener;
 
     public LessonAdapter(Context context, ArrayList<Lesson> list)
     {
@@ -59,11 +59,11 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.MyViewHold
 
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
-        TextView nameTv;
-        TextView amountTv;
-        ImageView imageView;
+        final TextView nameTv;
+        final TextView amountTv;
+        final ImageView imageView;
 
-        public MyViewHolder(View itemView)
+        MyViewHolder(View itemView)
         {
             super(itemView);
             amountTv = itemView.findViewById(R.id.tv_item_2);

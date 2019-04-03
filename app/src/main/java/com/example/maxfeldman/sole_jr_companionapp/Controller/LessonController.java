@@ -1,12 +1,5 @@
 package com.example.maxfeldman.sole_jr_companionapp.Controller;
 
-import com.example.maxfeldman.sole_jr_companionapp.Models.Action;
-import com.example.maxfeldman.sole_jr_companionapp.Models.ExpectedAnswer;
-import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
-import com.example.maxfeldman.sole_jr_companionapp.Models.OnFailure;
-import com.example.maxfeldman.sole_jr_companionapp.Models.OnSuccess;
-import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
-import com.example.maxfeldman.sole_jr_companionapp.Models.WaitFor;
 import com.google.gson.Gson;
 
 public class LessonController {

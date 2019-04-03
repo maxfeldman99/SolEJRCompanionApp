@@ -26,7 +26,7 @@ import androidx.annotation.NonNull;
 public class FireBase {
 
 
-    public FirebaseFirestore db;
+    private FirebaseFirestore db;
     private static FireBase ourInstance = null;
 
     private Context context;
@@ -43,16 +43,8 @@ public class FireBase {
         return ourInstance;
     }
 
-    private FireBase()
-    {
-//        db = FirebaseFirestore.getInstance();
-    }
+    private FireBase() { }
 
-    public void iniFirebase()
-    {
-       // FirebaseApp.initializeApp(context);
-
-    }
 
     public void setContext(Context context)
     {

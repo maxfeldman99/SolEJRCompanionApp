@@ -15,7 +15,7 @@ import com.example.maxfeldman.sole_jr_companionapp.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TimerFragment extends DialogFragment {
+class TimerFragment extends DialogFragment {
 
     private int myTime = 3;
     private TextView timerText;

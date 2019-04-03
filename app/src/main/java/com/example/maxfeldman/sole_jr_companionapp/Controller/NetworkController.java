@@ -16,7 +16,7 @@ public class NetworkController
     private Socket socket;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
-    boolean socketIsOpen = false;
+    private boolean socketIsOpen = false;
 
     private updateFragment updateFragmentListener;
 

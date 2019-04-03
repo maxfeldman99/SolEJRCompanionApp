@@ -1,6 +1,5 @@
 package com.example.maxfeldman.sole_jr_companionapp.util;
 
-import com.example.maxfeldman.sole_jr_companionapp.Helpers.FireBase;
 import com.example.maxfeldman.sole_jr_companionapp.Server.Server;
 
 import androidx.appcompat.app.AppCompatActivity;

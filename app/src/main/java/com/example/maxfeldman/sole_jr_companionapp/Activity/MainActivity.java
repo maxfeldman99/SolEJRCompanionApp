@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
+
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.QuestionFragment;
-import com.example.maxfeldman.sole_jr_companionapp.Helpers.DataListener;
-import com.example.maxfeldman.sole_jr_companionapp.Helpers.FireBase;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.google.firebase.FirebaseApp;
 

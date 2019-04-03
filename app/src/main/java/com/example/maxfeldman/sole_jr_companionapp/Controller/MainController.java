@@ -1,8 +1,5 @@
 package com.example.maxfeldman.sole_jr_companionapp.Controller;
 
-import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
-import com.google.gson.Gson;
-
 public class MainController
 {
     private static final MainController ourInstance = new MainController();
@@ -13,9 +10,9 @@ public class MainController
 
     public boolean testLastScenario = false;
 
-    NetworkController networkController;
+    private final NetworkController networkController;
 
-    LessonController lessonController;
+    private final LessonController lessonController;
 
     public static MainController getInstance() {
         return ourInstance;

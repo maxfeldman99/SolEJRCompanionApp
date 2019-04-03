@@ -22,9 +22,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SpotClickFragment extends Fragment implements OnClickableAreaClickedListener {
-
-    private ImageView imageClick;
+class SpotClickFragment extends Fragment implements OnClickableAreaClickedListener {
 
     public SpotClickFragment() {
         // Required empty public constructor
@@ -36,7 +34,7 @@ public class SpotClickFragment extends Fragment implements OnClickableAreaClicke
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_spot_click, container, false);
-        imageClick = view.findViewById(R.id.image_click);
+        ImageView imageClick = view.findViewById(R.id.image_click);
 
         imageClick.setImageResource(R.drawable.flamingo);
 

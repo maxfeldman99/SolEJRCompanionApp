@@ -22,12 +22,9 @@ import com.example.maxfeldman.sole_jr_companionapp.Helpers.DataListener;
 import com.example.maxfeldman.sole_jr_companionapp.Helpers.FireBase;
 import com.example.maxfeldman.sole_jr_companionapp.Lesson.LessonAdapter;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
-import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
-import com.example.maxfeldman.sole_jr_companionapp.Server.Server;
 import com.example.maxfeldman.sole_jr_companionapp.util.Utilities;
-import com.google.firebase.FirebaseApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,24 +44,24 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapterListener {
 
     private RecyclerView recyclerView;
-    RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView.LayoutManager mLayoutManager;
     private LessonAdapter adapter;
-    final ArrayList<Lesson> lessonList = new ArrayList<>();
-    MediaPlayer mediaPlayer;
-    boolean isValid = false;
-    SharedPreferences prefName;
-    boolean muteFlag = true;
-    MainController mainController;
-    EditText ipEditText;
-    ImageView imageVal;
+    private final ArrayList<Lesson> lessonList = new ArrayList<>();
+    private MediaPlayer mediaPlayer;
+    private boolean isValid = false;
+    private SharedPreferences prefName;
+    private boolean muteFlag = true;
+    private MainController mainController;
+    private EditText ipEditText;
+    private ImageView imageVal;
 
-    NetworkController networkController;
-    KotlinNetworkController kotlinNetworkControllerl;
-    Utilities utilities;
-    FireBase fireBase;
+    private NetworkController networkController;
+    private KotlinNetworkController kotlinNetworkControllerl;
+    private Utilities utilities;
+    private FireBase fireBase;
 
 
-    AppCompatActivity appCompatActivity;
+    private AppCompatActivity appCompatActivity;
 
     public MenuFragment() {
 
@@ -237,7 +234,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         Toast.makeText(getContext(), "long clicked", Toast.LENGTH_SHORT).show();
     }
 
-    public void setAdapter(ArrayList<Lesson> adapterWithData){
+    private void setAdapter(ArrayList<Lesson> adapterWithData){
         adapter = new LessonAdapter(this.getActivity(),adapterWithData);
         adapter.setMyClickListener(this);
         recyclerView.setAdapter(adapter);
@@ -259,7 +256,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
     }
 
-    private boolean validateIP(final String inputIP)
+    private void validateIP(final String inputIP)
     {
           final Pattern IP_ADDRESS
                 = Pattern.compile(
@@ -268,24 +265,20 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
                         + "[0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}"
                         + "|[1-9][0-9]|[0-9]))");
         Matcher matcher = IP_ADDRESS.matcher(inputIP);
-        if (matcher.matches())
-        {
-            kotlinNetworkControllerl.validateIp(inputIP, new updateFragment()
-            {
+        if (matcher.matches()) {
+            kotlinNetworkControllerl.validateIp(inputIP, new updateFragment() {
                 @Override
-                public void updateData(Object data,String type)
-                {
+                public void updateData(Object data, String type) {
                     String result = (String) data;
 
-                    if(result.equals("valid"))
-                    {
+                    if (result.equals("valid")) {
                         imageVal.setImageResource(R.drawable.ic_done);
                         imageVal.setVisibility(View.VISIBLE);
                         mainController.setIp(inputIP);
                         mainController.ipValidated = true;
                         isValid = true;
 
-                    }else {
+                    } else {
                         imageVal.setImageResource(R.drawable.ic_error);
                         imageVal.setVisibility(View.VISIBLE);
                         mainController.ipValidated = false;
@@ -297,7 +290,6 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
 
         }
-        return false;
     }
 
     private void playIntroSound(){

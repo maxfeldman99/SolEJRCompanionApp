@@ -9,7 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import androidx.annotation.Nullable;
+
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -41,10 +41,9 @@ public class SpeechRecognitionFragment extends DialogFragment
     private TextView textViewOutput;
     private static final int REQUEST_RECORD_AUDIO_PERMISSION_CODE = 1;
     private RecognitionProgressView recognitionProgressView;
-    int[] colors = new int[5];
-    private String testAcc = "horse";
+    private final int[] colors = new int[5];
     private TextView accTextView;
-    DialogFragmentListener listener;
+    private DialogFragmentListener listener;
 
 
     public SpeechRecognitionFragment()
@@ -183,6 +182,7 @@ public class SpeechRecognitionFragment extends DialogFragment
 
 
         String recognized = matches.get(0);
+        String testAcc = "horse";
         int acc = percentageOfTextMatch(testAcc,recognized);
 
         if(acc >= 85)
@@ -239,7 +239,7 @@ public class SpeechRecognitionFragment extends DialogFragment
 
     }
 
-    public int levenshteinDistance (CharSequence lhs, CharSequence rhs) {
+    private int levenshteinDistance(CharSequence lhs, CharSequence rhs) {
         int len0 = lhs.length() + 1;
         int len1 = rhs.length() + 1;
 
@@ -279,7 +279,7 @@ public class SpeechRecognitionFragment extends DialogFragment
         return cost[len0 - 1];
     }
 
-    public int percentageOfTextMatch(String s0, String s1) {
+    private int percentageOfTextMatch(String s0, String s1) {
         int percentage = 0;
         // Trim and remove duplicate spaces
         s0 = s0.trim().replaceAll("\\s+", " ");
