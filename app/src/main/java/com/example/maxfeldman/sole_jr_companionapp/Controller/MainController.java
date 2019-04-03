@@ -11,6 +11,8 @@ public class MainController
     public boolean ipValidated = false;
     public boolean isFirstRun = true;
 
+    public boolean testLastScenario = false;
+
     NetworkController networkController;
 
     LessonController lessonController;

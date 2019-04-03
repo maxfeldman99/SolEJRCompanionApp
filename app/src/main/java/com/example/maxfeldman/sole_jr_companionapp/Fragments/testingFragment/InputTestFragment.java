@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
+import com.example.maxfeldman.sole_jr_companionapp.Fragments.QuestionFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 
@@ -131,6 +132,15 @@ public class InputTestFragment extends DialogFragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        QuestionFragment questionFragment = (QuestionFragment) listener;
+
+        questionFragment.isPreformedClick = false;
     }
 
 }

@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
+import com.example.maxfeldman.sole_jr_companionapp.Fragments.QuestionFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.github.zagum.speechrecognitionview.RecognitionProgressView;
@@ -324,5 +325,14 @@ public class SpeechRecognitionFragment extends DialogFragment
     private void setOrientationLandscape(){
         getActivity().setRequestedOrientation(
                 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        QuestionFragment questionFragment = (QuestionFragment) listener;
+
+        questionFragment.isPreformedClick = false;
     }
 }

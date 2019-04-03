@@ -84,6 +84,12 @@ public class FireBase {
 
     public void getLesson(String collection, String id,final DataListener listener){
 
+
+        FirebaseApp.initializeApp(context);
+
+        db = FirebaseFirestore.getInstance();
+
+
         DocumentReference docRef = db.collection(collection).document(id);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override

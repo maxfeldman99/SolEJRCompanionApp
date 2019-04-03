@@ -1,6 +1,5 @@
 package com.example.maxfeldman.sole_jr_companionapp.Fragments;
 
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,8 +28,8 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
+import com.example.maxfeldman.sole_jr_companionapp.util.Utilities;
 import com.mapzen.speakerbox.Speakerbox;
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback;
@@ -73,6 +72,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private Speakerbox speakerbox;
     private CountdownView countdownView;
     private TextView triesLeft;
+    public boolean isPreformedClick = false;
 
     private TextToSpeech mTTS = null;
 
@@ -86,7 +86,9 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     String nextcurrentScenario;
     int answersCounter;
 
-    AppCompatActivity activity;
+    AppCompatActivity activity = Utilities.getInstance().currentActivity;
+
+    boolean testLastScenario = false;
 
 
     @Override
@@ -96,15 +98,31 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         {
 
             Lesson lesson = (Lesson) data;
-            scenarios = lesson.getScenarios();
+            //scenarios = lesson.getScenarios();
             Log.d("TAG", lesson.getTitle());
             //activateScenario((Scenario[]) scenarios.toArray(),questionCounter);
-            startScenario(lesson.getScenarios().get(0),false);
+
+            final LottieAnimation tempLottieAnimation = new LottieAnimation();
+            lottieAnimation = tempLottieAnimation;
+
+            FragmentManager fragmentManager = Utilities.getInstance().currentActivity.getSupportFragmentManager();
+
+            tempLottieAnimation.show(fragmentManager,"lottie");
+
+            FireBase.getInstance().getScenario(lesson.getFirstScenarioName()
+                    , new DataListener() {
+                        @Override
+                        public void onDataLoad(Object o)
+                        {
+                            lottieAnimation.dismiss();
+                            Scenario scenario = (Scenario) o;
+                            startScenario(scenario,false);
+                        }
+                    });
 
         }
         if(type.equals("finVideo"))
         {
-            //lottieAnimation.dismiss();
 
             fireBase.getScenario(nextcurrentScenario, new DataListener()
             {
@@ -168,30 +186,41 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             @Override
             public void onClick(View view) {
 
-                switch (inputText)
-                {
-                    case "speech":
-                    {
-                        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                        SpeechRecognitionFragment srf = new SpeechRecognitionFragment();
-                        QuestionFragment testFragment = (QuestionFragment) getActivity().getSupportFragmentManager().findFragmentByTag("QuestionFragment");
-                        srf.setListener(testFragment);
-                        srf.show(fragmentManager, "speech");
-                        break;
-                    }
+               if(!isPreformedClick)
+               {
+                   isPreformedClick = true;
+                   switch (inputText)
+                   {
+                       case "speech":
+                       {
+                           FragmentManager fragmentManager = Utilities.getInstance().currentActivity.getSupportFragmentManager();
 
-                    case "inputText":
-                    {
-                        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                        InputTestFragment itf = new InputTestFragment();
-                        QuestionFragment testFragment = (QuestionFragment) getActivity().getSupportFragmentManager().findFragmentByTag("QuestionFragment");
-                        itf.setListener(testFragment);
-                        itf.show(fragmentManager,"inputText");
-
-                    }
-                }
+                           SpeechRecognitionFragment srf = new SpeechRecognitionFragment();
+                           QuestionFragment testFragment = (QuestionFragment) Utilities.getInstance().currentActivity.getSupportFragmentManager().findFragmentByTag("QuestionFragment");
+                           srf.setListener(testFragment);
 
 
+                           srf.show(fragmentManager, "speech");
+
+
+                           break;
+                       }
+
+                       case "inputText":
+                       {
+
+                           FragmentManager fragmentManager = Utilities.getInstance().currentActivity.getSupportFragmentManager();
+
+
+                           InputTestFragment itf = new InputTestFragment();
+                           QuestionFragment testFragment = (QuestionFragment) Utilities.getInstance().currentActivity.getSupportFragmentManager().findFragmentByTag("QuestionFragment");
+                           itf.setListener(testFragment);
+                           itf.show(fragmentManager,"inputText");
+
+                       }
+                   }
+
+               }
             }
         });
 
@@ -228,48 +257,12 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 }
             }
         });
-        //activateTimer(QUESTION_TIME);
 
-
-        //scenarios = getScenariosFromLesson();
-
-        //activateScenario(scenarios,0);
-
-//        for (int i = 0; i < scenarios.length; i++)
-//        {
-//            if(questionCounter<4) {
-//                correctAnswer = activateScenario(scenarios, questionCounter);
-//
-//            }
-//        }
-
-
-
-        //getScenariosFromLesson();
 
         return view;
     }
 
-//    private void activateTimer(int time) {
-//        myTime = time;
-//        new CountDownTimer(time * 1000, 1000) {
-//            public void onTick(long millisUntilFinished) {
-//                timerText.setText("" + millisUntilFinished / 1000);
-//                myTime--;
-//                if (myTime == 5) {
-//                    timerText.setTextColor(getResources().getColor(R.color.colorRed));
-//                    speakerBoxTTS("Hurry!,time is running up!");
-//                }
-//            }
-//
-//            public void onFinish() {
-//                timerText.setText("0");
-//                questionCounter++;
-//                activateScenario(scenarios,questionCounter);
-//            }
-//
-//        }.start();
-//    }
+
 
     private void startNextScenario(String nextScenario)
     {
@@ -285,7 +278,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             countdownView.stop();
 
 
-            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+            FragmentManager fragmentManager = Utilities.getInstance().currentActivity.getSupportFragmentManager();
             tempLottieAnimation.setListener(new updateFragment() {
                 @Override
                 public void updateData(Object data, String type) {
@@ -303,6 +296,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     @Override
     public void onComplete(Object o, String sender)
     {
+        isPreformedClick = false;
         String result = (String) o;
         String data;
         if(correctAnswer.toLowerCase().trim().equals(result.toLowerCase().trim()))
@@ -310,8 +304,14 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             startNextScenario(currentScenario.getOnSuccess().getNextScenarioID());
             speakerBoxTTS(currentScenario.getOnSuccess().getAction().getTextOrWav());
             //mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
-            data = currentScenario.getOnSuccess().getAction().getWhatToPlay();
+            data = currentScenario.getOnSuccess().getAction().getEffect()   ;
             mainController.sendDataToIp(mainController.getIp(), data);
+
+            if(currentScenario.getOnSuccess().getNextScenarioID().equals("exit"))
+            {
+                testLastScenario = true;
+                mainController.testLastScenario = true;
+            }
 
         }else
         {
@@ -328,138 +328,15 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
             }
 
            // mainController.sendDataToIp(IP, currentScenario.getOnSuccess().getAction().getEffect());
-            data = currentScenario.getOnfailure().getAction().getWhatToPlay();
+            data = currentScenario.getOnfailure().getAction().getEffect();
             mainController.sendDataToIp(mainController.getIp(), data);
+
+            if(currentScenario.getOnfailure().getNextScenarioID().equals("exit"))
+            {
+                testLastScenario = true;
+                mainController.testLastScenario = true;
+            }
         }
-
-//        switch (sender)
-//        {
-//            case "speech": {
-//                String result = (String) o;
-//
-//                if (result.equals(correctAnswer))
-//                {
-//                    startNextScenario(currentScenario.getOnSuccess().getNextScenarioID());
-//
-//                    mainController.sendDataToIp(IP, "happy");
-//                    //questionCounter++;
-//                    if(checkIndex(questionCounter))
-//                    {
-//                        goBackToMenu();
-//                    }else
-//                    {
-//                        lottieAnimation = new LottieAnimation();
-//                        lottieAnimation.setListener(new updateFragment() {
-//                            @Override
-//                            public void updateData(Object data)
-//                            {
-//                                activateScenario((Scenario[]) scenarios.toArray(),questionCounter);
-//
-//                            }
-//                        });
-//
-//                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                        lottieAnimation.show(fragmentManager,"lottie");
-//
-//                    }
-//                    //goToNextFragment();
-//                } else {
-//                    mainController.sendDataToIp(IP, "sad");
-//                    questionCounter++;
-//                    if(checkIndex(questionCounter))
-//                    {
-//                        goBackToMenu();
-//                    }
-//                    else
-//                    {
-//                        lottieAnimation = new LottieAnimation();
-//                        lottieAnimation.setListener(new updateFragment() {
-//                            @Override
-//                            public void updateData(Object data)
-//                            {
-//                                activateScenario((Scenario[]) scenarios.toArray(),questionCounter );
-//
-//                            }
-//                        });
-//
-//                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                        lottieAnimation.show(fragmentManager,"lottie");
-//
-//                    }                    //goToNextFragment();
-//                }
-//                Log.d("TestFrag", result);
-//            }
-//
-//
-//            break;
-//
-//            case "input": {
-//                String result = (String) o;
-//
-//                if (result.equals(correctAnswer)) {
-//                    mainController.sendDataToIp(IP, "happy");
-//                    questionCounter++;
-//                    if(checkIndex(questionCounter))
-//                    {
-//                        goBackToMenu();
-//                    }
-//                    else
-//                    {
-//                        lottieAnimation = new LottieAnimation();
-//                        lottieAnimation.setListener(new updateFragment() {
-//                            @Override
-//                            public void updateData(Object data)
-//                            {
-//                                activateScenario((Scenario[]) scenarios.toArray(),questionCounter );
-//
-//                            }
-//                        });
-//
-//                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                        lottieAnimation.show(fragmentManager,"lottie");
-//
-//                    }
-//                    //goToNextFragment();
-//                } else {
-//                    mainController.sendDataToIp(IP, "sad");
-//                    questionCounter++;
-//                    if(checkIndex(questionCounter))
-//                    {
-//                        goBackToMenu();
-//                    }
-//                    else
-//                    {
-//                        lottieAnimation = new LottieAnimation();
-//                        lottieAnimation.setListener(new updateFragment() {
-//                            @Override
-//                            public void updateData(Object data)
-//                            {
-//                                activateScenario((Scenario[]) scenarios.toArray(),questionCounter );
-//
-//                            }
-//                        });
-//
-//                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                        lottieAnimation.show(fragmentManager,"lottie");
-//
-//                    }                    //goToNextFragment();
-//                }
-//
-//                Log.d("TestFrag", result);
-//
-//                break;
-//
-//            }
-//        }
-    }
-
-    public void goToNextFragment() {
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        TimerFragment timerFragment = new TimerFragment();
-        QuestionFragment testFragment = (QuestionFragment) activity.getSupportFragmentManager().findFragmentByTag("QuestionFragment");
-        //timerFragment.setListener(testFragment);
-        timerFragment.setCancelable(false);
-        timerFragment.show(fragmentManager, "speech");
     }
 
     @Override
@@ -505,7 +382,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     }
 
     private void setOrientationLandscape(){
-        getActivity().setRequestedOrientation(
+        Utilities.getInstance().currentActivity.setRequestedOrientation(
                 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 
@@ -525,6 +402,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
     private void startScenario(Scenario scenario,boolean isWrong)
     {
+
         List<Action> action = scenario.getActions();
 
         currentScenario = scenario;
@@ -545,8 +423,9 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         questionImage.setImageDrawable(null); // to refresh the picture
         final Long time = Long.valueOf(action.get(0).getTimeForAction());
 
-        speakerBoxTTS(text);
-
+       // if(!currentQuestion.equals("exit")) {
+            speakerBoxTTS(text);
+        //}
         youTubePlayerView.getYouTubePlayerWhenReady(new YouTubePlayerCallback() {
             @Override
             public void onYouTubePlayer(@NotNull YouTubePlayer youTubePlayer) {
@@ -555,7 +434,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         });
 
 
-        if(type.equals("youtube"))
+        if(!type.startsWith("http"))
         {
             youTubePlayerView.setVisibility(View.VISIBLE);
 
@@ -580,7 +459,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
             questionImage.setVisibility(View.VISIBLE);
 
-            Glide.with(activity) // this section is for updating the image
+            Glide.with(Utilities.getInstance().currentActivity) // this section is for updating the image
                     .load(effect)
                     .into(questionImage);
             countdownView.start(time*1000);
@@ -590,88 +469,24 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     }
 
 
-    private String activateScenario(Scenario[] scenario,int i)
-    {
-        /*
-            Action[] action = (Action[]) scenario[i].getActions().toArray();
-
-            youTubePlayerView.getYouTubePlayerWhenReady(new YouTubePlayerCallback() {
-                @Override
-                public void onYouTubePlayer(@NotNull YouTubePlayer youTubePlayer) {
-                    youTubePlayer.pause();
-                }
-            });
-
-
-            final String effect = action[0].getEffect();
-            String text = action[0].getTextOrWav();
-            String type = action[0].getWhatToPlay();
-            String expectedAnswer = scenario[i].getWaitFor().getExpectedAnswer().getInput();
-            inputText = scenario[i].getWaitFor().getTypeOfInput();
-            correctAnswer = expectedAnswer;
-            currentQuestion.setText(text);
-            questionImage.setImageDrawable(null); // to refresh the picture
-
-            final Long time = Long.valueOf(action[0].getTimeForAction());
-
-
-        speakerBoxTTS(text);
-
-        if(type.equals("youtube"))
-        {
-            youTubePlayerView.setVisibility(View.VISIBLE);
-
-            questionImage.setVisibility(View.GONE);
-
-            youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener()
-            {
-                @Override
-                public void onReady(@NotNull YouTubePlayer youTubePlayer)
-                {
-                    youTubePlayer.loadVideo(effect,0);
-                    youTubePlayer.play();
-                    countdownView.start(time*1000);
-                }
-
-            });
-
-
-
-        }else
-        {
-            youTubePlayerView.setVisibility(View.GONE);
-
-            questionImage.setVisibility(View.VISIBLE);
-
-            Glide.with(getContext()) // this section is for updating the image
-                    .load(effect)
-                    .into(questionImage);
-            countdownView.start(time*1000);
-
-        }
-        */
-
-            //setUpSpotClick();
-            return "";
-
-        }
-
         private void goBackToMenu(){
 
             questionCounter = 0;
             countdownView.stop();
-            if(activity != null)
+            if(Utilities.getInstance().currentActivity != null)
             {
-                FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
+                FragmentManager supportFragmentManager = Utilities.getInstance().currentActivity.getSupportFragmentManager();
                 MenuFragment menuFragment = new MenuFragment();
                 supportFragmentManager.beginTransaction().replace(R.id.SplashActivity,menuFragment,"menuFragment").commitNow();
+                //supportFragmentManager.beginTransaction().remove(this).commitNow();
+
             }
         }
 
     @Override
     public void speakerBoxTTS(String question)
     {
-        speakerbox = new Speakerbox(activity.getApplication());
+        speakerbox = new Speakerbox(Utilities.getInstance().currentActivity.getApplication());
         speakerbox.play(question);
 
         if(currentScenario.getActions().get(0).getTextOrWav().toLowerCase()
@@ -679,22 +494,15 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         {
                     new Handler().postDelayed(new Runnable() {
             @Override
-            public void run() {
+            public void run()
+            {
                 answerButton.performClick();
+
             }
                    },3000);
 
 
         }
-
-//
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                answerButton.performClick();
-//            }
-//        },5000);
-
     }
 
     @Override
@@ -750,9 +558,9 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         {
             case "speech":
             {
-                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                FragmentManager fragmentManager = Utilities.getInstance().currentActivity.getSupportFragmentManager();
                 SpeechRecognitionFragment srf = new SpeechRecognitionFragment();
-                QuestionFragment testFragment = (QuestionFragment) getActivity().getSupportFragmentManager().findFragmentByTag("QuestionFragment");
+                QuestionFragment testFragment = (QuestionFragment) Utilities.getInstance().currentActivity.getSupportFragmentManager().findFragmentByTag("QuestionFragment");
                 srf.setListener(testFragment);
                 srf.show(fragmentManager, "speech");
                 break;
@@ -760,9 +568,9 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
             case "inputText":
             {
-                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                FragmentManager fragmentManager = Utilities.getInstance().currentActivity.getSupportFragmentManager();
                 InputTestFragment itf = new InputTestFragment();
-                QuestionFragment testFragment = (QuestionFragment) getActivity().getSupportFragmentManager().findFragmentByTag("QuestionFragment");
+                QuestionFragment testFragment = (QuestionFragment) Utilities.getInstance().currentActivity.getSupportFragmentManager().findFragmentByTag("QuestionFragment");
                 itf.setListener(testFragment);
                 itf.show(fragmentManager,"inputText");
 

@@ -2,6 +2,7 @@ package com.example.maxfeldman.sole_jr_companionapp.Server;
 
 import android.util.Log;
 
+import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 
 import com.google.gson.Gson;
@@ -62,7 +63,12 @@ public class Server implements Runnable
                     if(message!=null)
                     {
                         Log.d("msgFromServer",message);
-                        listener.updateData(message,message);
+
+                        boolean testLastScenario = MainController.getInstance().testLastScenario;
+                        if(!testLastScenario)
+                        {
+                            listener.updateData(message,message);
+                        }
                     }
 
 

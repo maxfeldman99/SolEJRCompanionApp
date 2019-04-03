@@ -62,7 +62,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     KotlinNetworkController kotlinNetworkControllerl;
     Utilities utilities;
     FireBase fireBase;
-    private Server server;
+
 
     AppCompatActivity appCompatActivity;
 
@@ -80,7 +80,8 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
         recyclerView = view.findViewById(R.id.my_recycler_view);
@@ -101,8 +102,16 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         kotlinNetworkControllerl = KotlinNetworkController.INSTANCE;
         utilities = Utilities.getInstance();
 
-        //mainController.ipValidated = true;
+       // mainController.ipValidated = true;
 
+
+//        Fragment questionFragment = appCompatActivity.getSupportFragmentManager().findFragmentByTag("QuestionFragment");
+//
+//        if(questionFragment != null)
+//        {
+//            appCompatActivity.getSupportFragmentManager().beginTransaction().remove(questionFragment)
+//                    .commitNow();
+//        }
 
         String ip = mainController.getIp();
 
@@ -204,12 +213,6 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         });
 
 
-        if(mainController.isFirstRun){
-            server = new Server();
-            startServer();
-            mainController.isFirstRun=false;
-        }
-
 
 
 
@@ -221,6 +224,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
         if(mainController.ipValidated){
             mediaPlayer.stop();
+            mainController.testLastScenario = false;
             goToLesson(lessonList.get(position));
         }else{
             Toast.makeText(getContext(), "Please Enter a Valid IP Address of Destination Unit", Toast.LENGTH_SHORT).show();
@@ -251,7 +255,7 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
         fragmentManager.beginTransaction().replace(R.id.SplashActivity,questionFragment,"QuestionFragment").commitNow();
         questionFragment.updateData(lesson,"lesson");
-        server.setListener(questionFragment);
+        Utilities.getInstance().getServer().setListener(questionFragment);
 
     }
 
@@ -330,9 +334,4 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         }
     }
 
-
-    public void startServer(){
-        Thread thread = new Thread(server);
-        thread.start();
-    }
 }
