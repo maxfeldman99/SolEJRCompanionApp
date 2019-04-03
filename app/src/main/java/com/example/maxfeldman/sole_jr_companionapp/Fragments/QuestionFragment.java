@@ -227,10 +227,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         countdownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
             @Override
             public void onEnd(CountdownView cv) {
-                if(checkIndex(questionCounter+1)) {
-                    goBackToMenu();
-                }else{
-                    answersCounter-=10;
+
+                    answersCounter--;
                     triesLeft.setText("Tries left: " + answersCounter);
                     if(answersCounter > 0)
                     {
@@ -244,7 +242,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                     //mainController.sendDataToIp(mainController.getIp(), "sadFace");
 
                 }
-            }
+
 
 
         });
