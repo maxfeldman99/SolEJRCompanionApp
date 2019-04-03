@@ -26,14 +26,7 @@ import java.util.Locale;
  */
 public class InputTestFragment extends DialogFragment {
 
-    private String answer = "android";
-    private final int QUESTION_TIME = 15;
-    private TextView timerText;
-    private int myTime;
-    private boolean correct = false;
     private TextToSpeech mTTS;
-    private String taskText = "spell correct the content of the image";
-
     private DialogFragmentListener listener;
 
 
@@ -77,44 +70,12 @@ public class InputTestFragment extends DialogFragment {
     }
 
 
-    private void test_execute(String tosend, String face, String speechText) {
-        VideoFragment videoFragment = VideoFragment.newInstance(face);
-        TestFragment testFragment = new TestFragment();
-        //speak(speechText,0.2f,0.9f);
-        NetworkController controller = NetworkController.getInstance();
-        NetworkController.getInstance().openSocket("192.168.137.136",face);
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainFragmentPlaceHolder, testFragment).commit();
-    }
-
-    private void speak(String speechText,float pitch,float speed)
-    {
-
-
-        //networkController.sayTTS("Testig",getActivity().getApplication());
-
-        //mTTS.setSpeechRate(speed);
-       // mTTS.setPitch(pitch);
-       // mTTS.speak(speechText, TextToSpeech.QUEUE_FLUSH,null);
-
-
-    }
-
-
-
     @Override
     public void onResume() {
         super.onResume();
         if(mTTS==null){
             initializeTTS();
         }
-        speak(taskText,0.4f,0.9f);
     }
 
     private void initializeTTS(){

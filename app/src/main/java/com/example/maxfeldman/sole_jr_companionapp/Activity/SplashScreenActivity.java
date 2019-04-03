@@ -5,7 +5,9 @@ import android.os.Bundle;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.MenuFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Helpers.DataListener;
 import com.example.maxfeldman.sole_jr_companionapp.Helpers.FireBase;
+import com.example.maxfeldman.sole_jr_companionapp.Models.Action;
 import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
+import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.example.maxfeldman.sole_jr_companionapp.Server.Server;
 import com.example.maxfeldman.sole_jr_companionapp.util.Utilities;
@@ -32,6 +34,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         FireBase.getInstance().setContext(this);
        // FireBase.getInstance().iniFirebase();
 
+
         MenuFragment menuFragment = new MenuFragment();
 
         getSupportFragmentManager().beginTransaction()
@@ -48,9 +51,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     public void onDataLoad(Object o)
                     {
                         Lesson lesson = (Lesson) o;
-
                         System.out.println(lesson);
-
                     }
                 });
     }

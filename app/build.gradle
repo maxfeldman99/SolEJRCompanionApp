@@ -34,7 +34,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
 
     implementation 'com.github.zagum:SpeechRecognitionView:1.2.2' // speech recognition
-    implementation 'com.mapzen.android:speakerbox:1.4.1' // TTS
+    implementation 'com.mapzen.android:speakerbox:1.4.1'
 
     implementation 'com.github.bumptech.glide:glide:4.8.0' // glide
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0' // glide

@@ -211,7 +211,6 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
                            FragmentManager fragmentManager = Utilities.getInstance().currentActivity.getSupportFragmentManager();
 
-
                            InputTestFragment itf = new InputTestFragment();
                            QuestionFragment testFragment = (QuestionFragment) Utilities.getInstance().currentActivity.getSupportFragmentManager().findFragmentByTag("QuestionFragment");
                            itf.setListener(testFragment);
