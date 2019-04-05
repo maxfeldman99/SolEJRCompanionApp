@@ -67,7 +67,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:18.0.1' //firestor
 
 
-
 }
 
 apply plugin: 'com.google.gms.google-services'

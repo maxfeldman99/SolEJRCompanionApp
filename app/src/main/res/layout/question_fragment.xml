@@ -80,7 +80,7 @@
 
             <ImageView
                 android:layout_width="1000dp"
-                android:layout_height="600dp"
+                android:layout_height="590dp"
                 android:layout_gravity="center"
                 android:id="@+id/question_image"
                 android:visibility="visible"

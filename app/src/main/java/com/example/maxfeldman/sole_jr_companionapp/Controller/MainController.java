@@ -5,7 +5,7 @@ public class MainController
     private static final MainController ourInstance = new MainController();
 
     public String ip = null;
-    public boolean ipValidated = false;
+    public boolean ipValidated = true;
     public boolean isFirstRun = true;
 
     public boolean testLastScenario = false;

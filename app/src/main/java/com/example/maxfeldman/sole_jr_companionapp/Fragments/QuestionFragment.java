@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.MainController;
 import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.InputTestFragment;
+import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.MultiChoiceFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.RobotTTS;
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.SpeechRecognitionFragment;
 import com.example.maxfeldman.sole_jr_companionapp.Helpers.DataListener;
@@ -27,6 +28,7 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.example.maxfeldman.sole_jr_companionapp.util.Utilities;
+import com.google.gson.Gson;
 import com.mapzen.speakerbox.Speakerbox;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
@@ -37,6 +39,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -60,6 +63,9 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private CountdownView countdownView;
     private TextView triesLeft;
     public boolean isPreformedClick = false;
+    private String mulChoiceFromDB;
+
+
 
     private TextToSpeech mTTS = null;
 
@@ -95,6 +101,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                             lottieAnimation.dismiss();
                             Scenario scenario = (Scenario) o;
                             startScenario(scenario, false);
+
                         }
                     });
 
@@ -151,6 +158,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         triesLeft = view.findViewById(R.id.tries_tv);
 
 
+
         NetworkController.getInstance().setUpdateFragmentListener(this);
 
         fireBase = FireBase.getInstance();
@@ -185,6 +193,17 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                             itf.setListener(testFragment);
                             itf.show(fragmentManager, "inputText");
 
+                        }
+
+                        case "mulChoice": {
+                            FragmentManager fragmentManager = Utilities.getInstance().currentActivity.getSupportFragmentManager();
+
+                            MultiChoiceFragment mcf = new MultiChoiceFragment();
+                            QuestionFragment testFragment = (QuestionFragment) Utilities.getInstance().currentActivity.getSupportFragmentManager().findFragmentByTag("QuestionFragment");
+                            mcf.setListener(testFragment);
+                            mcf.populateWithData(mulChoiceFromDB);
+                            //mcf.mulChoiceData = mulChoiceFromDB;
+                            mcf.show(fragmentManager, "mulChoice");
                         }
                     }
 
@@ -338,7 +357,13 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         String type = action.get(0).getWhatToPlay();
         String expectedAnswer = scenario.getWaitFor().getExpectedAnswer().getInput();
         inputText = scenario.getWaitFor().getTypeOfInput();
-        correctAnswer = expectedAnswer;
+        if(inputText.equals("mulChoice")){
+            final String[] tokens = expectedAnswer.split(Pattern.quote(","));
+            correctAnswer = tokens[0];
+
+        }else {
+            correctAnswer = expectedAnswer;
+        }
         currentQuestion.setText(text);
         questionImage.setImageDrawable(null); // to refresh the picture
         final Long time = Long.valueOf(action.get(0).getTimeForAction());
