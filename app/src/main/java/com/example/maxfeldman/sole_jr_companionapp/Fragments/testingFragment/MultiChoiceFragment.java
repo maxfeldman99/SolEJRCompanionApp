@@ -13,6 +13,7 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener
 import com.example.maxfeldman.sole_jr_companionapp.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -145,8 +146,7 @@ public class MultiChoiceFragment extends DialogFragment {
 
         }
         listOfAnswers = answersList;
-        //Collections.shuffle(answersList);
-
+        Collections.shuffle(listOfAnswers);
 
     }
 
