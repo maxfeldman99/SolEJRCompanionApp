@@ -33,6 +33,10 @@ public class FireBase {
 
     private Lesson lesson;
 
+    public FirebaseFirestore getDb() {
+        return db;
+    }
+
     public static FireBase getInstance()
     {
         if (ourInstance == null)

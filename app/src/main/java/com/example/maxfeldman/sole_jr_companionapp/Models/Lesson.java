@@ -11,30 +11,17 @@ public class Lesson
 
     private List<String> goals;
 
-    //private List<Scenario> scenarios;
-
-    private String firstScenarioName;
+    private List<String> scenariosInLesson;
 
     public Lesson(){}
 
     public Lesson(int id, String title, String badge, String category,
-                  List<String> goals, List<Scenario> scenarios,
-                  String firstScenarioName) {
+                  List<String> goals) {
         this.id = id;
         this.title = title;
         this.badge = badge;
         this.category = category;
         this.goals = goals;
-        //this.scenarios = scenarios;
-        this.firstScenarioName = firstScenarioName;
-    }
-
-    public String getFirstScenarioName() {
-        return firstScenarioName;
-    }
-
-    public void setFirstScenarioName(String firstScenarioName) {
-        this.firstScenarioName = firstScenarioName;
     }
 
     public int getId() {
@@ -77,14 +64,13 @@ public class Lesson
         this.goals = goals;
     }
 
-//    public List<Scenario> getScenarios() {
-//        return scenarios;
-//    }
+    public List<String> getScenariosInLesson() {
+        return scenariosInLesson;
+    }
 
-//    public void setScenarios(List<Scenario> scenarios) {
-//        this.scenarios = scenarios;
-//    }
-
+    public void setScenariosInLesson(List<String> scenariosInLesson) {
+        this.scenariosInLesson = scenariosInLesson;
+    }
 
 }
 

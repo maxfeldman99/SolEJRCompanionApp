@@ -2,12 +2,14 @@ package com.example.maxfeldman.sole_jr_companionapp.Activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.QuestionFragment;
+import com.example.maxfeldman.sole_jr_companionapp.Helpers.FireBase;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.google.firebase.FirebaseApp;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,19 +28,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.mainFragmentPlaceHolder
                 ,new QuestionFragment(),"QuestionFragment");
-                 //,new SpotClickFragment(),"SpotClickFragment") // just to test the spot click fragment
-               // .commitNow();
 
 
-        /*
-        FireBase.getInstance().getAllLessons(new DataListener() {
-            @Override
-            public void onDataLoad(Object o) {
-
-            }
-        });
-
-*/
+        FireBase instance = FireBase.getInstance();
+        FirebaseApp.initializeApp(this);
 
         Intent intent = new Intent(this,SplashScreenActivity.class); ////////////////////////////////////////////////////////////////////
         startActivity(intent);
