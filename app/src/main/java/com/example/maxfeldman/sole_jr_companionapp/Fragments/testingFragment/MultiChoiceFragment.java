@@ -3,11 +3,6 @@ package com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +13,13 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.DialogFragmentListener
 import com.example.maxfeldman.sole_jr_companionapp.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,13 +33,23 @@ public class MultiChoiceFragment extends DialogFragment {
     private DialogFragmentListener listener;
     String answer;
     public String realAnswer;
-    public String mulChoiceData;
-
+    List<String> listOfAnswers;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setOrientationLandscape();
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
+        mulButton1.setText(listOfAnswers.get(0));
+        mulButton2.setText(listOfAnswers.get(1));
+        mulButton3.setText(listOfAnswers.get(2));
+        mulButton4.setText(listOfAnswers.get(3));
+
     }
 
     @Override
@@ -135,12 +144,10 @@ public class MultiChoiceFragment extends DialogFragment {
             }
 
         }
+        listOfAnswers = answersList;
+        //Collections.shuffle(answersList);
 
-        Collections.shuffle(answersList);
-        mulButton1.setText(answersList.get(0));
-        mulButton2.setText(answersList.get(1));
-        mulButton3.setText(answersList.get(2));
-        mulButton4.setText(answersList.get(3));
+
     }
 
 }

@@ -28,7 +28,6 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.Scenario;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.example.maxfeldman.sole_jr_companionapp.util.Utilities;
-import com.google.gson.Gson;
 import com.mapzen.speakerbox.Speakerbox;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
@@ -201,7 +200,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                             MultiChoiceFragment mcf = new MultiChoiceFragment();
                             QuestionFragment testFragment = (QuestionFragment) Utilities.getInstance().currentActivity.getSupportFragmentManager().findFragmentByTag("QuestionFragment");
                             mcf.setListener(testFragment);
-                            mcf.populateWithData(mulChoiceFromDB);
+                            mcf.populateWithData(currentScenario.getWaitFor().getExpectedAnswer().getInput());
                             //mcf.mulChoiceData = mulChoiceFromDB;
                             mcf.show(fragmentManager, "mulChoice");
                         }
