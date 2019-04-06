@@ -1,7 +1,7 @@
 package com.example.maxfeldman.sole_jr_companionapp.Lesson;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +12,13 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.MyViewHolder> {
 
 
-    ArrayList<Lesson> lessonList;
-    Context context;
-    LessonAdapterListener lessonAdapterListener;
+    private final ArrayList<Lesson> lessonList;
+    private final Context context;
+    private LessonAdapterListener lessonAdapterListener;
 
     public LessonAdapter(Context context, ArrayList<Lesson> list)
     {
@@ -33,6 +32,7 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.MyViewHold
     }
 
     @Override
+
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lesson_item,parent,false);
@@ -47,7 +47,7 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.MyViewHold
 
         //holder.imageView.setImageBitmap(userList.get(position).getPhoto());
         holder.nameTv.setText(lessonList.get(position).getTitle()+"");
-        holder.amountTv.setText(lessonList.get(position).getGoals()[0]);
+        holder.amountTv.setText(lessonList.get(position).getGoals().get(0));
 
     }
 
@@ -59,11 +59,11 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.MyViewHold
 
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
-        TextView nameTv;
-        TextView amountTv;
-        ImageView imageView;
+        final TextView nameTv;
+        final TextView amountTv;
+        final ImageView imageView;
 
-        public MyViewHolder(View itemView)
+        MyViewHolder(View itemView)
         {
             super(itemView);
             amountTv = itemView.findViewById(R.id.tv_item_2);
