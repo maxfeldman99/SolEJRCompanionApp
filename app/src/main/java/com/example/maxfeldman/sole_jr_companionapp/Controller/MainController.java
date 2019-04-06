@@ -1,15 +1,18 @@
 package com.example.maxfeldman.sole_jr_companionapp.Controller;
 
-import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
-import com.google.gson.Gson;
-
 public class MainController
 {
     private static final MainController ourInstance = new MainController();
 
-    NetworkController networkController;
+    public String ip = null;
+    public boolean ipValidated = true;
+    public boolean isFirstRun = true;
 
-    LessonController lessonController;
+    public boolean testLastScenario = false;
+
+    private final NetworkController networkController;
+
+    private final LessonController lessonController;
 
     public static MainController getInstance() {
         return ourInstance;
@@ -20,13 +23,32 @@ public class MainController
         lessonController = LessonController.getInstance();
     }
 
+    public void setIpValidated(boolean validated)
+    {
+        this.ipValidated = validated;
+    }
+
+    public boolean isIpValidated()
+    {
+        return this.ipValidated;
+    }
+
     public void sendDataToIp(String ip, String data)
     {
         networkController.openSocket(ip,data);
     }
 
 
+    public void setIp(String ip)
+    {
+        this.ip = ip;
+    }
+    public String getIp()
+    {
+        return this.ip;
+    }
 
+    /*
     public Lesson getLesson(int lessonId)
     {
         Lesson temp = lessonController.getLessonById(lessonId);
@@ -38,4 +60,5 @@ public class MainController
 
         return temp;
     }
+    */
 }

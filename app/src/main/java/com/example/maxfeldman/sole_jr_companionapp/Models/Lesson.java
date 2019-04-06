@@ -1,6 +1,6 @@
 package com.example.maxfeldman.sole_jr_companionapp.Models;
 
-import java.util.Arrays;
+import java.util.List;
 
 public class Lesson
 {
@@ -8,18 +8,33 @@ public class Lesson
     private String title;
     private String badge;
     private String category;
-    private String[] goals;
-    private Scenario[] scenarios;
+
+    private List<String> goals;
+
+    //private List<Scenario> scenarios;
+
+    private String firstScenarioName;
 
     public Lesson(){}
 
-    public Lesson(int id, String title, String badge, String category, String[] goals, Scenario[] scenarios) {
+    public Lesson(int id, String title, String badge, String category,
+                  List<String> goals, List<Scenario> scenarios,
+                  String firstScenarioName) {
         this.id = id;
         this.title = title;
         this.badge = badge;
         this.category = category;
         this.goals = goals;
-        this.scenarios = scenarios;
+        //this.scenarios = scenarios;
+        this.firstScenarioName = firstScenarioName;
+    }
+
+    public String getFirstScenarioName() {
+        return firstScenarioName;
+    }
+
+    public void setFirstScenarioName(String firstScenarioName) {
+        this.firstScenarioName = firstScenarioName;
     }
 
     public int getId() {
@@ -54,32 +69,22 @@ public class Lesson
         this.category = category;
     }
 
-    public String[] getGoals() {
+    public List<String> getGoals() {
         return goals;
     }
 
-    public void setGoals(String[] goals) {
+    public void setGoals(List<String> goals) {
         this.goals = goals;
     }
 
-    public Scenario[] getScenarios() {
-        return scenarios;
-    }
+//    public List<Scenario> getScenarios() {
+//        return scenarios;
+//    }
 
-    public void setScenarios(Scenario[] scenarios) {
-        this.scenarios = scenarios;
-    }
+//    public void setScenarios(List<Scenario> scenarios) {
+//        this.scenarios = scenarios;
+//    }
 
-    @Override
-    public String toString() {
-        return "Lesson{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", badge='" + badge + '\'' +
-                ", category='" + category + '\'' +
-                ", goals=" + Arrays.toString(goals) +
-                ", scenarios=" + Arrays.toString(scenarios) +
-                '}';
-    }
+
 }
 

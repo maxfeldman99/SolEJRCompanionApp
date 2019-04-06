@@ -2,19 +2,13 @@ package com.example.maxfeldman.sole_jr_companionapp.Controller;
 
 import android.util.Log;
 
-import com.example.maxfeldman.sole_jr_companionapp.Models.InputListener;
-import com.example.maxfeldman.sole_jr_companionapp.Models.Lesson;
 import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
-import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.net.MalformedURLException;
 import java.net.Socket;
-import java.net.URL;
+import java.util.UUID;
 
 public class NetworkController
 {
@@ -22,7 +16,9 @@ public class NetworkController
     private Socket socket;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
-    boolean socketIsOpen = false;
+    private boolean socketIsOpen = false;
+
+    private updateFragment updateFragmentListener;
 
     public static NetworkController getInstance() {
         return ourInstance;
@@ -31,7 +27,15 @@ public class NetworkController
     private NetworkController() {
     }
 
-    public void openSocket(final String ip,final String data)
+    public updateFragment getUpdateFragmentListener() {
+        return updateFragmentListener;
+    }
+
+    public void setUpdateFragmentListener(updateFragment updateFragmentListener) {
+        this.updateFragmentListener = updateFragmentListener;
+    }
+
+    public void openSocket(final String ip, final String data)
     {
         Thread netWorkThread = new Thread(new Runnable()
         {
@@ -44,6 +48,7 @@ public class NetworkController
                     outputStream = new ObjectOutputStream(socket.getOutputStream());
                     inputStream = new ObjectInputStream(socket.getInputStream());
 
+
                     outputStream.writeObject(data);
                     outputStream.flush();
 
@@ -52,6 +57,8 @@ public class NetworkController
                     Log.d("msgFromServer",str);
 
                     socketIsOpen = true;
+
+                    updateFragmentListener.updateData(str,str);
 
 
                 } catch (IOException e) {
@@ -85,6 +92,41 @@ public class NetworkController
 
         netWorkThread.start();
 
+    }
+
+    public void validateIp(final String ip, final updateFragment listeners)
+    {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String id = UUID.randomUUID().toString();
+                try {
+                    Socket socket = new Socket(ip,1234);
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
+                    objectOutputStream.writeObject("ack"+id);
+                    System.out.println("ack"+id);
+                    ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                    String inputId = (String) objectInputStream.readObject();
+
+                    if(inputId.equals(id))
+                    {
+                        listeners.updateData("valid","validation");
+                    }else
+                    {
+                        listeners.updateData("invalid","validation");
+                    }
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
     }
 
     public void closeSocket()
@@ -154,35 +196,8 @@ public class NetworkController
         inputThread.start();
     }
 
-    public void getLessonFromUrl(final updateFragment update)
-    {
 
-        final Lesson[] lesson = new Lesson[1];
-        Thread thread = new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                URL url = null;
-                try {
-                    url = new URL("https://api.myjson.com/bins/1bzfpa");
-                    InputStreamReader reader = new InputStreamReader(url.openStream());
 
-                    Gson gson = new Gson();
-                    lesson[0] = gson.fromJson(reader, Lesson.class);
 
-                    update.updateData(lesson[0]);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
-        thread.start();
-
-    }
 
 }

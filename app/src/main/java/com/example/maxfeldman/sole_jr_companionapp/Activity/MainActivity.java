@@ -2,24 +2,25 @@ package com.example.maxfeldman.sole_jr_companionapp.Activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.example.maxfeldman.sole_jr_companionapp.Controller.NetworkController;
+
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.QuestionFragment;
-import com.example.maxfeldman.sole_jr_companionapp.Fragments.testingFragment.SpotClickFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
-import com.google.gson.Gson;
+import com.google.firebase.FirebaseApp;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_main);
 
-        NetworkController.getInstance().openSocket("192.168.137.136","max");
+        //NetworkController.getInstance().openSocket("192.168.137.136","max");
 
 
         getSupportFragmentManager().beginTransaction()
@@ -28,9 +29,20 @@ public class MainActivity extends AppCompatActivity {
                  //,new SpotClickFragment(),"SpotClickFragment") // just to test the spot click fragment
                // .commitNow();
 
+
+        /*
+        FireBase.getInstance().getAllLessons(new DataListener() {
+            @Override
+            public void onDataLoad(Object o) {
+
+            }
+        });
+
+*/
+
         Intent intent = new Intent(this,SplashScreenActivity.class); ////////////////////////////////////////////////////////////////////
         startActivity(intent);
 
-
     }
+
 }

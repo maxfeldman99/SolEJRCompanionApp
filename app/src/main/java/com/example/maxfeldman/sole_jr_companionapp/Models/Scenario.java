@@ -1,9 +1,11 @@
 package com.example.maxfeldman.sole_jr_companionapp.Models;
 
+import java.util.List;
+
 public class Scenario
 {
-    private int id;
-    private Action[] actions;
+    private String name;
+    private List<Action> actions;
     private String level;
     private OnFailure onfailure;
     private OnSuccess onSuccess;
@@ -11,8 +13,9 @@ public class Scenario
 
     public Scenario(){}
 
-    public Scenario(int id, Action[] actions, String level, OnFailure onfailure, OnSuccess onSuccess, WaitFor waitFor) {
-        this.id = id;
+    public Scenario(String name, List<Action> actions, String level
+            , OnFailure onfailure, OnSuccess onSuccess, WaitFor waitFor) {
+        this.name = name;
         this.actions = actions;
         this.level = level;
         this.onfailure = onfailure;
@@ -20,19 +23,19 @@ public class Scenario
         this.waitFor = waitFor;
     }
 
-    public int getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Action[] getActions() {
+    public List<Action> getActions() {
         return actions;
     }
 
-    public void setActions(Action[] actions) {
+    public void setActions(List<Action> actions) {
         this.actions = actions;
     }
 
@@ -66,5 +69,18 @@ public class Scenario
 
     public void setWaitFor(WaitFor waitFor) {
         this.waitFor = waitFor;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Scenario{" +
+                "name='" + name + '\'' +
+                ", actions=" + actions +
+                ", level='" + level + '\'' +
+                ", onfailure=" + onfailure +
+                ", onSuccess=" + onSuccess +
+                ", waitFor=" + waitFor +
+                '}';
     }
 }

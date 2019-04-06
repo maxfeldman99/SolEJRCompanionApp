@@ -4,7 +4,7 @@ package com.example.maxfeldman.sole_jr_companionapp.Models;
  * Created by MAX FELDMAN on 14/01/2019.
  */
 
-public class User {
+class User {
 
     private String name;
     private String id;
