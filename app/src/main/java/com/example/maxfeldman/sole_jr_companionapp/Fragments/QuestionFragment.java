@@ -64,6 +64,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     private TextView triesLeft;
     public boolean isPreformedClick = false;
     private String mulChoiceFromDB;
+    private int j = 0;
 
     private boolean isYoutube = false;
 
@@ -94,7 +95,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
             tempLottieAnimation.show(fragmentManager, "lottie");
 
-            FireBase.getInstance().getScenario(lesson.getScenariosInLesson().get(0)
+            FireBase.getInstance().getScenario(lesson.getScenariosInLesson().get(j)
                     , new DataListener() {
                         @Override
                         public void onDataLoad(Object o) {
@@ -353,10 +354,10 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         }
 
         triesLeft.setText("Tries left: " + answersCounter);
-
-        final String effect = action.get(0).getWhatToPlay();
-        String text = action.get(0).getTextOrWav();
-        String type = action.get(0).getWhatToPlay();
+        checkLastAction();
+        final String effect = action.get(j).getWhatToPlay();
+        String text = action.get(j).getTextOrWav();
+        String type = action.get(j).getWhatToPlay();
         String expectedAnswer = scenario.getWaitFor().getExpectedAnswer().getInput();
         inputText = scenario.getWaitFor().getTypeOfInput();
         if(inputText.equals("mulChoice")){
@@ -368,7 +369,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         }
         currentQuestion.setText(text);
         questionImage.setImageDrawable(null); // to refresh the picture
-        final Long time = Long.valueOf(action.get(0).getTimeForAction());
+        final Long time = Long.valueOf(action.get(j).getTimeForAction());
 
         speakerBoxTTS(text);
 
@@ -441,7 +442,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         Speakerbox speakerbox = new Speakerbox(Utilities.getInstance().currentActivity.getApplication());
         speakerbox.play(question);
 
-        if (currentScenario.getActions().get(0).getTextOrWav().toLowerCase()
+        if (currentScenario.getActions().get(j).getTextOrWav().toLowerCase()
                 .equals(question.toLowerCase())) {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -463,6 +464,12 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     public void androidTTS(String question) {
         initializeTTS();
         speak(question, 0.2f, 0.9f);
+    }
+
+    private void checkLastAction(){
+        if(currentScenario.getActions().size() < j+1){
+            j++;
+        }
     }
 
 }
