@@ -29,6 +29,7 @@ import com.example.maxfeldman.sole_jr_companionapp.Models.updateFragment;
 import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.example.maxfeldman.sole_jr_companionapp.util.Utilities;
 import com.mapzen.speakerbox.Speakerbox;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback;
@@ -64,7 +65,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     public boolean isPreformedClick = false;
     private String mulChoiceFromDB;
 
-
+    private boolean isYoutube = false;
 
     private TextToSpeech mTTS = null;
 
@@ -191,7 +192,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                             QuestionFragment testFragment = (QuestionFragment) Utilities.getInstance().currentActivity.getSupportFragmentManager().findFragmentByTag("QuestionFragment");
                             itf.setListener(testFragment);
                             itf.show(fragmentManager, "inputText");
-
+                            break;
                         }
 
                         case "mulChoice": {
@@ -203,6 +204,8 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                             mcf.populateWithData(currentScenario.getWaitFor().getExpectedAnswer().getInput());
                             //mcf.mulChoiceData = mulChoiceFromDB;
                             mcf.show(fragmentManager, "mulChoice");
+                            break;
+
                         }
                     }
 
@@ -377,22 +380,37 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
         });
 
 
-        if (!type.startsWith("http")) {
+        if (!type.startsWith("http"))
+        {
+            isYoutube = true;
             youTubePlayerView.setVisibility(View.VISIBLE);
 
             questionImage.setVisibility(View.GONE);
 
             youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
                 @Override
-                public void onReady(@NotNull YouTubePlayer youTubePlayer) {
+                public void onReady(@NotNull YouTubePlayer youTubePlayer)
+                {
                     youTubePlayer.loadVideo(effect, 0);
                     youTubePlayer.play();
-                    countdownView.start(time * 1000);
+                }
+
+                @Override
+                public void onStateChange(@NotNull YouTubePlayer youTubePlayer
+                        , @NotNull PlayerConstants.PlayerState state)
+                {
+                    if(state == PlayerConstants.PlayerState.ENDED)
+                    {
+                        countdownView.start(time * 1000);
+                        answerButton.performClick();
+                    }
                 }
             });
 
 
         } else {
+            isYoutube = false;
+
             youTubePlayerView.setVisibility(View.GONE);
 
             questionImage.setVisibility(View.VISIBLE);
@@ -427,8 +445,12 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
                 .equals(question.toLowerCase())) {
             new Handler().postDelayed(new Runnable() {
                 @Override
-                public void run() {
-                    answerButton.performClick();
+                public void run()
+                {
+                    if(!isYoutube)
+                    {
+                        answerButton.performClick();
+                    }
 
                 }
             }, 3000);
