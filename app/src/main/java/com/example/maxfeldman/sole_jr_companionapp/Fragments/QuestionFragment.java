@@ -467,7 +467,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
     }
 
     private void checkLastAction(){
-        if(currentScenario.getActions().size() < j+1){
+        if(currentScenario.getActions().size() > j+1){
             j++;
         }
     }
