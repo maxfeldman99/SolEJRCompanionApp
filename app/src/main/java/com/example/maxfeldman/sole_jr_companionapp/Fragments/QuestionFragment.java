@@ -93,7 +93,7 @@ public class QuestionFragment extends Fragment implements DialogFragmentListener
 
             tempLottieAnimation.show(fragmentManager, "lottie");
 
-            FireBase.getInstance().getScenario(lesson.getFirstScenarioName()
+            FireBase.getInstance().getScenario(lesson.getScenariosInLesson().get(0)
                     , new DataListener() {
                         @Override
                         public void onDataLoad(Object o) {
