@@ -5,14 +5,12 @@ public class MainController
     private static final MainController ourInstance = new MainController();
 
     public String ip = null;
-    public boolean ipValidated = true;
-    public boolean isFirstRun = true;
+    public boolean ipValidated = false;
 
     public boolean testLastScenario = false;
 
     private final NetworkController networkController;
 
-    private final LessonController lessonController;
 
     public static MainController getInstance() {
         return ourInstance;
@@ -20,7 +18,6 @@ public class MainController
 
     private MainController() {
         networkController = NetworkController.getInstance();
-        lessonController = LessonController.getInstance();
     }
 
     public void setIpValidated(boolean validated)
@@ -48,17 +45,4 @@ public class MainController
         return this.ip;
     }
 
-    /*
-    public Lesson getLesson(int lessonId)
-    {
-        Lesson temp = lessonController.getLessonById(lessonId);
-
-        Gson gson = new Gson();
-        String s = gson.toJson(temp);
-
-        System.out.println(s);
-
-        return temp;
-    }
-    */
 }

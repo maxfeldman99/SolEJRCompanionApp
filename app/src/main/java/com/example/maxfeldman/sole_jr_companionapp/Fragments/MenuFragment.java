@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.maxfeldman.sole_jr_companionapp.Controller.KotlinNetworkController;
@@ -48,7 +47,6 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     private LessonAdapter adapter;
     private final ArrayList<Lesson> lessonList = new ArrayList<>();
     private MediaPlayer mediaPlayer;
-    private boolean isValid = false;
     private SharedPreferences prefName;
     private boolean muteFlag = true;
     private MainController mainController;
@@ -84,8 +82,6 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         recyclerView = view.findViewById(R.id.my_recycler_view);
         mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
-        TextView textView = view.findViewById(R.id.tv_item_1);
-        ImageView imageView = view.findViewById(R.id.iv_item_1);
         imageVal = view.findViewById(R.id.img_val);
         ipEditText = view.findViewById(R.id.ip_et);
         Button button = view.findViewById(R.id.validateButton);
@@ -99,17 +95,6 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         kotlinNetworkControllerl = KotlinNetworkController.INSTANCE;
         utilities = Utilities.getInstance();
 
-       // mainController.ipValidated = true;
-
-
-//        Fragment questionFragment = appCompatActivity.getSupportFragmentManager().findFragmentByTag("QuestionFragment");
-//
-//        if(questionFragment != null)
-//        {
-//            appCompatActivity.getSupportFragmentManager().beginTransaction().remove(questionFragment)
-//                    .commitNow();
-//        }
-
         String ip = mainController.getIp();
 
         if(ip != null)
@@ -119,16 +104,6 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
 
 
         prefName = getActivity().getSharedPreferences("prefName", Context.MODE_PRIVATE);
-
-//        final String ipAdress = prefName.getString("ipAddress", "");
-//        ipEditText.setText(ipAdress);
-//        ArrayList<String> lessonsList = new ArrayList<>();
-//        lessonsList.add("https://api.myjson.com/bins/zrvxq");
-//        lessonsList.add("https://api.myjson.com/bins/10vsl6");
-//        lessonsList.add("https://api.myjson.com/bins/s0ne2");
-//        lessonsList.add("https://api.myjson.com/bins/pgtwu");
-//        lessonsList.add("https://api.myjson.com/bins/19kxqi");
-
 
 
         fireBase = FireBase.getInstance();
@@ -151,33 +126,6 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
         });
 
 
-/*
-        final KotlinNetworkController networkTest = KotlinNetworkController.INSTANCE;
-        networkTest.setContext(getActivity());
-
-        for (int i = 0; i<lessonsList.size() ; i++)
-        {
-            networkTest.getLessonFromUrl(lessonsList.get(i), new updateFragment<Object>()
-            {
-
-                @Override
-                public void updateData(Object data)
-                {
-                    Lesson lesson = (Lesson) data;
-                    lessonList.add(lesson);
-                    adapter.notifyDataSetChanged();
-
-                    //fireBase.addLesson(lesson,lesson.getTitle());
-
-                    for (int j = 0; j < lesson.getScenarios().size(); j++)
-                    {
-                        FirebaseApp.initializeApp(getActivity());
-                        fireBase.addScenario(lesson.getScenarios().get(j));
-                    }
-                }
-            });
-        }
-*/
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -244,8 +192,6 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
     private void goToLesson(Lesson lesson){
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         QuestionFragment questionFragment = new QuestionFragment();
-        //Intent intent = new Intent(getContext(),MainActivity.class);
-       // startActivity(intent);
 
         questionFragment.setActivity(appCompatActivity);
 
@@ -276,13 +222,11 @@ public class MenuFragment extends Fragment implements LessonAdapter.LessonAdapte
                         imageVal.setVisibility(View.VISIBLE);
                         mainController.setIp(inputIP);
                         mainController.ipValidated = true;
-                        isValid = true;
 
                     } else {
                         imageVal.setImageResource(R.drawable.ic_error);
                         imageVal.setVisibility(View.VISIBLE);
                         mainController.ipValidated = false;
-                        isValid = false;
                     }
 
                 }

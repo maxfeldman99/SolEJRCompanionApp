@@ -48,22 +48,16 @@ import cn.iwgang.countdownview.CountdownView;
 
 public class QuestionFragment extends Fragment implements DialogFragmentListener, RobotTTS,
         updateFragment {
-    private int QUESTION_TIME = 20;
-    private int myTime = 20;
     private TextView currentQuestion;
     private ImageView questionImage;
     private Button answerButton;
     private static String IP = "192.168.43.12";
     private MainController mainController;
-    private String myAnswer;
     private String correctAnswer;
-    private boolean isAnswerTrue;
-    private List<Scenario> scenarios;
     private String inputText;
     private CountdownView countdownView;
     private TextView triesLeft;
     public boolean isPreformedClick = false;
-    private String mulChoiceFromDB;
     private int j = 0;
 
     private boolean isYoutube = false;

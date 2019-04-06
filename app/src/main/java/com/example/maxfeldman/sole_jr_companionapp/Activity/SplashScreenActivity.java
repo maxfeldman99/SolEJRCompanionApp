@@ -1,5 +1,4 @@
 package com.example.maxfeldman.sole_jr_companionapp.Activity;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.maxfeldman.sole_jr_companionapp.Fragments.MenuFragment;
@@ -10,6 +9,8 @@ import com.example.maxfeldman.sole_jr_companionapp.R;
 import com.example.maxfeldman.sole_jr_companionapp.Server.Server;
 import com.example.maxfeldman.sole_jr_companionapp.util.Utilities;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class SplashScreenActivity extends AppCompatActivity {
 
     private Server server;
@@ -18,7 +19,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        //FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_splash_screen);
 
         Utilities.getInstance().currentActivity = this;
@@ -29,7 +29,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         Utilities.getInstance().startServer();
 
         FireBase.getInstance().setContext(this);
-       // FireBase.getInstance().iniFirebase();
 
 
         MenuFragment menuFragment = new MenuFragment();
